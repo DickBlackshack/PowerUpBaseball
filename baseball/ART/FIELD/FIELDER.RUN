@@ -1,0 +1,14 @@
+mode binary
+compress off
+
+loadpcx fielder
+change 255 0
+frame
+swap 0 255
+open r:\baseball\art\images\fielder.img
+output size,0
+output workspace
+close
+
+
+done

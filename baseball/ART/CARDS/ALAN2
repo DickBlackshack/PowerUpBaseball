@@ -1,0 +1,5 @@
+loadpcx %1
+frame
+saveiff %1
+sys "del %1.pcx"
+sys "c:\da\convert -d %1.lbm -p %1.pcx"

@@ -1,0 +1,18 @@
+loadpcx ALTRT00
+swapwork
+loadpcx HOMET00; movecolors 32 36; saveiff HOMET00
+loadpcx HOMET00; movecolors 90 125; saveiff HOMET00
+loadpcx HOMET00; movecolors 201 254; saveiff HOMET00
+
+loadpcx HOMET00
+swapwork
+loadpcx HOMET01; movecolors 126 200; saveiff HOMET01
+loadpcx HOMET02; movecolors 126 200; saveiff HOMET02
+loadpcx HOMET03; movecolors 126 200; saveiff HOMET03
+loadpcx HOMET04; movecolors 126 200; saveiff HOMET04
+loadpcx HOMET05; movecolors 126 200; saveiff HOMET05
+loadpcx HOMET06; movecolors 126 200; saveiff HOMET06
+loadpcx HOMET07; movecolors 126 200; saveiff HOMET07
+done
+
+

@@ -1,0 +1,747 @@
+;***************************************************************************
+;					*
+;       ASIC QUEUE MANIPULATIONS - INSERT and RETRIEVE		*
+;					*
+;***************************************************************************
+
+INSERT	macro	value
+	move.w	value,(a0)+
+	endm
+
+RETRIEVE	macro	reg
+	move.w	(a0)+,reg	; Retrieve Value From Queue
+	endm
+
+PUSHW	macro	regs
+	movem.w	regs,-(sp)
+	endm
+        
+POPW	macro	regs	;WARNING
+	movem.w	(sp)+,regs	;POPW sign extends words to longs!
+	endm
+        
+PUSHL	macro	regs
+	movem.l	regs,-(sp)
+	endm
+        
+POPL	macro	regs
+	movem.l	(sp)+,regs
+	endm
+
+;***************************************************************************
+;       CYCLE 				*
+;       Start up a color cycle. returns cycle number in d0.w	*
+;***************************************************************************
+CYCLE   macro   palette,start,number,ticks
+        .global AddCycle
+        move.w  palette,d0
+        move.w  start,d1
+        move.w  number,d2
+        move.w  ticks,d3
+        jsr     AddCycle
+        endm
+
+;***************************************************************************
+;	SETCLIP - Set Clipping Values                		*
+;***************************************************************************
+SETCLIP	macro	Left,Top,Right,Bottom
+	.global	DoClip
+	move.w	Top,d2
+	move.w	Bottom,d3
+	move.w	Left,d4
+	move.w	Right,d5
+	jsr	DoClip
+	endm
+
+;***************************************************************************
+;	SETXCLIP - Set Clipping Values               		*
+;***************************************************************************
+SETXCLIP	macro	Left,Right
+	.global	DoXClip
+	move.w	Left,d2
+	move.w	Right,d3
+	jsr	DoXClip
+	endm
+
+;***************************************************************************
+;	SETYCLIP - Set Clipping Values               		*
+;***************************************************************************
+SETYCLIP	macro	Top,Bottom
+	.global	DoYClip
+	move.w	Top,d2
+	move.w	Bottom,d3
+	jsr	DoYClip
+	endm
+
+;***************************************************************************
+VINT	macro	line
+	.global	DoVint
+	move.w	line,d2
+	jsr	DoVint
+	endm
+
+VIEW	macro	page	                 ;ADDED
+	move.w	page,d2
+	jsr	DoView
+	endm
+	
+
+WAIT	macro
+waitdone\@:
+	tst.b	BQStat
+	bne	waitdone\@
+	endm
+
+;***************************************************************************
+;SET_LINE_COLOR macro color_num			*
+;	 move.b	 color_num,line_color		*
+;	 endm				*
+;					*
+;***************************************************************************
+;	     PPRINT x,y,'STRING'		     	*
+;***************************************************************************
+PPRINT:	macro	x,y,string
+	#ifndef	PPrint
+	.global	PPrint
+	#endif
+	move.w	x,d1
+	move.w	y,d2
+	move.l	#striii\@,a0
+	clr.w	d6	
+	move.w	#$7FFF,d7
+	jsr	PPrint	;entry point for plot print
+	bra	dprrr\@
+striii\@:
+	dc.b	string,0
+dprrr\@:	ds	0	;align prg counter
+	endm
+
+;***************************************************************************
+;	     PPRINTS x,y,pointer		     	*
+;***************************************************************************
+PPRINTS:	macro	x,y,pointer
+	#ifndef	PPrint
+	.global	PPrint
+	#endif
+	move.w	x,d1
+	move.w	y,d2
+	move.l	pointer,a0
+	clr.w	d6	
+	move.w	#$7FFF,d7
+	jsr	PPrint	;entry point for plot print
+	endm
+
+;***************************************************************************
+;	     PRINTS pointer		     	*
+;***************************************************************************
+PRINTS:	macro	pointer
+	#ifndef	Print
+	.global	Print
+	#endif
+	move.l	pointer,a0
+	clr.w	d6	
+	move.w	#$7FFF,d7
+	jsr	Print	;entry point for print
+	endm
+
+;***************************************************************************
+;		   PRINT 'STRING'        		*
+;***************************************************************************
+PRINT:	macro	string
+	#ifndef	Print
+	.global	Print
+	#endif
+	move.l	#striii\@,a0
+	clr.w	d6	
+	move.w	#$7FFF,d7
+	jsr	Print	;entry point for plot print
+	bra	dprrr\@
+striii\@:
+	dc.b	string,0
+dprrr\@:	ds	0	;align prg counter
+	endm
+
+;***************************************************************************
+;  PPRINT 'STRING' - Proportional Print String       		*
+;***************************************************************************
+PROPRINT:	macro	string
+	#ifndef	ProPrint
+	.global	ProPrint
+	#endif
+	move.l	#striii\@,a0
+	clr.w	d6	
+	move.w	#$7FFF,d7
+	jsr	ProPrint	;entry point for plot print
+	bra	dprrr\@
+striii\@:
+	dc.b	string,0
+dprrr\@:	ds	0	;align prg counter
+	endm
+
+;***************************************************************************
+;		   PLOT x,y		     	*
+;***************************************************************************
+PLOT:	macro	x,y
+	#ifndef	prx_coor
+	.global.s prx_coor,prx_init,pry_coor
+	#endif
+	move.w	x,prx_coor	;2 bytes in ram
+	move.w	x,prx_init	;2 bytes in ram
+	move.w	y,pry_coor	;2 byte in ram
+	endm
+
+;***************************************************************************
+;	     TAB value, add value to previous x coord        	*
+;***************************************************************************
+TAB:	macro	value
+	#ifndef	prx_coor
+	.global.s prx_coor
+	#endif
+	add.w	d0,prx_coor
+	endm
+
+;***************************************************************************
+;       CARRET,  carrage return macro		     	*
+;       drop current height down and set prx_coor to prx_init   	*
+;***************************************************************************
+CARRET:	macro
+	#ifndef	CReturn
+	.global	CReturn
+	#endif
+	jsr	CReturn
+	endm
+
+;***************************************************************************
+;       SETPRINT			     	*
+;       must be called before using PRINTMOD	     	*
+;	fontw = font width		     	*
+;	fonth = font height		     	*
+;	fnum = font 0 or font 1, fonts must be in the first  	*
+;	     image bank (start of eprom 0) adjust the number 	*
+;	     of characters in the font by changing the 70    	*
+;	     below.		     	*
+;	fpal = palette from which the font is to be drawn 0-15	*
+;***************************************************************************
+SETPRINT:	macro	fontw,fonth,fnum,fstart            ;do before printing
+	#ifndef	font_width
+	.global.s font_width,font_height,font_start,prx_init,font_offset
+	#endif
+	move.w	fontw,font_width	                 ;set variables for font width
+	move.w	fonth,font_height ;set font height
+	move.b	fstart,font_start ;set starting character value
+	clr.w	prx_init	                 ;set x to 0 to start
+	move.b	fnum,font_offset	                 ;LJH 10-2-90
+	endm
+
+;***************************************************************************
+;       PRINTHEX prints in hex from source, num of bytes        	*
+;	number of bytes must not exceed 10	     	*
+;***************************************************************************
+PRINTHEX:	macro	source,num
+	#ifndef	FormatHex
+	.global	FormatHex,print_field
+	#endif
+	move.l	source,a0
+	move.b	num,d0
+	jsr	FormatHex
+	PRINTS	#print_field
+	endm
+
+
+;***************************************************************************
+;       PRINTDECL prints in dec from source, num of chars JLEFT 	*
+;       or JRGT. 32 bit conversion to decimal is done.	     	*
+;	5 characters wil be the max need in num if you wish to	*
+;	display all the characters.        		*
+;***************************************************************************
+PRINTDECL	macro	source,num,just
+	#ifndef	HexToDec
+	.global	HexToDec,print_field
+	#endif
+	move.l	source,d0	;d0 holds 32 bit hex value
+	move.b	num,d1
+
+	#define	\just
+	#ifdef	NOPAD
+	or.b	#64,d1
+	#endif
+	#ifdef	NOPADS
+	or.b	#64+32,d1
+	#endif
+	#ifdef	JLEFT
+	or.b	#128,d1
+	#endif
+	#ifdef	JLEFTS
+	or.b	#128+32,d1
+	#endif	    
+	#ifdef	JRGTS
+	or.b	#32,d1
+	#endif
+	#undef	\just
+	jsr	HexToDec
+	PRINTS	#print_field
+	#endm
+
+;***************************************************************************
+;       PRINTDEC prints in dec from source, num of chars JLEFT  	*
+;       or JRGT. 16 bit conversion to decimal is done.	     	*
+;	5 characters wil be the max need in num if you wish to	*
+;	display all the characters.        		*
+;***************************************************************************
+PRINTDEC:	macro	source,num,just
+	#ifndef	HexToDec
+	.global	HexToDec,print_field
+	#endif
+	move.w	source,d0	;d0 holds 16 bit hex value
+	ext.l	d0	;make into a long
+	move.b	num,d1
+	#define	\just
+	#ifdef	NOPAD
+	or.b	#64,d1
+	#endif
+	#ifdef	NOPADS
+	or.b	#64+32,d1
+	#endif
+	#ifdef	JLEFT
+	or.b	#128,d1
+	#endif
+	#ifdef	JLEFTS
+	or.b	#128+32,d1
+	#endif	    
+	#ifdef	JRGTS
+	or.b	#32,d1
+	#endif
+	#undef	\just
+	jsr	HexToDec
+	PRINTS	#print_field
+	#endm
+
+;***************************************************************************
+;       PRINTDECB prints in dec from byte source, num of chars  	*
+;       JLEFT  or JRGT. 16 bit conversion to decimal is done.   	*
+;	3 characters wil be the max need in num if you wish to	*
+;	display all the characters. 		*
+;***************************************************************************
+PRINTDECB	macro	source,num,just
+	#ifndef	HexToDec
+	.global	HexToDec,print_field
+	#endif
+
+	#define \just
+
+	clr.l	d0
+	move.b	source,d0	;Y holds 16 bit hex value
+	move.b	num,d1
+
+	#ifdef	NOPAD
+	or.b	#64,d1
+	#endif
+	#ifdef	NOPADS
+	or.b	#64+32,d1
+	#endif
+	#ifdef	JLEFT
+	or.b	#128,d1
+	#endif
+	#ifdef	JLEFTS
+	or.b	#128+32,d1
+	#endif	    
+	#ifdef	JRGTS
+	or.b	#32,d1
+	#endif
+	#undef	\just
+	jsr	HexToDec
+	PRINTS	#print_field
+	#endm
+
+;***************************************************************************
+;	QUICKDEC prints a decimal word ASAP.		*
+;	uses RJUST or PAD0, otherwise left-justified		*
+;***************************************************************************
+QUICKDEC:	macro	source,num,just
+	.global	QuickHex,Print
+	move.w	source,d0	;d0 holds 16 bit hex value
+	move.w	num,d1	;d1 holds number of digits and justification
+	#define	\just
+	#ifdef	RJUST
+	or.b	#64,d1
+	#endif
+	#ifdef	PAD0
+	or.b	#128,d1
+	#endif	    
+	#undef	\just
+	jsr	QuickHex	;convert from hex and print
+	#endm
+
+;***************************************************************************
+; MACRO: (SETPAL) - Load the specified palette(colors) starting at table 	*
+; address(addr) for "num" colors			*
+;***************************************************************************
+
+LOADPAL:	macro	colors,start,palette,num
+	.global	LoadPalette
+	move.l	colors,a0
+	clr.w	d0
+	move.b	start,d0
+	move.w	num,d1
+	move.w	palette,d2
+	jsr	LoadPalette
+	endm
+
+;***************************************************************************
+;	ISCALE - Set Input Scaling Values		*
+;***************************************************************************
+ISCALE	macro	HScale,VScale
+	.global	DoIScale
+	move.w	HScale,d2
+	move.w	VScale,d3
+	jsr	DoIScale
+	endm
+
+;***************************************************************************
+;       DXDY - Set Dx/Dy Values			*
+;***************************************************************************
+DXDY	macro	PixDx,PixDy,RowDx,RowDy
+	.global	DoDXDY
+	move.w	PixDx,d2
+	move.w	PixDy,d3
+	move.w	RowDx,d4
+	move.w	RowDy,d5
+	jsr	DoDXDY
+	endm
+
+;***************************************************************************
+;	OSCALE - Set Output Scaling Values		*
+;***************************************************************************
+OSCALE	macro	HScale,VScale
+	.global	DoOScale
+	move.w	HScale,d6
+	move.w	VScale,d7
+	jsr	DoOScale
+	endm
+
+;***************************************************************************
+QLOADPAL:	macro	colors,start,palette,num
+	.global	DoLoadPal
+ 
+        move.l    colors,a2
+        clr.w     d7
+        move.b    start,d7
+        move.w    num,d2
+        move.w    palette,d3
+        jsr       DoLoadPal
+;;	move.l	colors,a2
+;;	move.b	palette,d3
+;;	lsl.w	#8,d3
+;;	or.b	start,d3
+;;	move.w	num,d2
+;;	jsr	DoLoadPal
+	endm
+
+;***************************************************************************
+FLOP	macro	
+	.global.s QMode1
+	.if	'\1'=='OFF'
+	andi.w	#Q_FLOPOFF,QMode1
+	.elif	'\1'=='ON'
+	ori.w	#Q_FLOPON,QMode1
+	.else
+	.msg	"Invalid Macro Operation"
+	.endif
+	endm
+
+;***************************************************************************
+FLIP	macro
+	.global.s QMode1
+	.if	'\1'=='OFF'
+	andi.w	#Q_FLIPOFF,QMode1
+	.elif	'\1'=='ON'
+	ori.w	#Q_FLIPON,QMode1
+	.else
+	.msg	"Invalid Macro Operation"
+	.endif
+	endm
+
+;***************************************************************************
+TRANS	macro
+	.global.s QMode1
+	.if	'\1'=='OFF'
+	andi.w	#Q_TRANSOFF,QMode1
+	.elif	'\1'=='ON'
+	ori.w	#Q_TRANSON,QMode1
+	.else
+	.msg	"Invalid Macro Operation"
+	.endif
+	endm
+
+;***************************************************************************
+LOOKAHEAD	macro
+	.global.s QMode1
+	.if	'\1'=='OFF'
+	andi.w	#Q_LOOKOFF,QMode1
+	.elif	'\1'=='ON'
+	ori.w	#Q_LOOKON,QMode1
+	.else
+	.msg	"Invalid Macro Operation"
+	.endif
+	endm
+
+;***************************************************************************
+WIDTHPIX	macro
+	.global.s QMode1
+	.if	'\1'=='OFF'
+	andi.w	#Q_WPOFF,QMode1
+	.elif	'\1'=='ON'
+	ori.w	#Q_WPON,QMode1
+	.else
+	.msg	"Invalid Macro Operation"
+	.endif
+	endm
+
+;***************************************************************************
+CLIP	macro
+	.global.s QMode1
+	.if	'\1'=='OFF'
+	andi.w	#Q_CLIPOFF,QMode1
+	.elif	'\1'=='ON'
+	ori.w	#Q_CLIPON,QMode1
+	.else
+	.msg	"Invalid Macro Operation"
+	.endif
+	endm
+
+;***************************************************************************
+;MACRO: (IMAGES) - Set the current blitter image table.		*
+;***************************************************************************
+
+IMAGES	macro	bank
+	.global.s ImageBank
+	.global	NewImageBank
+	move.b	bank,d0
+	cmp.b	ImageBank,d0
+	beq.s	noenab\@
+	jsr	NewImageBank
+noenab\@:
+	endm
+
+;***************************************************************************
+DOENABLE	macro
+	.global.s N_PalSel,S_PalSel
+	.global	DoEnable2
+	move.l	N_PalSel,d0
+	cmp.l	S_PalSel,d0
+	beq.s	noenab\@
+	jsr	DoEnable2
+;;	jsr	DoEnable
+noenab\@:
+	endm
+
+;***************************************************************************
+;       PLANES Enable			*
+;***************************************************************************
+PLANES	macro	Enable
+	.global	NewPlane
+	.global.s N_PalSel
+        move.w  N_PalSel,d0     ; Load Enabled Planes
+        ori.w   #~PLANEA|~PLANEB,d0 ; Disable All Planes
+	andi.w	Enable,d0	;enable selected planes
+        move.w  d0,N_PalSel      ; Store New Selection
+	jsr	NewPlane
+	endm
+
+;***************************************************************************
+;       BANK switch
+;***************************************************************************
+BANKSW	macro	Bank
+	.global.s N_PalSel
+	.global	NewPlane
+	move.w  N_PalSel,d0     ; Load Enabled Planes
+	andi.w	#$3f00,d0	;set bank to zero
+	ori.w   Bank,d0 ; enable selected bank(s)
+	move.w  d0,N_PalSel      ; Store New Selection
+	jsr	NewPlane
+	endm
+
+;****************************************************************
+;       PALCONF palette config
+;****************************************************************
+PALCONF     macro     palcon
+           .global.s N_PalSel
+           .global   DoEnable2
+
+           move.w    N_PalSel,d0     ; Load Enabled Planes
+           move.w    d0,N_PalSel      ; Store New Selection
+           endm
+
+
+;***************************************************************************
+;       SELPALA  Palette			*
+;***************************************************************************
+APALETTE	macro	Palette
+	.global.s N_PalSel,S_PalSel
+	.global	DoEnable2
+	move.b	Palette,N_PalSel+3 ;LJH
+;	move.l	N_PalSel,d0
+;	cmp.l	S_PalSel,d0
+;	beq.s	noenab\@
+;	jsr	DoEnable2
+;noenab\@:
+	endm
+
+;***************************************************************************
+;       SELPALB  Palette			*
+;***************************************************************************
+BPALETTE	macro	Palette
+	.global.s N_PalSel
+	.global	DoEnable
+	move.b	Palette,N_PalSel+2 ;LJH
+;	move.l	N_PalSel,d0
+;	cmp.l	S_PalSel,d0
+;	beq.s	noenab\@
+;	jsr	DoEnable2
+;noenab\@:
+	endm
+
+;***************************************************************************
+KICK_DOG	macro
+	move.b	d0,WATCHDOG
+	endm
+
+;***************************************************************************
+FRAMERT	macro	num
+	.global.s FrameRate
+	move.w	num,FrameRate
+	endm
+
+;***************************************************************************
+TOGGLEPAGE macro
+	.global	TogglePage
+	jsr	TogglePage
+	endm
+
+;***************************************************************************
+;       BLIT an object to the screen using the queue    		*
+;***************************************************************************
+BLIT	macro	num,xp,yp
+	.global	Blit
+	move.w	xp,d4	;2 byte x value
+	move.w	yp,d5	;2 byte x value
+	move.w	num,d3
+	jsr	Blit
+	endm
+
+;***************************************************************************
+ABLIT	macro	num,xp,yp
+	.global	Blit,GetAnchor
+	.global.s dotaddress
+	move.w	xp,d4
+	move.w	yp,d5
+	move.w	num,d3
+	move.w	d3,d0
+	move.l	dotaddress,a0
+	jsr	GetAnchor
+	jsr	Blit
+	endm
+
+;***************************************************************************
+GETANCHOR	macro	imagenum
+	.global	GetAnchor
+	.global.s dotaddress
+	move.l	dotaddress,d0
+	beq.s	getanc\@
+	move.l	d0,a0
+	move.w	imagenum,d0
+	jsr	GetAnchor
+getanc\@:
+	endm
+
+;***************************************************************************
+SBLIT	macro	num,xp,yp
+	.global	Blit,GetScreen
+	.global.s dotaddress
+	move.w	xp,d4
+	move.w	yp,d5
+	move.w	num,d3
+	move.l	dotaddress,a0
+	move.w	d3,d0
+	jsr	GetScreen
+	jsr	Blit
+	endm
+
+;***************************************************************************
+GETSCREEN	macro	imagenum
+	.global	GetScreen
+	.global.s dotaddress
+	move.l	dotaddress,d0
+	beq.s	getanc\@
+	move.l	d0,a0
+	move.w	imagenum,d0
+	jsr	GetScreen
+getanc\@:
+	endm
+
+;***************************************************************************
+RBLIT	macro	num,xp,yp
+	.global	RBlit
+	move.w	xp,d4
+	move.w	yp,d5
+	move.w	num,d3
+	jsr	RBlit
+	endm
+
+;***************************************************************************
+;       ROTATE - Set Rotation Values			*
+;***************************************************************************
+ROTATE	macro	angle
+	.global	DoRotate
+	move.w	angle,d1
+	jsr	DoRotate
+	endm
+
+;***************************************************************************
+ROT_OFF	macro
+	.global	make_normal
+	jsr	make_normal
+	endm
+
+;***************************************************************************
+
+HEXSTRING	MACRO	source,num
+	dc.b	0x80
+	dc.b	`3(\1),`2(\1),`1(\1),`0(\1)
+	dc.b	HEX,\2
+	ENDM
+
+LONGSTRING	MACRO	source,num,just
+	dc.b	0x80
+	dc.b	`3(\1),`2(\1),`1(\1),`0(\1)
+	dc.b	DECIMALLONG,\2,\3
+	ENDM
+
+WORDSTRING	MACRO	source,num,just
+	dc.b	0x80
+	dc.b	`3(\1),`2(\1),`1(\1),`0(\1)
+	dc.b	DECIMALWORD,\2,\3
+	ENDM
+
+BYTESTRING	MACRO	source,num,just
+	dc.b	0x80
+	dc.b	`3(\1),`2(\1),`1(\1),`0(\1)
+	dc.b	DECIMALBYTE,\2,\3
+	ENDM
+
+;****************************************************************
+;****************************************************************
+
+LOADPALPER:   macro     colors,start,palette,num,percent,GR,GG,GB
+           .global   LoadPalette_per
+           move.l    colors,a0
+           clr.w     d0
+           move.b    start,d0
+           move.w    num,d1
+           move.w    palette,d2
+	move.w	percent,d3
+	move.w	GR,d4	; red
+	move.w	GG,d5	; green
+	move.w	GB,d6	; blue 
+           jsr       LoadPalette_per
+           endm

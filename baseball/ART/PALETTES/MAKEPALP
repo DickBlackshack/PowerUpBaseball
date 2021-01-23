@@ -1,0 +1,12 @@
+prefix " dc.b "
+format "$%X"
+bpl 12
+mode ascii
+compress off
+loadpcx %1
+swap 0 255
+convert colors 8 8
+open %3.pal
+output "/r/n%2:"
+output buffer
+close

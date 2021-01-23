@@ -1,0 +1,8 @@
+LOAD bb.bim
+SAVE 0 * 4 bb0.bin
+SAVE 1 * 4 bb1.bin
+SAVE 2 * 4 bb2.bin
+SAVE 3 * 4 bb3.bin
+
+
+

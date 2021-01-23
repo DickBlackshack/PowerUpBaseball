@@ -1,0 +1,94 @@
+OBJS = intsvc.o graphlib.o groms.o \
+       palettes.o main.o player.o anim.o \
+       object.o game.o backgnd.o \
+       batter.o fplayer.o homeplay.o\
+       checksum.o diag.o select.o \
+       attract.o fbase.o rosters.o halfinn.o ai.o \
+       sbase.o tbase.o batgame.o field.o  groms00.o hometrot.o
+
+.asm.o:
+     as68000 $*.asm -V 20 -. -D debugmode="xxx" -E perr
+
+intsvc.o   : intsvc.asm itvideo2.h sys.h  graphglb.h graphlib.h\
+             graphlib.mac
+
+groms.o    : groms.asm groms.h
+
+groms00.o  : groms00.asm groms.h
+
+fbase.o    : fbase.asm player.h
+
+ai.o       : ai.asm ramblock.h ai.h
+
+sbase.o	   : sbase.asm player.h
+
+select.o   : select.asm pals.h ramblock.h player.h rosters.h
+
+tbase.o    : tbase.asm player.h
+
+checksum.o : checksum.asm
+
+graphlib.o : graphlib.asm itvideo2.h graphlib.h graphlib.mac graphglb.h
+
+palettes.o : palettes.asm ramblock.h pals.h
+
+main.o     : main.asm sys.mac itvideo2.h sys.h graphlib.mac graphlib.h\
+             graphglb.h macros.h ramblock.h \
+             groms.h player.h
+
+player.o   : player.asm sys.mac itvideo2.h sys.h graphlib.mac graphlib.h\
+             graphglb.h macros.h ramblock.h groms.h player.h rosters.h
+
+halfinn.o  : halfinn.asm sys.mac itvideo2.h sys.h graphlib.mac graphlib.h\
+             graphglb.h macros.h ramblock.h groms.h player.h rosters.h
+
+object.o   : object.asm ramblock.h 
+
+game.o     : game.asm sys.h sys.mac graphglb.h graphlib.h graphlib.mac \
+	  macros.h itvideo2.h ramblock.h  anim.mac \
+	  groms.h pals.h player.h rosters.h ai.h
+
+batter.o   : batter.asm anim.mac ramblock.h  controls.h player.h \
+             groms.h rosters.h
+
+fplayer.o  : fplayer.asm groms.h player.h
+
+homeplay.o : homeplay.asm sys.h sys.mac graphglb.h graphlib.h graphlib.mac \
+	  macros.h itvideo2.h ramblock.h  anim.mac \
+	  groms.h pals.h player.h
+
+hometrot.o : hometrot.asm sys.h sys.mac graphglb.h graphlib.h graphlib.mac \
+	  macros.h itvideo2.h ramblock.h  anim.mac \
+	  groms.h pals.h player.h
+
+field.o    : field.asm sys.h sys.mac graphglb.h graphlib.h graphlib.mac \
+	  macros.h itvideo2.h ramblock.h  anim.mac \
+	  groms.h pals.h player.h rosters.h ai.h
+
+batgame.o  : batgame.asm sys.h sys.mac graphglb.h graphlib.h graphlib.mac \
+	  macros.h itvideo2.h ramblock.h  anim.mac \
+	  groms.h pals.h player.h rosters.h
+
+backgnd.o  : backgnd.asm sys.h sys.mac graphglb.h graphlib.h graphlib.mac \
+	  macros.h itvideo2.h ramblock.h anim.mac \
+	  groms.h pals.h
+
+attract.o   : attract.asm sys.h sys.mac graphglb.h graphlib.h graphlib.mac \
+	  macros.h itvideo2.h ramblock.h  anim.mac \
+	  groms.h pals.h
+
+anim.o     : anim.asm sys.mac sys.h graphlib.mac graphlib.h\
+             graphglb.h macros.h anim.mac\
+             ramblock.h  joyseq.h
+
+diag.o     : diag.asm sys.mac itvideo2.h sys.h graphlib.mac graphlib.h\
+             graphglb.h macros.h ramblock.h bsblsnds.equ\
+             groms.h
+
+rosters.o   : rosters.asm  groms.h
+
+bb.bim	: $(OBJS) bbmap.m bbfile.f
+        	linker -f bbmap.m -F bbfile.f -o u.out
+	down -d image -c rom -w 0x800000 -o bb.bim u.out 
+	sym -o bbu.sym u.out 
+        sort <bbu.sym >bb.sym /+36

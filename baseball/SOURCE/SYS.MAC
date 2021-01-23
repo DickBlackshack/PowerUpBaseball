@@ -1,0 +1,75 @@
+;***************************************************************************
+;                      BLOODSTORM VIDEO GAME                               *
+;                   INCREDIBLE TECHNOLOGIES, INC.                          *
+;                    (C) COPYRIGHT 1994, IT, INC.                          *
+;***************************************************************************
+;                    DATA TABLE EQUATES 
+
+TERMINATE	macro
+	rts
+	endm
+
+DELAY	macro	DelayCount
+	.global	Delay
+	move.w	DelayCount,d0
+	jsr	Delay
+	endm                        
+
+SPAWN	macro	Address,ID
+	.global	Spawn
+	move.w	ID,d0
+	move.l	Address,a0
+	jsr	Spawn
+	endm                        
+
+SWITCH	macro	Switch,Value,Address
+	.global	SetSwitch
+	move.l	Address,a0
+	move.b	Switch,d0
+	move.b	Value,d1
+	jsr	SetSwitch
+	endm
+
+PROCESS	macro	ProcessID,Priority
+	.global	SetProcess
+	move.w	ProcessID,d0
+	move.w	Priority,d1
+	jsr	SetProcess
+	endm
+
+EXTERM	macro	ProcessID
+	.global	Exterminate
+	move.w	ProcessID,d0
+	jsr	Exterminate
+	endm
+
+ONDEATH	macro	Address
+	jsr	OnDeath
+	move.l	Address,a0
+	jsr	OnDeath
+	endm
+
+
+SOUND	macro	Value,Value2
+	.global	SendSound
+	move.b	Value,d0
+	move.b	Value2,d1
+	jsr	SendSound
+	endm
+
+SOUND3	macro	Value,Value2,Value3
+	.global	SendSound3
+	move.b	Value,d0
+	move.b	Value2,d1
+	move.b	Value3,d3
+	jsr	SendSound3
+	endm
+
+BACKUP	macro	name,size,init
+	.region	"RomCode"
+	size	init
+	.region	"BATRAM"
+	.export	name
+name:	size	init
+	endm
+

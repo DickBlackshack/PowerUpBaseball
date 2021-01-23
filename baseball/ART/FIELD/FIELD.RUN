@@ -1,0 +1,82 @@
+mode binary
+compress off
+
+loadpcx top9-00
+open r:\baseball\art\images\fld0000.img
+output size,0
+output workspace
+close
+
+loadpcx top9-01
+open r:\baseball\art\images\fld0001.img
+output size,0
+output workspace
+close
+
+loadpcx top9-02
+open r:\baseball\art\images\fld0002.img
+output size,0
+output workspace
+close
+
+loadpcx top9-03
+open r:\baseball\art\images\fld0003.img
+output size,0
+output workspace
+close
+
+loadpcx top9-04
+open r:\baseball\art\images\fld0004.img
+output size,0
+output workspace
+close
+
+loadpcx top9-05
+open r:\baseball\art\images\fld0005.img
+output size,0
+output workspace
+close
+
+loadpcx top9-06
+open r:\baseball\art\images\fld0006.img
+output size,0
+output workspace
+close
+
+loadpcx top9-07
+open r:\baseball\art\images\fld0007.img
+output size,0
+output workspace
+close
+
+loadpcx top9-08
+open r:\baseball\art\images\fld0008.img
+output size,0
+output workspace
+close
+
+loadpcx top9-09
+open r:\baseball\art\images\fld0009.img
+output size,0
+output workspace
+close
+
+loadpcx top9-10
+open r:\baseball\art\images\fld0010.img
+output size,0
+output workspace
+close
+
+loadpcx top9-11
+open r:\baseball\art\images\fld0011.img
+output size,0
+output workspace
+close
+
+loadpcx wall04
+open r:\baseball\art\images\wall04.img
+output size,0
+output workspace
+close
+
+done

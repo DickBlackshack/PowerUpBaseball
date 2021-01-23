@@ -1,0 +1,26 @@
+icom
+xmit "x/r"
+
+load bb3.bin
+
+! U76
+xmit "r4/r"
+fexport 0x0000 * 0x000 
+
+load bb2.bin
+! U74
+xmit "r3/r"
+fexport 0x0000 * 0x000 
+
+load bb1.bin
+!! U71
+xmit "r2/r"
+fexport 0x0000 * 0x000 
+
+load bb0.bin
+! U70
+xmit "r1/r"
+fexport 0x0000 * 0x000  
+
+xmit "g/r"
+

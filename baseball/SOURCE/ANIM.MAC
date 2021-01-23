@@ -1,0 +1,657 @@
+;***************************************************************************
+;                   WILLIAMS BASEBALL VIDEO GAME		*
+;                   INCREDIBLE TECHNOLOGIES, INC.	*
+;                    (C) COPYRIGHT 1995, IT, INC.	*
+;***************************************************************************
+;***************************************************************************
+;	Animation Control Macros                                        *
+;***************************************************************************
+
+C_CONSTANT	equ	-1
+C_OFF		equ	0
+C_CHANGE	equ	1
+DEAD_CONTROLS 	equ 	0
+ONLY_DEFEND 	equ 	0
+
+ROUTINE	MACRO
+	dc.b	`3(\1),`2(\1),`1(\1),`0(\1)
+	ENDM
+
+ADDRESS	MACRO
+	dc.b	`3(\1),`2(\1),`1(\1),`0(\1)
+	ENDM
+
+SPRITE	MACRO
+	dc.b	$0
+	dc.b	`1(\1),`0(\1)
+	dc.b	\2
+	ENDM
+
+JUMP	MACRO
+	dc.b	$1
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+BITS	MACRO
+	dc.b	$2
+	dc.b	`1(\1),`0(\1)
+	dc.b	`0(\2)
+	dc.b	`2(\3),`1(\3),`0(\3)
+	ENDM
+
+SEMOPHORE	MACRO
+	dc.b	$3
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM	
+
+EXECUTE MACRO
+	dc.b	$4
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+QED	MACRO
+	dc.b	$5
+	ENDM
+
+SETLOOP	MACRO
+	dc.b	$6
+	dc.b	`1(\1),`0(\1)
+	ENDM
+
+LOOP	MACRO
+	dc.b	$7
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+SETMEM	MACRO
+	dc.b	$8
+	dc.b	`2(\1),`1(\1),`0(\1)
+	dc.b	\2
+	ENDM
+
+BITSE	MACRO
+	dc.b	$9
+	dc.b	`1(\1),`0(\1)
+	dc.b	`0(\2)
+	dc.b	`0(\3)
+	dc.b	`2(\4),`1(\4),`0(\4)
+	ENDM
+
+CLEAR	MACRO
+	dc.b	$A
+	dc.b	`1(\1),`0(\1)
+	ENDM
+
+INPUTSUB	MACRO
+	dc.b	$3E
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+SETVEL	MACRO
+	dc.b	$C
+	dc.b	`1(\1),`0(\1)
+	dc.b	`1(\2),`0(\2)
+	dc.b	`0(\3)
+	ENDM
+
+JUMPRND	MACRO
+	dc.b	$E,\1
+	ENDM
+
+SETRANVEL	MACRO
+	dc.b	$F
+	dc.b	`1(\1),`0(\1)
+	dc.b	`1(\2),`0(\2)
+	dc.b	`0(\3)
+	ENDM
+
+SETFLIP	MACRO
+	dc.b	$43
+	ENDM
+
+CLRFLIP	MACRO
+	dc.b	$11
+	ENDM
+
+
+DSPRITE	MACRO
+	dc.b	$12
+	dc.b	\1
+	ENDM
+
+MOVE	MACRO
+	dc.b	$13
+	dc.b	\1,\2
+	ENDM
+
+MOVETO	MACRO
+	dc.b	$14
+	dc.b	\1,\2
+	ENDM
+
+JUMPINDX	MACRO
+	dc.b	$15
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+SETRAM	MACRO
+	dc.b	$16
+	dc.b	`1(\1),`0(\1)
+	dc.b	\2
+	ENDM
+
+INCRAM	MACRO
+	dc.b	$17
+	dc.b	`1(\1),`0(\1)
+	ENDM
+
+DECRAM	MACRO
+	dc.b	$18
+	dc.b	`1(\1),`0(\1)
+	ENDM
+
+UPDATE	MACRO
+	dc.b	$19
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+WAITRAND	MACRO
+	dc.b	$1A
+	dc.b	`1(\1),`0(\1)
+	dc.b	`1(\2),`0(\2)
+	ENDM
+
+SOUNDS	MACRO
+	dc.b 	$1B,\1
+	ENDM
+
+STOPANIM MACRO
+	dc.b 	$1C
+	ENDM
+
+DSPRITES MACRO
+	dc.b	$1D
+	dc.b	`1(\1),`0(\1)
+	dc.b	`1(\2),`0(\2)
+	dc.b	`1(\3),`0(\3)
+	dc.b	`1(\4),`0(\4)
+	dc.b	`1(\5),`0(\5)
+	dc.b	`1(\6),`0(\6)
+	dc.b	`1(\7),`0(\7)
+	dc.b	`1(\8),`0(\8)
+	ENDM
+
+CMPWI      MACRO	
+	dc.b	$1E
+	dc.b	`1(\1),`0(\1)
+	dc.b	`1(\2),`0(\2)
+	ENDM
+
+CMPBI      MACRO
+	dc.b	$1F
+	dc.b	`1(\1),`0(\1)
+	dc.b	\2
+	ENDM
+
+JUMPEQU    MACRO
+	dc.b	$20
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+JUMPGT     MACRO
+	dc.b	$21
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+JUMPLT     MACRO
+	dc.b	$22
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+SETDIR	MACRO
+	dc.b	$23
+	dc.b	`3(\1),`2(\1),`1(\1),`0(\1)
+	dc.b	`3(\2),`2(\2),`1(\2),`0(\2)
+	ENDM
+
+CMPWI_P2      MACRO	
+	dc.b	$24
+	dc.b	`1(\1),`0(\1)
+	dc.b	`1(\2),`0(\2)
+	ENDM
+
+CMPBI_P2      MACRO
+	dc.b	$25
+	dc.b	`1(\1),`0(\1)
+	dc.b	\2
+	ENDM
+
+SYSTEM	MACRO
+	dc.b	$26
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+DEALLOC	MACRO
+	dc.b	$27
+	ENDM
+
+SEMSET	MACRO
+	dc.b	$28
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+DIRJUMP	MACRO
+	dc.b	$29
+	dc.b	`3(\1),`2(\1),`1(\1),`0(\1)
+	dc.b	`3(\2),`2(\2),`1(\2),`0(\2)
+	dc.b	`2(\3),`1(\3),`0(\3)
+	dc.b	`2(\4),`1(\4),`0(\4)
+	dc.b	`2(\5),`1(\5),`0(\5)
+	dc.b	`2(\6),`1(\6),`0(\6)
+	dc.b	`2(\7),`1(\7),`0(\7)
+	dc.b	`2(\8),`1(\8),`0(\8)
+	dc.b	`2(\9),`1(\9),`0(\9)
+	dc.b	`2(\A),`1(\A),`0(\A)
+	ENDM
+
+FACEBALL	MACRO
+	dc.b	$2A
+	dc.b	`1(\1),`0(\1)
+	ENDM
+
+LASTFRAME	MACRO
+	dc.b	$2B
+	dc.b	\1
+	ENDM
+
+INFIELD	MACRO
+	dc.b	$2C
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+SETRAM_P2	MACRO
+	dc.b	$2D
+	dc.b	`1(\1),`0(\1)
+	dc.b	\2
+	ENDM
+
+COLORCYCLE	MACRO
+	dc.b	$2E
+	dc.b	\1,\2,\3,\4
+	ENDM
+
+TRAP	MACRO
+	dc.b	$2F
+	ENDM
+
+SEMCLR	MACRO
+	dc.b	$30
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+NEARBALL MACRO
+	dc.b	$31
+	dc.b	`3(\1),`2(\1),`1(\1),`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+SHAKE	MACRO
+	dc.b	$32,\1,\2,\3
+	ENDM
+
+LUNGE	MACRO
+	dc.b	$33
+	dc.b	`1(\1),`0(\1)
+	ENDM
+
+FRICTION MACRO
+	dc.b	$34
+	ENDM
+
+BALLHIGHER MACRO
+	dc.b	$35
+	dc.b	`3(\1),`2(\1),`1(\1),`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+FASTER	MACRO
+	dc.b	$36
+	dc.b	`3(\1),`2(\1),`1(\1),`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+DISPLAY	MACRO
+	dc.b	$37
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+SETZ	MACRO
+	dc.b	$38,`1(\1),`0(\1)
+	ENDM
+
+SETABSW	MACRO
+	dc.b	$39
+	dc.b	`2(\1),`1(\1),`0(\1)
+	dc.b	`1(\2),`0(\2)
+	ENDM
+
+SETGRAV	MACRO
+	dc.b	$3A
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+SETVELY	MACRO
+	dc.b	$3B
+	dc.b	`1(\1),`0(\1)
+	dc.b	`0(\2)
+	ENDM
+
+FRAMERATE	MACRO
+	dc.b	$3C
+	dc.b	`1(\1),`0(\1)
+	ENDM
+
+SETABSB	MACRO
+	dc.b	$3D
+	dc.b	`2(\1),`1(\1),`0(\1)
+	dc.b	\2
+	ENDM
+
+ALWAYS	MACRO
+	dc.b	$3F
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+BOUNCESND	MACRO
+	dc.b	$40,\1
+	ENDM
+
+NEXTSPRITE MACRO
+	dc.b	$41
+	dc.b	`0(\1)
+	ENDM
+
+CLOSER	MACRO
+	dc.b	$42
+	dc.b	`3(\1),`2(\1),`1(\1),`0(\1)
+	dc.b	`3(\2),`2(\2),`1(\2),`0(\2)
+	dc.b	`3(\3),`2(\3),`1(\3),`0(\3)
+	dc.b	`2(\4),`1(\4),`0(\4)
+	ENDM
+
+IFPOWERUP	MACRO
+	dc.b	$10
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+BALLFASTER MACRO
+	dc.b	$44
+	dc.b	`3(\1),`2(\1),`1(\1),`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+IFIAM	MACRO
+	dc.b	$45
+	dc.b	`2(\1),`1(\1),`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+FMOVE	MACRO
+	dc.b	$46
+	dc.b	\1,\2
+	ENDM
+
+JUMPNE	MACRO
+	dc.b	$47
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+SETPALETTE	MACRO
+	dc.b	$48
+	dc.b	\1
+	ENDM
+
+BALLFARTHER MACRO
+	dc.b	$49
+	dc.b	`1(\1),`0(\1)
+	dc.b	`3(\2),`2(\2),`1(\2),`0(\2)
+	dc.b	`2(\3),`1(\3),`0(\3)
+	ENDM
+
+SETAI	MACRO
+	dc.b	$4A
+	dc.b	`1(\1),`0(\1)
+	ENDM
+
+IFHASPOWER	MACRO
+	dc.b	$4B
+	dc.b	`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+TEXT	MACRO
+	dc.b	$4C
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+SETRAMW	MACRO
+	dc.b	$4D
+	dc.b	`1(\1),`0(\1)
+	dc.b	`1(\2),`0(\2)
+	ENDM
+
+ADDRAMW	MACRO
+	dc.b	$4E
+	dc.b	`1(\1),`0(\1)
+	dc.b	`1(\2),`0(\2)
+	ENDM
+
+SUBRAMW	MACRO
+	dc.b	$4F
+	dc.b	`1(\1),`0(\1)
+	dc.b	`1(\2),`0(\2)
+	ENDM
+
+SOUND2	MACRO
+	dc.b	$50
+	dc.b	\1,\2
+	ENDM
+
+NEARWALL MACRO
+	dc.b	$51
+	dc.b	`3(\1),`2(\1),`1(\1),`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+SETRAML	MACRO
+	dc.b	$52
+	dc.b	`1(\1),`0(\1)
+	dc.b	`3(\2),`2(\2),`1(\2),`0(\2)
+	ENDM
+
+GOALPOS	MACRO
+	dc.b	$53
+	ENDM
+
+
+WSPRITE	MACRO
+	dc.b	$55
+	dc.b	`1(\1),`0(\1)
+	dc.b	\2
+	ENDM
+
+TRACKBALL	MACRO
+	dc.b	$56
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+BACKGND	MACRO
+	dc.b	$57
+	dc.b	\1
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+
+SEMJUMP	MACRO
+	dc.b	$5E
+	dc.b	`2(\1),`1(\1),`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+INCAUDIT	MACRO
+	dc.b	$60
+	dc.b	\1
+	ENDM
+
+MOVECLIP	MACRO
+	dc.b	$66
+	dc.b	\1,\2,\3,\4
+	ENDM
+
+JUMPTO	MACRO
+	dc.b	$67
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+SPRITE1	MACRO
+	dc.b	$68
+	dc.b	`1(\1),`0(\1)
+	dc.b	\2
+	ENDM
+
+SPRITE2	MACRO
+	dc.b	$69
+	dc.b	`1(\1),`0(\1)
+	dc.b	\2
+	ENDM
+
+ORIW	MACRO
+	dc.b	$6A
+	dc.b	`1(\1),`0(\1)
+	dc.b	`1(\2),`0(\2)
+	ENDM
+
+VSPRITE	MACRO
+	dc.b	$6B
+	dc.b	`1(\1),`0(\1)
+	dc.b	\2
+	ENDM
+
+COUNTER	MACRO
+	dc.b	$6C
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+ANDIW	MACRO
+	dc.b	$70
+	dc.b	`1(\1),`0(\1)
+	dc.b	`1(\2),`0(\2)
+	ENDM
+
+WAITSGL	MACRO
+label\$:
+	SPRITE	\1,1
+	dc.b	$2A
+	dc.b	`1(\2),`0(\2)
+	dc.b	`2(\3),`1(\3),`0(\3)
+	JUMP	label\$
+	ENDM	       
+
+;************************************************************************
+;	Input Control Macros						*
+;************************************************************************
+LOAD	MACRO
+	dc.b	$0
+	dc.b	`1(\1),`0(\1)
+	ENDM
+
+ALLBITS	MACRO
+	dc.b	$2
+	dc.b	`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+ANYBITS	MACRO
+	dc.b	$3
+	dc.b	`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+JUMPALL	MACRO
+	dc.b	$4
+	dc.b	`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+JUMPANY	MACRO
+	dc.b	$5
+	dc.b	`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+ANIM	MACRO
+	dc.b	$6
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+DONE	MACRO
+	dc.b	$7
+	ENDM
+
+NOTBITS	MACRO
+	dc.b	$8
+	dc.b	`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+LOADOBJ	MACRO
+	dc.b	$9
+	dc.b	`1(\1),`0(\1)
+	ENDM
+
+IFBACKGRND	MACRO
+	dc.b	$A
+	dc.b	`1(\1),`0(\1)
+	dc.b	`0(\2)
+	dc.b	`2(\3),`1(\3),`0(\3)
+	ENDM
+
+LOADABS	MACRO
+	dc.b	$B
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+JUMPCMP	MACRO
+	dc.b	$D
+	dc.b	\1
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+MASKME	MACRO
+	dc.b	$E
+	dc.b	`2(\1),`1(\1),`0(\1)
+	ENDM
+
+NOCLEAR	MACRO
+	dc.b	$F
+	dc.b	`1(\1),`0(\1)
+	ENDM
+
+STANDARDMOVE MACRO
+	dc.b	$11
+	dc.b	`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+ONLY	MACRO
+	dc.b	$22
+	dc.b	`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+
+JUMPNOT MACRO
+	dc.b	$26
+	dc.b	`0(\1)
+	dc.b	`2(\2),`1(\2),`0(\2)
+	ENDM
+

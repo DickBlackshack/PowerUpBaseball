@@ -1,0 +1,2552 @@
+;***************************************************************************
+;                   WILLIAMS BASEBALL VIDEO GAME		*
+;                   INCREDIBLE TECHNOLOGIES, INC.	*
+;                    (C) COPYRIGHT 1995, IT, INC.	*
+;***************************************************************************
+	.region.s	"RAM"
+	ds	0
+
+	.export	GetInitials,InitIntials,CheckForInitials
+
+	.export	LogoScreen,LegalScreen
+
+;	.import	Print
+
+	.import	LoadPtrs,zrecord
+	.import	SetFont2,SetSysFont,SetWinFont,SetScoreFont
+	.import.s	FontSpacing
+	.export	EnterInitials	; flag to say initials have to be enterd
+	.export	TagBack	; Set For Game Play
+	.export	AttractSem
+
+	.export	T10list
+	.export	T10data
+	.export	T10art 
+
+	.import	Fighter1,Fighter2,Backgnd	;this is for attract.asm
+	.import	host_write,SetFontm
+
+
+	.export	WinList
+	.export	HitList
+	.export	HomeList
+	.export	StrikeList
+
+	.import	endrec
+	.import	SysCharTrans
+	.import	records
+	.import	REC_stat_win
+
+	.import	REC_stat_homeruns
+	.import	REC_stat_strikeouts
+	.import	REC_stat_hits
+
+;	.import	DestList
+	.import	RecordSize
+
+	.import	neo0Spacing
+	.import	neo1Spacing
+	.import	neo2Spacing
+	.import	neo3Spacing
+	.import	neo4Spacing
+	.import	neo5Spacing
+	.import	neo6Spacing
+	.import	neo7Spacing
+
+	.import	NeoCharTrans
+
+	.import	score1,score1_name0
+	.import	score2,score2_name0
+	.import	score3,score3_name0
+	.import	score4,score4_name0
+	.import	score5,score5_name0
+
+
+	.import	REC_letters
+	.import	REC_month
+	.import	REC_dayofmonth
+	.import	REC_team
+;
+	.import	REC_stat_defeat
+	.import	REC_stat_win
+	.import	REC_stat_lost
+	.import	REC_stat_hits
+	.import	REC_stat_atbats
+	.import	REC_BeatGame
+	.import	REC_stat_lastgame
+	.import	REC_stat_homeruns
+	.import	REC_stat_steals
+	.import	REC_stat_strikeouts
+	.import	REC_first_pitcher
+	.import	REC_players
+	.import	REC_bat_order
+	.import	REC_winCNT
+	.import	REC_seriesCNT
+
+;	.import	REC_lastgame
+	.import	fix_checksum
+
+	.import	recorddata
+
+
+AttractSem	    ds.b	1
+InitialInput   ds.l	1
+ShotbPTR   ds.l	1
+InitialPlyr    ds.l	1
+InitialNum	    ds.w	1
+EnterInitials  ds.b	1
+InitialCnt	    ds.w	1
+InitialPtr	    ds.l	1
+AttSndCnt	    ds.w	1
+Rank	    ds.w	1
+HighScorePtr   ds.l	1
+Afighter	    ds.b	1
+TagBack	    ds.b	1	; Set For Game Play
+Attractcnt	    ds.b	1	; loop counter
+
+
+WinList	ds.l	10
+HitList	ds.l	10
+HomeList	ds.l	10
+StrikeList	ds.l	10
+DestPtr	ds.l	1
+ListPtr	ds.l	1
+ListCnt	ds.w	1
+ListX	ds.w	1
+ListY	ds.w	1
+
+T10list	ds.l	1
+T10data	ds.w	1
+T10art	ds.w	1
+
+;***************************************************************************
+;  Start Of Program Code			*
+;***************************************************************************
+	.region	"RomCode"
+
+	ds	0
+
+	#include	"itvideo2.h"
+	#include	"sys.h"
+	#include	"sys.mac"
+	#include	"graphlib.mac"
+	#include	"graphlib.h"
+	#include	"graphglb.h"
+	#include	"macros.h"
+	#include	"bsblsnds.equ"
+	#include	"ramblock.h"
+	#include	"anim.mac"
+	#include	"groms.h"
+	#include	"stats.h"
+	#include	"audits.h"
+	#include	"pals.h"
+
+;***************************************************************************
+;  System Subroutine Imports		*
+;***************************************************************************
+	.import	DeallocObject,AllocObject,BlitObject,Anim
+
+	.import	TogglePage
+	.import	Random,Mode1
+	.import	Sort
+
+;***************************************************************************
+;               DisplayFighters imports (from display.asm)	*
+;***************************************************************************
+	.import	AnimFighter
+	.import	Batter,Pitcher
+	.import	InitJoys,InitCycle
+	.import	CTimer	; flag to say initials have to be enterd
+	.import	LoadAttractPal,message_flag
+	.import	SemoGame1
+	.import	NewBack
+	.import	RecordList
+
+
+	.import	F2CharTrans
+	.import	fnt2Spacing
+
+	.import	CharTrans
+	.import	F3CharTrans
+	.import	FontAdjust
+	.import	fnt3Spacing
+
+;***************************************************************************
+;		   PRINT 'STRING'        		*
+;***************************************************************************
+PRINC:	macro	string
+	#ifndef	PrintCentered
+	.global	PrintCentered
+	#endif
+	move.l	#striii\@,a0
+	clr.w	d6	
+	move.w	#$7FFF,d7
+	jsr	PrintCentered	;entry point for plot print
+	bra	dprrr\@
+striii\@:
+	dc.b	string,0
+dprrr\@:	ds	0	;align prg counter
+	endm
+
+;***************************************************************************
+
+****************************************************************************
+
+	.export	WinsScreen
+WinsScreen
+	clr.b	d1	; Set As Non Collidable
+	jsr	AllocObject	; Allocate An Object
+	beq.s	.NoObjBar
+;	move.l	#WinProc,UPDATEPROC(a0)	; Store Address Of Update Procedure
+	move.l	#Blit10top,DISPLAYPROC(a0)    ; Store Address Of Display Procedure
+	move.w	#40,XPOSITION(a0)	; Store Starting X Position
+	move.w	#10,YPOSITION(a0)	; Store Starting Y Position
+;	move.b	#Misc,BANK(a0)	; Set Bank Number
+	move.w	#12,ZPOSITION(a0)   	; Initialize Z Position
+.NoObjBar
+
+	clr.b	d1	; Set As Non Collidable
+	jsr	AllocObject	; Allocate An Object
+	beq.s	.NoObj1
+	move.l	#WinProc,UPDATEPROC(a0)	; Store Address Of Update Procedure
+	move.l	#BlitWinList,DISPLAYPROC(a0)    ; Store Address Of Display Procedure
+	move.w	#40,XPOSITION(a0)	; Store Starting X Position
+	move.w	#-420,YPOSITION(a0)	; Store Starting Y Position
+	move.w	#10,ZPOSITION(a0)   	; Initialize Z Position
+.NoObj1
+	rts
+
+;............................................................................
+
+Blit10top
+	IMAGES	#Misc
+	APALETTE	#P_NEWSCORE
+	BLIT	#top10bar,XPOSITION(a5),YPOSITION(a5)
+
+	move.w	XPOSITION(a5),d6
+	add.w	#55,d6
+	move.w	YPOSITION(a5),d7
+	add.w	#10,d7
+;	BLIT	#tophitte,d6,d7
+	BLIT	T10art,d6,d7
+	rts
+
+;............................................................................
+
+BlitWinList
+	IMAGES	#Title
+	APALETTE	#P_TITLERB
+	BLIT	#pinrb,#0,#0
+
+	SETCLIP	#0,#50,#384,#256
+
+	IMAGES	#Misc
+	APALETTE	#P_NEWSCORE
+	move.w	XPOSITION(a5),d6
+	move.w	YPOSITION(a5),d7
+	add.w	#0,d7
+	BLIT	#top10num,d6,d7
+
+;	APALETTE	#P_FONTY2
+;	APALETTE	#P_NEWSCORE
+;	SETPRINT	#16,#24,#fnt2,#0
+;	SETPRINT	#20,#34,#neo2,#0
+	clr.l	FontAdjust
+;	move.l	#neo2Spacing,FontSpacing
+;	clr.l	FontSpacing	;test
+;	move.l	#F2CharTrans,CharTrans ; character translation table
+;	move.l	#SysCharTrans,CharTrans	; character translation table
+	move.l	#NeoCharTrans,CharTrans ; character translation table
+
+
+	move.w	XPOSITION(a5),d6
+	add.w	#55,d6
+	move.w	d6,ListX
+	move.w	YPOSITION(a5),d7
+	add.w	#48,d7
+	move.w	d7,ListY
+
+	move.l	T10list,ListPtr
+	move.w	#10,ListCnt
+.listlp
+	SETPRINT	#20,#34,#neo2,#0
+	move.l	#neo2Spacing,FontSpacing
+	APALETTE	#P_NEWSCORE
+	PLOT	ListX,ListY
+	move.l	([ListPtr]),a0
+	clr.w	d6
+	move.w	#3,d7	;print 3 letters
+
+	move.l	a0,a1
+	jsr	AsciiTest
+	bne	.noprint
+	adda.l	#1,a1
+	jsr	AsciiTest
+	bne	.noprint
+	adda.l	#1,a1
+	jsr	AsciiTest
+	bne	.noprint
+
+	jsr	Print
+
+;	move.w	ListX,d6
+;	add.w	#80,d6
+;	PLOT	d6,ListY
+
+	SETPRINT	#20,#34,#neo2,#0
+	clr.l	FontSpacing
+	PLOT	#180,ListY
+
+	move.l	([ListPtr]),a0
+	move.w	T10data,d0
+	tst.w	(a0,d0)
+	beq.s	.no0
+	clr.l	FontSpacing
+	APALETTE	#P_NEWSCORE
+	PRINTDEC	<(a0,d0.w)>,#4,JRGTS	;print stat
+;trophy
+	move.l	([ListPtr]),a0
+	move.w	#REC_BeatGame,d0
+	tst.w	(a0,d0.w)
+	beq.s	.notrophy
+	APALETTE	#P_TROPHY
+	move.w	XPOSITION(a5),d0
+	sub.w	#24,d0	;offset from list
+	move.w	ListY,d1
+	sub.w	#4,d1	;offset from list
+	BLIT	#trophysm,d0,d1
+.notrophy
+
+.no0
+.noprint
+	add.w	#38,ListY	;vert spacing
+	add.l	#4,ListPtr	;next list entry
+	sub.w	#1,ListCnt
+	bne	.listlp
+	SETCLIP	#0,#0,#384,#256
+	rts
+
+WinProc
+	cmp.w	#15,YPOSITION(a5)
+	bge.s	.rts
+	add.w	#2,YPOSITION(a5)
+.rts	rts
+
+
+AsciiTest
+	cmp.b	#' ',(a1)
+	beq.s	.ok
+	cmp.b	#'A',(a1)
+	blt.s	.notok
+	cmp.b	#'Z',(a1)
+	bgt.s	.notok
+
+.ok	move.b	#0,d1
+	rts
+
+.notok	move.b	#1,d1
+	rts
+
+****************************************************************************
+
+LogoScreen
+	clr.b	d1	; Set As Non Collidable
+	jsr	AllocObject	; Allocate An Object
+	beq.s	.NoObj1
+;	move.l	#SHOTA,PARSEPOINTER(a0) ; Save Starting Animation Address
+	move.l	#Anim,UPDATEPROC(a0)	; Store Address Of Update Procedure
+	move.l	#BlitObject,DISPLAYPROC(a0)    ; Store Address Of Display Procedure
+	move.w	#208,XPOSITION(a0)	; Store Starting X Position
+	move.w	#19,YPOSITION(a0)	; Store Starting Y Position
+	move.b	#Title,BANK(a0)	; Set Bank Number
+	move.b	#P_MLB,PALETTE(a0)	; Set Palette Number
+	move.w	#10,ZPOSITION(a0)   	; Initialize Z Position
+	move.w	#mlb,PICTURE(a0)	; Set Picture
+.NoObj1
+
+	clr.b	d1	; Set As Non Collidable
+	jsr	AllocObject	; Allocate An Object
+	beq.s	.NoObj2
+;	move.l	#FireDown,PARSEPOINTER(a0) ; Save Starting Animation Address
+	move.l	#Anim,UPDATEPROC(a0)	; Store Address Of Update Procedure
+	move.l	#BlitObject,DISPLAYPROC(a0)    ; Store Address Of Display Procedure
+	move.w	#251,XPOSITION(a0)	; Store Starting X Position
+	move.w	#131,YPOSITION(a0)	; Store Starting Y Position
+	move.b	#Title,BANK(a0)	; Set Bank Number
+	move.b	#P_MLBM,PALETTE(a0)	; Set Palette Number
+	move.w	#10,ZPOSITION(a0)   	; Initialize Z Position
+	move.w	#mlbm,PICTURE(a0)	; Set Picture
+.NoObj2
+
+	clr.b	d1	; Set As Non Collidable
+	jsr	AllocObject	; Allocate An Object
+	beq.s	.NoObj3
+;	move.l	#FireDown,PARSEPOINTER(a0) ; Save Starting Animation Address
+	move.l	#Anim,UPDATEPROC(a0)	; Store Address Of Update Procedure
+	move.l	#BlitObject,DISPLAYPROC(a0)    ; Store Address Of Display Procedure
+	move.w	#10,XPOSITION(a0)	; Store Starting X Position
+	move.w	#56,YPOSITION(a0)	; Store Starting Y Position
+	move.b	#Title,BANK(a0)	; Set Bank Number
+	move.b	#P_MLBPA,PALETTE(a0)	; Set Palette Number
+	move.w	#10,ZPOSITION(a0)   	; Initialize Z Position
+	move.w	#mlbpa,PICTURE(a0)	; Set Picture
+.NoObj3
+
+
+	clr.b	d1	; Set As Non Collidable
+	jsr	AllocObject	; Allocate An Object
+	beq.s	.NoObj4
+	move.l	#SHOTA,PARSEPOINTER(a0) ; Save Starting Animation Address
+	move.l	#Anim,UPDATEPROC(a0)	; Store Address Of Update Procedure
+	move.l	#BlitObject,DISPLAYPROC(a0)    ; Store Address Of Display Procedure
+	move.w	#210,XPOSITION(a0)	; Store Starting X Position
+	move.w	#21,YPOSITION(a0)	; Store Starting Y Position
+	move.b	#Title,BANK(a0)	; Set Bank Number
+	move.b	#P_SHOTA,PALETTE(a0)	; Set Palette Number
+	move.w	#15,ZPOSITION(a0)   	; Initialize Z Position
+;	move.w	#mlbpa,PICTURE(a0)	; Set Picture
+;	move.w	#vs,PICTURE(a0)	; Set Picture
+.NoObj4
+
+
+	clr.b	d1	; Set As Non Collidable
+	jsr	AllocObject	; Allocate An Object
+	beq.s	.NoObj5
+	move.l	#SHOTB,PARSEPOINTER(a0) ; Save Starting Animation Address
+	move.l	#Anim,UPDATEPROC(a0)	; Store Address Of Update Procedure
+	move.l	#BlitObject,DISPLAYPROC(a0)    ; Store Address Of Display Procedure
+	move.w	#13,XPOSITION(a0)	; Store Starting X Position
+	move.w	#59,YPOSITION(a0)	; Store Starting Y Position
+	move.b	#Title,BANK(a0)	; Set Bank Number
+	move.b	#P_SHOTB,PALETTE(a0)	; Set Palette Number
+	move.w	#15,ZPOSITION(a0)   	; Initialize Z Position
+;	move.w	#mlbpa,PICTURE(a0)	; Set Picture
+;	move.w	#vs,PICTURE(a0)	; Set Picture
+	move.l	a0,ShotbPTR
+.NoObj5
+
+
+	clr.b	d1	; Set As Non Collidable
+	jsr	AllocObject	; Allocate An Object
+	beq.s	.NoObj6
+;	move.l	#SHOTB,PARSEPOINTER(a0) ; Save Starting Animation Address
+;	move.l	#Anim,UPDATEPROC(a0)	; Store Address Of Update Procedure
+	move.l	#WebSite,DISPLAYPROC(a0)    ; Store Address Of Display Procedure
+	move.w	#50,XPOSITION(a0)	; Store Starting X Position
+	move.w	#225,YPOSITION(a0)	; Store Starting Y Position
+	move.b	#Misc,BANK(a0)	; Set Bank Number
+	move.b	#P_FONTW2,PALETTE(a0)	; Set Palette Number
+	move.w	#20,ZPOSITION(a0)   	; Initialize Z Position
+;	move.w	#mlbpa,PICTURE(a0)	; Set Picture
+;	move.w	#vs,PICTURE(a0)	; Set Picture
+.NoObj6
+
+
+
+
+	rts
+
+;...........................................................................
+
+WebSite
+	SETPRINT	#7,#12,#fnt3,#0
+	move.l	#PeriodAdjust,FontAdjust
+;	clr.l	FontSpacing
+	move.l	#fnt3Spacing,FontSpacing
+	move.l	#F3CharTrans,CharTrans	; character translation table
+
+	jsr	SetSysFont
+;	clr.l	FontAdjust
+	move.l	#PeriodAdjust,FontAdjust
+
+	APALETTE	PALETTE(a5)	; Set Palette Number
+
+	cmp.b	#P_HAWK,([ShotbPTR],PALETTE)
+	beq	OtherMess
+
+	PLOT	XPOSITION(a5),YPOSITION(a5)
+;	PLOT	#155,#100
+;	cmp.l	#PlayerL,pinfo
+;	bne.s	label2
+	PRINT	"BE SURE TO VISIT MLB'S OFFICIAL WEB SITE"
+	CARRET
+	PRINT	"  MLB@BAT:WWW.MAJORLEAGUEBASEBALL.COM"
+
+	rts
+OtherMess
+	PLOT	XPOSITION(a5),YPOSITION(a5)
+;	PLOT	#155,#100
+;	cmp.l	#PlayerL,pinfo
+;	bne.s	label2
+	PRINT	" WITH SPORTCASTER KEN 'HAWK' HARRELSON"
+	rts
+
+;...........................................................................
+
+	.align	2
+SHOTA
+	LASTFRAME	120
+	SPRITE shota01,40
+	SPRITE shota02,40
+	SPRITE shota03,40
+	SPRITE shota04,40
+	SPRITE shota05,40
+	SPRITE shota06,40
+	SPRITE shota07,40
+	SPRITE shota08,40
+	SPRITE shota09,40
+	SPRITE shota10,40
+	SPRITE shota11,40
+	SPRITE shota12,40
+
+	DEALLOC
+
+
+SHOTB
+	LASTFRAME	140
+	SPRITE shotb01,40
+	SPRITE shotb02,40
+	SPRITE shotb03,40
+	SPRITE shotb04,40
+	SPRITE shotb05,40
+	SPRITE shotb06,40
+	SPRITE shotb07,40
+	SPRITE shotb08,40
+	SPRITE shotb09,40
+	SPRITE shotb10,40
+	SPRITE shotb11,40
+	SPRITE shotb12,40
+
+	SETPALETTE P_HAWK
+
+	SPRITE hawk01,80
+;	SPRITE hawk02,4
+	SOUNDS StartGame
+	SPRITE hawk03,4
+	SPRITE hawk04,4
+;	SPRITE hawk05,4
+
+;	SPRITE hawk06,8
+;	SPRITE hawk05,8
+;
+;	SPRITE hawk06,8
+;	SPRITE hawk05,8
+;
+;	SPRITE hawk06,8
+;	SPRITE hawk05,8
+;
+;	SPRITE hawk06,8
+;	SPRITE hawk05,8
+;
+;	SPRITE hawk06,8
+;	SPRITE hawk05,8
+;
+;	SPRITE hawk06,8
+;	SPRITE hawk05,8
+;
+;	SPRITE hawk06,8
+;	SPRITE hawk05,8
+
+	SPRITE hawk06,80
+	SOUNDS BatHitBall
+
+;total these for the delay in ATTRACT.ASM
+
+	DEALLOC
+
+
+	.align	2
+
+****************************************************************************
+
+LegalScreen
+	clr.b	d1	; Set As Non Collidable
+	jsr	AllocObject	; Allocate An Object
+	beq.s	.NoObj6
+;	move.l	#SHOTB,PARSEPOINTER(a0) ; Save Starting Animation Address
+;	move.l	#Anim,UPDATEPROC(a0)	; Store Address Of Update Procedure
+	move.l	#LegalText,DISPLAYPROC(a0)    ; Store Address Of Display Procedure
+	move.w	#10,XPOSITION(a0)	; Store Starting X Position
+	move.w	#50,YPOSITION(a0)	; Store Starting Y Position
+	move.b	#Misc,BANK(a0)	; Set Bank Number
+	move.b	#P_FONTW2,PALETTE(a0)	; Set Palette Number
+	move.w	#20,ZPOSITION(a0)   	; Initialize Z Position
+;	move.w	#mlbpa,PICTURE(a0)	; Set Picture
+;	move.w	#vs,PICTURE(a0)	; Set Picture
+.NoObj6
+	rts
+
+;
+;...........................................................................
+
+LegalText
+	IMAGES	#Title
+	APALETTE	#P_TITLERB
+	BLIT	#pinrb,#0,#0
+
+;	SETPRINT	#7,#12,#fnt3,#0
+;	move.l	#PeriodAdjust,FontAdjust
+;	clr.l	FontSpacing
+;	move.l	#fnt3Spacing,FontSpacing
+;	move.l	#F3CharTrans,CharTrans	; character translation table
+
+	jsr	SetFontm
+;	clr.l	FontAdjust
+;	move.l	#PeriodAdjust,FontAdjust
+
+	APALETTE	PALETTE(a5)	; Set Palette Number
+
+;	cmp.b	#P_HAWK,([ShotbPTR],PALETTE)
+;	beq	OtherMess
+
+	PLOT	#192,YPOSITION(a5)
+;	PLOT	#155,#100
+;	cmp.l	#PlayerL,pinfo
+;	bne.s	label2
+	PRINC	"POWER UP BASEBALLa b1996 MIDWAY@"
+	CARRET
+	PRINC	"MANUFACTURING COMPANY. ALL RIGHTS RESERVED."
+	CARRET
+	PRINC	"THE MLBPA LOGO IS A TRADEMARK OF THE"
+	CARRET
+	PRINC	"MAJOR LEAGUE BASEBALL PLAYERS ASSOCIATION."
+	CARRET
+	PRINC	"bMLBPA. OFFICIAL LICENSEE-MAJOR LEAGUE"
+	CARRET
+	PRINC	"BASEBALL PLAYERS ASSOCIATION. THE MAJOR"
+	CARRET
+	PRINC	"LEAGUE CLUB INSIGNIAS DEPICTED ON THIS"
+	CARRET
+	PRINC	"PRODUCT ARE TRADEMARKS WHICH ARE THE"
+	CARRET
+	PRINC	"EXCLUSIVE PROPERTY OF THE RESPECTIVE"
+	CARRET
+	PRINC	"MAJOR LEAGUE CLUBS AND MAY NOT BE"
+	CARRET
+	PRINC	"REPRODUCED WITHOUT THEIR WRITTEN CONSENT."
+	CARRET
+	PRINC	"bMAJOR LEAGUE BASEBALL PROPERTIES INC."
+	CARRET
+	CARRET
+	PRINC	"DEVELOPED FOR WILLIAMS BY"
+	CARRET
+	PRINC	"INCREDIBLE TECHNOLOGIES"
+
+;	PRINC	"                                        "
+;	CARRET
+;	PRINC	"1234567890123456789012345678901234567890"
+
+	rts
+
+
+;****************************************************************************
+
+	.export	Top10
+Top10
+	move.l	#WinList,DestPtr	;where to put list
+	move.w	#REC_stat_win,d6	;which data
+	jsr	MakeList
+
+	move.l	#HitList,DestPtr	;where to put list
+	move.w	#REC_stat_hits,d6	;which data
+	jsr	MakeList
+
+	move.l	#HomeList,DestPtr	;where to put list
+	move.w	#REC_stat_homeruns,d6	;which data
+	jsr	MakeList
+
+	move.l	#StrikeList,DestPtr	;where to put list
+	move.w	#REC_stat_strikeouts,d6	;which data
+	jsr	MakeList
+
+;	move.l	#zrecord,a3
+;	move.l	#endrec,a3
+;	move.l	#WinList,a4
+;	move.l	#DestPtr,a5
+;	move.l	#records,a6
+;	move.w	#REC_stat_win,d6	;which data
+;	trap	#1
+
+	rts
+
+
+;...........................................................................
+MakeList	;scan data d6 putting 10 highest in what DestPtr points to
+
+	move.l	DestPtr,a3
+	clr.l	(a3)+	;zero list
+	clr.l	(a3)+
+	clr.l	(a3)+
+	clr.l	(a3)+
+	clr.l	(a3)+
+	clr.l	(a3)+
+	clr.l	(a3)+
+	clr.l	(a3)+
+	clr.l	(a3)+
+	clr.l	(a3)+
+
+	move.l	DestPtr,a3	;top 10 list pointer
+	move.w	#10,d0
+
+.lp10
+	move.l	#records,a0
+	move.l	#zrecord,a2	;highest so far
+.ScanRec
+	KICK_DOG
+	jsr	AlreadyIn
+	beq.s	.NextRec	;branch if already in list
+
+	move.l	a0,a1
+	jsr	AsciiTest
+	bne	.NextRec	;not valid record
+	adda.l	#1,a1
+	jsr	AsciiTest
+	bne	.NextRec	;not valid record
+	adda.l	#1,a1
+	jsr	AsciiTest
+	bne	.NextRec	;not valid record
+
+	move.w	(a0,d6),d1
+	cmp.w	(a2,d6),d1
+	blt.s	.NotBig	;branch if new one is less
+
+	move.l	a0,a2	;new biggie
+.NotBig
+.NextRec
+	adda.l	#RecordSize,a0
+	cmpa.l	#endrec,a0	;end of records?
+	bne.s	.ScanRec	;nope
+
+
+	move.l	a2,(a3)	;put biggie into list
+	adda.l	#4,a3	;next address in DestPtr
+	sub.w	#1,d0
+	bne.s	.lp10
+
+	rts
+
+
+AlreadyIn	;is a0 in DestPtr list?
+	move.l	DestPtr,a4
+	move.w	#10,d2
+.ListLp
+	cmpa.l	(a4)+,a0
+	beq.s	.yes
+	sub.w	#1,d2
+	bne.s	.ListLp
+.no	move.b	#1,d7	;clr z flag
+	rts
+
+.yes	move.b	#0,d7	;set z flag
+	rts
+
+
+****************************************************************************
+	.align	2
+InitIntials:
+	clr.b	EnterInitials	; Clear Initials Flag
+	clr.w	InitialNum	; Start With First Initial
+	rts
+
+****************************************************************************
+****************************************************************************
+CheckForInitials:
+	move.l	#PLYRIN1,d4	; Load Player 1 Input
+	move.l	#Batter,a4	; Load Player 1 Address
+	tst.b	START(a4)	; Check If Player 1 Done
+	bmi.s	CheckI_1	; Branch If Player 1
+	move.l	#PLYRIN2,d4	; Load Player 1 Input
+	move.l	#Pitcher,a4	; Load Player 2 Address
+CheckI_1:
+;	move.l	SCORETOTAL(a4),d0	; Load Player's Score
+	move.l	#score5,a1	; Load Address Of Least High Score
+	cmp.l	(a1),d0	; Check If High Score
+	ble.s	CheckI_9	; Exit If Not High
+	move.w	#4,d1	; Check Max Of Four
+CheckI_2:
+	lea	-8(a1),a1	; Index Up High Score Table
+	cmp.l	(a1),d0	; Check If High Score
+	blt.s	CheckI_3	; Exit If Not Higher
+	move.l	(a1),8(a1)	; Move Score Down In Table
+	move.l	4(a1),12(a1)	; Move Initials Down In Table
+	subq.w	#1,d1	; Decrement Counter
+	bne.s	CheckI_2	; Branch If Not Done
+	lea	-8(a1),a1	; Index Up High Score Table
+CheckI_3:
+	lea	8(a1),a1	; Pointer To High Score Entry
+	move.l	d0,(a1)+	; Store High Score
+
+	move.l	a4,InitialPlyr	; Save Player Address
+	move.l	d4,InitialInput	; Save Input Address
+
+	move.l	#0x41414100,(a1)	; Store "AAA" For Initials
+	move.l	a1,InitialPtr	; Svae Address Of Initials
+	move.b	#1,EnterInitials	; Set For Entering Intials
+	move.w	#$1200,CTimer	; Set Count Down Timer
+	clr.w	InitialCnt	; Clear Timing Counter
+CheckI_9:
+	rts
+
+****************************************************************************
+****************************************************************************
+GetInitials:
+	sub.w	#1,CTimer	; Decrement Timer
+	beq	Initial_A	; Terminate On Zero
+	jsr	ChkInput	; Check Inputs
+	cmp.w	#3,InitialNum	; Check If All Done
+	beq	Initial_A	; Branch If Done
+	tst.b	Batter+START	; Check If Player 1 Started
+	bpl	Initial_1	; Branch If Started
+;	APALETTE  #P_FGOLD
+	jsr	SetWinFont	; Set Up Font
+	PPRINT	#30,#130,"YOU HAVE ACHIEVED A"
+	PPRINT	#30,#140," PLACE IN HISTORY."
+	PPRINT	#36,#150,"PLEASE ENTER YOUR"
+	PPRINT	#30,#160,"    INITIALS."
+	PLOT	#78,#176
+	bra	Initial_2
+Initial_1:
+	tst.b	Pitcher+START	; Check If Player 2 Started
+	bpl	Initial_2	; Branch If Started
+;	APALETTE  #P_FGOLD
+	jsr	SetWinFont	; Set Up Font
+	PPRINT	#192,#130,"YOU HAVE ACHIEVED A"
+	PPRINT	#192,#140," PLACE IN HISTORY."
+	PPRINT	#198,#150,"PLEASE ENTER YOUR"
+	PPRINT	#192,#160,"     INITIALS."
+	PLOT	#248,#176
+Initial_2:
+;	APALETTE	#P_ANAME2	; Use Score Font Palette
+	jsr	SetScoreFont	; Set Up Font
+	clr.w	d6
+Initial_3:
+	cmp.w	InitialNum,d6	; Check If This Character
+	bne.s	Initial_4	; Branch If Not
+	btst.b	#2,CTimer+1	; Check Timer
+	bne.s	Initial_5	; Branch If Set
+Initial_4:
+	move.l	InitialPtr,a0	; Load Address Of Stats
+	clr.b	3(a0)	; Clear Fourth Space
+	lea	(a0,d6.w),a0	; Load Address Of Character
+	cmp.b	#0x20,(a0)	; Check If Space
+	beq.s	Initial_5	; Branch If A Space
+	PUSHL	d6
+	clr.w	d6
+	move.w	#1,d7	; Print One Character
+	jsr	Print	; Print Them
+	POPL	d6
+Initial_5:
+	add.w	#21,prx_coor	; Increment Coordinates
+	add.w	#1,d6	; Increment Character
+	cmp.w	#3,d6	; Check If Done
+	bne.s	Initial_3
+Initial_9:
+	move.b	#1,d0	; Flag Not Over
+	rts
+Initial_A:
+	clr.b	d0	; Flag Over
+	rts
+
+ChkInput:
+	tst.w	InitialCnt	; Check Counter
+	bne	ChkInput_8	; Branch If Waiting
+	move.w	InitialNum,d2	; Load Initial Number
+	clr.w	d1	; Clear D1
+	move.l	InitialPtr,a2	; Load Address Of Initials
+	move.b	(a2,d2.w),d1	; Load Initials
+	sub.w	#0x20,d1	; Unbias
+
+	move.l	InitialInput,a0	; Load Input Address
+	move.b	(a0),d0	; Read The Input
+	btst	#7,d0	; Check For Up
+	bne.s	ChkInput_1	; Branch If Not
+	move.w	#10,InitialCnt	; Stop Looking For Awhile
+	move.l	#UpArray,a0	; Load Address Of Up Array
+	move.l	InitialPtr,a2	; Load Address Of Initials
+	move.b	(a0,d1.w),(a2,d2.w)
+;	SOUND	#LETTERS_snd,#0	; letters moving snd
+	rts
+ChkInput_1:
+	btst	#6,d0	; Check For Down
+	bne.s	ChkInput_2	; Branch If Not
+	move.w	#10,InitialCnt	; Stop Looking For Awhile
+	move.l	#DownArray,a0	; Load Address Of Up Array
+	move.l	InitialPtr,a2	; Load Address Of Initials
+	move.b	(a0,d1.w),(a2,d2.w) 
+;	SOUND	#LETTERS_snd,#0	; letters moving snd
+	rts
+ChkInput_2:
+	btst	#5,d0	; Check For Left
+	bne.s	ChkInput_3	; Branch If Not
+	tst.w	InitialNum	; Check If At Left
+	beq.s	ChkInput_3	; Branch If It Is
+	subq.w	#1,InitialNum	; Back Up One
+	move.w	#10,InitialCnt	; Stop Looking For Awhile
+;	SOUND	#LETTERS_snd,#0	; letters moving snd
+ChkInput_3:
+	move.l	InitialPlyr,a0	; Load Address Of Player
+	tst.b	NEWBUTTON(a0)	; Check If Button Pressed
+	beq.s	ChkInput_4	; Branch If None
+	addq.w	#1,InitialNum	; Increment Initials Number
+	clr.b	NEWBUTTON(a0)	; Clear Button
+;	SOUND	#LETTERSPICKED_snd,#0	; letters moving snd
+ChkInput_4:
+	rts
+ChkInput_8:
+	subq.w	#1,InitialCnt	; Decrement Counter
+	rts
+
+	.align	2
+UpArray:
+;                       !  "  #  $  %  &  '  (  )  *  +  ,  -  .  /
+	dc.b	65,63,00,00,00,00,00,00,00,00,00,00,00,00,00,00 
+;                    0  1  2  3  4  5  6  7  8  9  :  ;  <  =  >  ?
+	dc.b	49,50,51,52,53,54,55,56,57,33,00,00,00,00,00,32 
+;                    @  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+	dc.b	00,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80 
+;		P  Q  R  S  T  U  V  W  X  Y  Z  [  \  ]  ^  _
+	dc.b	81,82,83,84,85,86,87,88,89,90,48,00,00,00,00,00 
+
+DownArray:
+;                            !  "  #  $  %  &  '  (  )  *  +  ,  -  .  /
+	dc.b	63,57,00,00,00,00,00,00,00,00,00,00,00,00,00,00 
+;                         0  1  2  3  4  5  6  7  8  9  :  ;  <  =  >  ?
+	dc.b	90,48,49,50,51,52,53,54,55,56,00,00,00,00,00,33 
+;                         @  A  B  C  D  E  F  G  H  I  J  K  L  M  N  O
+	dc.b	00,32,65,66,67,68,69,70,71,72,73,74,75,76,77,78 
+;		P  Q  R  S  T  U  V  W  X  Y  Z  [  \  ]  ^  _
+	dc.b	79,80,81,82,83,84,85,86,87,88,89,00,00,00,00,00 
+
+
+
+
+	.align	2
+	.import	LoadSelectPal
+	.import	LoadGamePal
+	.import	LoadWinnersPal
+	.export	AttractSeq
+
+AttractSeq:
+	SETRAM	OBJECTTYPE,0x80
+	SYSTEM	InitAttract
+	SEMCLR	AttractSem	;No More Attract Mode
+
+AttractSeq_1:
+	LASTFRAME	10
+	JUMP	AttractSeq_1
+
+	.align	2
+
+InitAttract:
+	jsr	LoadAttractPal	; Reload Attract Palette
+	clr.b	Attractcnt	; loop counter
+;	bra.s	CheckSounds
+
+StartIntro:
+;	move.w	#BG_ATTRACT,NewBack	; Set For Intro Screen
+
+;;	bra.s	CheckSounds
+
+	.export	CheckSounds
+	.import	AttractSounds	;no .s out of region
+CheckSounds:
+	move.w	AttractSounds,d0	; Check If All Sounds Are Off
+	beq.s	ChkSound_1	; Branch If All Off
+	cmp.w	#1,d0	; Check For Occasional
+	bne.s	ChkSound_2	; Branch If All On
+	addq.w	#1,AttSndCnt	; Increment Sound Count
+	move.w	AttSndCnt,d0	; Load Sound Counter
+	and.w	#7,d0	; Extract Lower 7 Bits
+	beq.s	ChkSound_2	; Start Up Sounds If Zero
+ChkSound_1:
+	SOUND	#SOUNDSOFF,#0	; Turn Off Sounds
+	rts
+ChkSound_2:
+	SOUND	#SOUNDSON,#0	; Turn On Sounds
+	rts
+ 
+	.align	4
+	dc.l	0
+
+;...........................................................................
+
+PeriodAdjust:
+	dc.b	0,0	; 00 - Space
+	dc.b	0,0	; 01 - 0
+	dc.b	0,0	; 02 - 1
+	dc.b	0,0	; 03 - 2
+	dc.b	0,0	; 04 - 3
+	dc.b	0,0	; 05 - 4
+	dc.b	0,0	; 06 - 5
+	dc.b	0,0	; 07 - 6
+	dc.b	0,0	; 08 - 7
+	dc.b	0,0	; 09 - 8
+	dc.b	0,0	; 10 - 9
+	dc.b	0,0	; 11 - A
+	dc.b	0,0	; 12 - B
+	dc.b	0,0	; 13 - C
+	dc.b	0,0	; 14 - D
+	dc.b	0,0	; 15 - E
+	dc.b	0,0	; 16 - F
+	dc.b	0,0	; 17 - G
+	dc.b	0,0	; 18 - H
+	dc.b	0,0	; 19 - I
+	dc.b	0,0	; 20 - J
+	dc.b	0,0	; 21 - K
+	dc.b	0,0	; 22 - L
+	dc.b	0,0	; 23 - M
+	dc.b	0,0	; 24 - N
+	dc.b	0,0	; 25 - O
+	dc.b	0,0	; 26 - P
+	dc.b	0,0	; 27 - Q
+	dc.b	0,0	; 28 - R
+	dc.b	0,0	; 29 - S
+	dc.b	0,0	; 30 - T
+	dc.b	0,0	; 31 - U
+	dc.b	0,0	; 32 - V
+	dc.b	0,0	; 33 - W
+	dc.b	0,0	; 34 - X
+	dc.b	0,0	; 35 - Y
+	dc.b	0,0	; 36 - Z
+	dc.b	0,0	; 37 - @
+	dc.b	0,0	; 38 - ' 
+	dc.b	0,0	; 39 - '
+	dc.b	0,3	; 40 - ,
+	dc.b	0,3	; 41 - .  o 
+	dc.b	0,0	; 42 - !
+	dc.b	0,0	; 43 - <
+	dc.b	0,0	; 44 - $
+	dc.b	0,0	; 45 - ?
+	dc.b	0,0	; 46 - >
+	dc.b	0,0	; 47
+	dc.b	0,0	; 48
+	dc.b	0,0	; 49
+	dc.b	0,0	; 50
+	dc.b	0,0	; 51
+	dc.b	0,0	; 52
+	dc.b	0,0	; 53 eq
+	dc.b	0,0	; 54
+	dc.b	0,3	; 55 mi
+	dc.b	0,3	; 56
+	dc.b	0,0	; 57
+	dc.b	0,0	; 58
+
+
+
+	.align	2
+
+	.export	records_reset
+
+records_reset
+	move.l	#records,a0	;clear all records
+.zrecords
+	clr.b	(a0)+
+
+;	jsr	Random
+;	move.b	d0,(a0)+	;test
+
+	KICK_DOG
+	cmp.l	#endrec,a0
+	bne.s	.zrecords
+
+;............................................................................
+
+	move.l	#RecordSize,d0	;Chris Team
+	mulu.w	#1,d0	;record number
+	lea.l	(records,d0.l),a1
+	move.b	#'O',REC_letters(a1)   ;letter1
+	move.b	#'B',REC_letters+1(a1) ;letter2
+	move.b	#'E',REC_letters+2(a1) ;letter3
+	move.b	#13,REC_month(a1)       ;zero based (jan=0)
+	move.b	#17,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#3,REC_stat_win(a1)
+	move.w	#10,REC_stat_strikeouts(a1)
+	move.w	#1,REC_stat_homeruns(a1)
+	move.w	#5,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#31,REC_players(a1)
+	move.b	#31,REC_players+1(a1)
+	move.b	#31,REC_players+2(a1)
+	move.b	#31,REC_players+3(a1)
+	move.b	#31,REC_players+4(a1)
+	move.b	#31,REC_players+5(a1)
+	move.b	#31,REC_players+6(a1)
+	move.b	#31,REC_players+7(a1)
+	move.b	#31,REC_players+8(a1)
+	move.b	#31,REC_players+9(a1)
+	move.b	#31,REC_players+10(a1)
+	move.b	#31,REC_players+11(a1)
+	move.b	#31,REC_players+12(a1)
+	move.b	#31,REC_players+13(a1)
+	move.w	#1,REC_BeatGame(a1)
+	move.b	#2,REC_bat_order+1(a1)
+	move.b	#1,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#4,REC_bat_order+4(a1)
+	move.b	#5,REC_bat_order+5(a1)
+	move.b	#6,REC_bat_order+6(a1)
+	move.b	#7,REC_bat_order+7(a1)
+	move.b	#8,REC_bat_order+8(a1)
+	move.b	#9,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Brian Team
+	mulu.w	#2,d0	;record number
+	lea.l	(records,d0.l),a1
+	move.b	#'B',REC_letters(a1)   ;letter1
+	move.b	#'R',REC_letters+1(a1) ;letter2
+	move.b	#'I',REC_letters+2(a1) ;letter3
+	move.b	#13,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#6,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#10,REC_stat_win(a1)
+	move.w	#4,REC_stat_strikeouts(a1)
+	move.w	#49,REC_stat_homeruns(a1)
+	move.w	#8,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#2,REC_players(a1)
+	move.b	#0,REC_players+1(a1)
+	move.b	#5,REC_players+2(a1)
+	move.b	#15,REC_players+3(a1)
+	move.b	#6,REC_players+4(a1)
+	move.b	#31,REC_players+5(a1)
+	move.b	#24,REC_players+6(a1)
+	move.b	#31,REC_players+7(a1)
+	move.b	#4,REC_players+8(a1)
+	move.b	#31,REC_players+9(a1)
+	move.b	#13,REC_players+10(a1)
+	move.b	#2,REC_players+11(a1)
+	move.b	#6,REC_players+12(a1)
+	move.b	#11,REC_players+13(a1)
+
+	move.b	#2,REC_bat_order+1(a1)
+	move.b	#7,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#6,REC_bat_order+4(a1)
+	move.b	#4,REC_bat_order+5(a1)
+	move.b	#5,REC_bat_order+6(a1)
+	move.b	#1,REC_bat_order+7(a1)
+	move.b	#8,REC_bat_order+8(a1)
+	move.b	#9,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Ellen Atkins
+	mulu.w	#3,d0	;record number
+	lea.l	(records,d0.l),a1
+	move.b	#'E',REC_letters(a1)   ;letter1
+	move.b	#'M',REC_letters+1(a1) ;letter2
+	move.b	#'A',REC_letters+2(a1) ;letter3
+	move.b	#13,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#1,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#9,REC_stat_win(a1)
+	move.w	#2,REC_stat_strikeouts(a1)
+	move.w	#3,REC_stat_homeruns(a1)
+	move.w	#6,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#5,REC_players(a1)
+	move.b	#5,REC_players+1(a1)
+	move.b	#5,REC_players+2(a1)
+	move.b	#5,REC_players+3(a1)
+	move.b	#5,REC_players+4(a1)
+	move.b	#5,REC_players+5(a1)
+	move.b	#5,REC_players+6(a1)
+	move.b	#31,REC_players+7(a1)
+	move.b	#5,REC_players+8(a1)
+	move.b	#5,REC_players+9(a1)
+	move.b	#5,REC_players+10(a1)
+	move.b	#5,REC_players+11(a1)
+	move.b	#5,REC_players+12(a1)
+	move.b	#5,REC_players+13(a1)
+
+	move.b	#7,REC_bat_order+1(a1)
+	move.b	#2,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#4,REC_bat_order+4(a1)
+	move.b	#5,REC_bat_order+5(a1)
+	move.b	#6,REC_bat_order+6(a1)
+	move.b	#1,REC_bat_order+7(a1)
+	move.b	#8,REC_bat_order+8(a1)
+	move.b	#9,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Alan Noon
+	mulu.w	#4,d0	;record number
+	lea.l	(records,d0.l),a1
+	move.b	#'A',REC_letters(a1)   ;letter1
+	move.b	#'V',REC_letters+1(a1) ;letter2
+	move.b	#'N',REC_letters+2(a1) ;letter3
+	move.b	#13,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#24,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#8,REC_stat_win(a1)
+	move.w	#5,REC_stat_strikeouts(a1)
+	move.w	#6,REC_stat_homeruns(a1)
+	move.w	#4,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#31,REC_players(a1)
+	move.b	#31,REC_players+1(a1)
+	move.b	#31,REC_players+2(a1)
+	move.b	#31,REC_players+3(a1)
+	move.b	#31,REC_players+4(a1)
+	move.b	#31,REC_players+5(a1)
+	move.b	#31,REC_players+6(a1)
+	move.b	#31,REC_players+7(a1)
+	move.b	#31,REC_players+8(a1)
+	move.b	#31,REC_players+9(a1)
+	move.b	#31,REC_players+10(a1)
+	move.b	#31,REC_players+11(a1)
+	move.b	#31,REC_players+12(a1)
+	move.b	#31,REC_players+13(a1)
+
+	move.b	#1,REC_bat_order+1(a1)
+	move.b	#2,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#4,REC_bat_order+4(a1)
+	move.b	#5,REC_bat_order+5(a1)
+	move.b	#6,REC_bat_order+6(a1)
+	move.b	#7,REC_bat_order+7(a1)
+	move.b	#8,REC_bat_order+8(a1)
+	move.b	#9,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Jim Zielinski
+	mulu.w	#5,d0	;record number
+	lea.l	(records,d0.l),a1
+	move.b	#'J',REC_letters(a1)   ;letter1
+	move.b	#'L',REC_letters+1(a1) ;letter2
+	move.b	#'Z',REC_letters+2(a1) ;letter3
+	move.b	#13,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#4,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#7,REC_stat_win(a1)
+	move.w	#6,REC_stat_strikeouts(a1)
+	move.w	#4,REC_stat_homeruns(a1)
+	move.w	#2,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#5,REC_players(a1)
+	move.b	#13,REC_players+1(a1)
+	move.b	#19,REC_players+2(a1)
+	move.b	#1,REC_players+3(a1)
+	move.b	#31,REC_players+4(a1)
+	move.b	#24,REC_players+5(a1)
+	move.b	#24,REC_players+6(a1)
+	move.b	#25,REC_players+7(a1)
+	move.b	#6,REC_players+8(a1)
+	move.b	#25,REC_players+9(a1)
+	move.b	#13,REC_players+10(a1)
+	move.b	#2,REC_players+11(a1)
+	move.b	#6,REC_players+12(a1)
+	move.b	#22,REC_players+13(a1)
+
+	move.b	#9,REC_bat_order+1(a1)
+	move.b	#7,REC_bat_order+2(a1)
+	move.b	#4,REC_bat_order+3(a1)
+	move.b	#1,REC_bat_order+4(a1)
+	move.b	#2,REC_bat_order+5(a1)
+	move.b	#8,REC_bat_order+6(a1)
+	move.b	#5,REC_bat_order+7(a1)
+	move.b	#3,REC_bat_order+8(a1)
+	move.b	#6,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Richard Ditton
+	mulu.w	#6,d0	;record number
+	lea.l	(records,d0.l),a1
+	move.b	#'R',REC_letters(a1)   ;letter1
+	move.b	#'A',REC_letters+1(a1) ;letter2
+	move.b	#'D',REC_letters+2(a1) ;letter3
+	move.b	#13,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#1,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#6,REC_stat_win(a1)
+	move.w	#3,REC_stat_strikeouts(a1)
+	move.w	#10,REC_stat_homeruns(a1)
+	move.w	#7,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#31,REC_players(a1)
+	move.b	#13,REC_players+1(a1)
+	move.b	#19,REC_players+2(a1)
+	move.b	#4,REC_players+3(a1)
+	move.b	#25,REC_players+4(a1)
+	move.b	#27,REC_players+5(a1)
+	move.b	#7,REC_players+6(a1)
+	move.b	#1,REC_players+7(a1)
+	move.b	#4,REC_players+8(a1)
+	move.b	#25,REC_players+9(a1)
+	move.b	#24,REC_players+10(a1)
+	move.b	#11,REC_players+11(a1)
+	move.b	#19,REC_players+12(a1)
+	move.b	#3,REC_players+13(a1)
+
+	move.b	#9,REC_bat_order+1(a1)
+	move.b	#3,REC_bat_order+2(a1)
+	move.b	#4,REC_bat_order+3(a1)
+	move.b	#2,REC_bat_order+4(a1)
+	move.b	#8,REC_bat_order+5(a1)
+	move.b	#7,REC_bat_order+6(a1)
+	move.b	#6,REC_bat_order+7(a1)
+	move.b	#1,REC_bat_order+8(a1)
+	move.b	#5,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;John Newcomer
+	mulu.w	#7,d0	;record number
+	lea.l	(records,d0.l),a1
+	move.b	#'J',REC_letters(a1)   ;letter1
+	move.b	#'R',REC_letters+1(a1) ;letter2
+	move.b	#'N',REC_letters+2(a1) ;letter3
+	move.b	#13,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#18,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#5,REC_stat_win(a1)
+	move.w	#7,REC_stat_strikeouts(a1)
+	move.w	#2,REC_stat_homeruns(a1)
+	move.w	#10,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#10,REC_players(a1)
+	move.b	#17,REC_players+1(a1)
+	move.b	#4,REC_players+2(a1)
+	move.b	#1,REC_players+3(a1)
+	move.b	#1,REC_players+4(a1)
+	move.b	#24,REC_players+5(a1)
+	move.b	#31,REC_players+6(a1)
+	move.b	#7,REC_players+7(a1)
+	move.b	#4,REC_players+8(a1)
+	move.b	#0,REC_players+9(a1)
+	move.b	#13,REC_players+10(a1)
+	move.b	#0,REC_players+11(a1)
+	move.b	#5,REC_players+12(a1)
+	move.b	#22,REC_players+13(a1)
+
+	move.b	#7,REC_bat_order+1(a1)
+	move.b	#8,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#2,REC_bat_order+4(a1)
+	move.b	#9,REC_bat_order+5(a1)
+	move.b	#4,REC_bat_order+6(a1)
+	move.b	#6,REC_bat_order+7(a1)
+	move.b	#1,REC_bat_order+8(a1)
+	move.b	#5,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Kristi Hall
+	mulu.w	#8,d0	;record number
+	lea.l	(records,d0.l),a1
+	move.b	#'K',REC_letters(a1)   ;letter1
+	move.b	#'D',REC_letters+1(a1) ;letter2
+	move.b	#'H',REC_letters+2(a1) ;letter3
+	move.b	#13,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#24,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#4,REC_stat_win(a1)
+	move.w	#8,REC_stat_strikeouts(a1)
+	move.w	#7,REC_stat_homeruns(a1)
+	move.w	#3,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#5,REC_players(a1)
+	move.b	#5,REC_players+1(a1)
+	move.b	#5,REC_players+2(a1)
+	move.b	#5,REC_players+3(a1)
+	move.b	#5,REC_players+4(a1)
+	move.b	#5,REC_players+5(a1)
+	move.b	#5,REC_players+6(a1)
+	move.b	#5,REC_players+7(a1)
+	move.b	#31,REC_players+8(a1)
+	move.b	#5,REC_players+9(a1)
+	move.b	#5,REC_players+10(a1)
+	move.b	#5,REC_players+11(a1)
+	move.b	#5,REC_players+12(a1)
+	move.b	#5,REC_players+13(a1)
+
+	move.b	#1,REC_bat_order+1(a1)
+	move.b	#2,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#4,REC_bat_order+4(a1)
+	move.b	#5,REC_bat_order+5(a1)
+	move.b	#6,REC_bat_order+6(a1)
+	move.b	#7,REC_bat_order+7(a1)
+	move.b	#8,REC_bat_order+8(a1)
+	move.b	#9,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Donna Foshee
+	mulu.w	#9,d0	;record number
+	lea.l	(records,d0.l),a1
+	move.b	#'D',REC_letters(a1)   ;letter1
+	move.b	#'K',REC_letters+1(a1) ;letter2
+	move.b	#'F',REC_letters+2(a1) ;letter3
+	move.b	#13,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#7,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#2,REC_stat_win(a1)
+	move.w	#9,REC_stat_strikeouts(a1)
+	move.w	#8,REC_stat_homeruns(a1)
+	move.w	#1,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#5,REC_players(a1)
+	move.b	#5,REC_players+1(a1)
+	move.b	#5,REC_players+2(a1)
+	move.b	#5,REC_players+3(a1)
+	move.b	#5,REC_players+4(a1)
+	move.b	#5,REC_players+5(a1)
+	move.b	#5,REC_players+6(a1)
+	move.b	#5,REC_players+7(a1)
+	move.b	#5,REC_players+8(a1)
+	move.b	#31,REC_players+9(a1)
+	move.b	#5,REC_players+10(a1)
+	move.b	#5,REC_players+11(a1)
+	move.b	#5,REC_players+12(a1)
+	move.b	#5,REC_players+13(a1)
+
+	move.b	#1,REC_bat_order+1(a1)
+	move.b	#2,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#4,REC_bat_order+4(a1)
+	move.b	#5,REC_bat_order+5(a1)
+	move.b	#6,REC_bat_order+6(a1)
+	move.b	#7,REC_bat_order+7(a1)
+	move.b	#8,REC_bat_order+8(a1)
+	move.b	#9,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Design Team
+	mulu.w	#10,d0	;record number
+	lea.l	(records,d0.l),a1
+	move.b	#'W',REC_letters(a1)   ;letter1
+	move.b	#'M',REC_letters+1(a1) ;letter2
+	move.b	#'S',REC_letters+2(a1) ;letter3
+	move.b	#13,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#29,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#1,REC_stat_win(a1)
+	move.w	#1,REC_stat_strikeouts(a1)
+	move.w	#9,REC_stat_homeruns(a1)
+	move.w	#9,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#31,REC_players(a1)
+	move.b	#31,REC_players+1(a1)
+	move.b	#31,REC_players+2(a1)
+	move.b	#31,REC_players+3(a1)
+	move.b	#31,REC_players+4(a1)
+	move.b	#31,REC_players+5(a1)
+	move.b	#31,REC_players+6(a1)
+	move.b	#31,REC_players+7(a1)
+	move.b	#31,REC_players+8(a1)
+	move.b	#31,REC_players+9(a1)
+	move.b	#31,REC_players+10(a1)
+	move.b	#31,REC_players+11(a1)
+	move.b	#31,REC_players+12(a1)
+	move.b	#31,REC_players+13(a1)
+
+	move.b	#4,REC_bat_order+1(a1)
+	move.b	#8,REC_bat_order+2(a1)
+	move.b	#9,REC_bat_order+3(a1)
+	move.b	#2,REC_bat_order+4(a1)
+	move.b	#3,REC_bat_order+5(a1)
+	move.b	#6,REC_bat_order+6(a1)
+	move.b	#5,REC_bat_order+7(a1)
+	move.b	#1,REC_bat_order+8(a1)
+	move.b	#7,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+
+ .if debugmode=="obe"
+;set test player record
+	move.l	#RecordSize,d0
+	mulu.w	#500,d0	;record number
+	lea.l	(records,d0.l),a1
+	move.b	#'B',REC_letters(a1)   ;B
+	move.b	#'B',REC_letters+1(a1) ;B
+	move.b	#'B',REC_letters+2(a1) ;B
+	move.b	#0,REC_month(a1)	;zero based (jan)
+	move.b	#1,REC_dayofmonth(a1) ;1 based
+
+	move.b	#4,REC_team(a1)
+	move.b	#27,REC_stat_defeat(a1) ;27=last regular season game
+	move.b	#0,REC_winCNT(a1)
+	move.b	#0,REC_seriesCNT(a1)
+	move.w	#2,REC_stat_win(a1)
+	move.w	#2,REC_stat_hits(a1)
+	move.w	#2,REC_stat_homeruns(a1)
+	move.w	#2,REC_stat_strikeouts(a1)
+
+
+	move.l	#RecordSize,d0
+	mulu.w	#501,d0	;record number
+	lea.l	(records,d0.l),a1
+	move.b	#'C',REC_letters(a1)   ;C
+	move.b	#'C',REC_letters+1(a1) ;C
+	move.b	#'C',REC_letters+2(a1) ;C
+	move.b	#0,REC_month(a1)	;zero based (jan)
+	move.b	#1,REC_dayofmonth(a1) ;1 based
+
+	move.b	#4,REC_team(a1)
+	move.b	#30,REC_stat_defeat(a1) ;27=last regular season game
+	move.w	#3,REC_stat_win(a1)
+	move.b	#3,REC_winCNT(a1)
+	move.b	#3,REC_seriesCNT(a1)
+	move.w	#4,REC_stat_win(a1)
+	move.w	#1,REC_stat_strikeouts(a1)
+	move.w	#8,REC_stat_homeruns(a1)
+	move.w	#8,REC_stat_hits(a1)
+
+
+	move.l	#RecordSize,d0
+	mulu.w	#502,d0	;record number
+	lea.l	(records,d0.l),a1
+	move.b	#'D',REC_letters(a1)   ;D
+	move.b	#'D',REC_letters+1(a1) ;D
+	move.b	#'D',REC_letters+2(a1) ;D
+	move.b	#0,REC_month(a1)	;zero based (jan)
+	move.b	#1,REC_dayofmonth(a1) ;1 based
+
+	move.b	#4,REC_team(a1)
+	move.b	#31,REC_stat_defeat(a1) ;27=last regular season game
+	move.b	#3,REC_winCNT(a1)
+	move.b	#3,REC_seriesCNT(a1)
+	move.w	#3,REC_stat_win(a1)
+	move.w	#12,REC_stat_strikeouts(a1)
+	move.w	#23,REC_stat_homeruns(a1)
+	move.w	#32,REC_stat_hits(a1)
+
+
+ .endif
+
+
+	rts
+
+******************************************************************************
+******************************************************************************
+
+
+	.export	init_permanent
+init_permanent
+
+;init permanent player base in ram
+
+	.import	Precords
+
+;............................................................................
+
+	move.l	#RecordSize,d0	;Chris Team
+	mulu.w	#1,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'O',REC_letters(a1)   ;letter1
+	move.b	#'B',REC_letters+1(a1) ;letter2
+	move.b	#'E',REC_letters+2(a1) ;letter3
+	move.b	#4,REC_month(a1)       ;zero based (jan=0)
+	move.b	#17,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#3,REC_stat_win(a1)
+	move.w	#10,REC_stat_strikeouts(a1)
+	move.w	#1,REC_stat_homeruns(a1)
+	move.w	#5,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#4,REC_players(a1)
+	move.b	#31,REC_players+1(a1)
+	move.b	#4,REC_players+2(a1)
+	move.b	#4,REC_players+3(a1)
+	move.b	#4,REC_players+4(a1)
+	move.b	#4,REC_players+5(a1)
+	move.b	#4,REC_players+6(a1)
+	move.b	#4,REC_players+7(a1)
+	move.b	#4,REC_players+8(a1)
+	move.b	#4,REC_players+9(a1)
+	move.b	#4,REC_players+10(a1)
+	move.b	#4,REC_players+11(a1)
+	move.b	#4,REC_players+12(a1)
+	move.b	#4,REC_players+13(a1)
+
+	move.b	#9,REC_bat_order+1(a1)
+	move.b	#6,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#2,REC_bat_order+4(a1)
+	move.b	#8,REC_bat_order+5(a1)
+	move.b	#7,REC_bat_order+6(a1)
+	move.b	#5,REC_bat_order+7(a1)
+	move.b	#1,REC_bat_order+8(a1)
+	move.b	#4,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Brian Team
+	mulu.w	#2,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'B',REC_letters(a1)   ;letter1
+	move.b	#'R',REC_letters+1(a1) ;letter2
+	move.b	#'I',REC_letters+2(a1) ;letter3
+	move.b	#8,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#6,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#10,REC_stat_win(a1)
+	move.w	#4,REC_stat_strikeouts(a1)
+	move.w	#49,REC_stat_homeruns(a1)
+	move.w	#8,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#2,REC_players(a1)
+	move.b	#0,REC_players+1(a1)
+	move.b	#5,REC_players+2(a1)
+	move.b	#15,REC_players+3(a1)
+	move.b	#6,REC_players+4(a1)
+	move.b	#31,REC_players+5(a1)
+	move.b	#24,REC_players+6(a1)
+	move.b	#31,REC_players+7(a1)
+	move.b	#4,REC_players+8(a1)
+	move.b	#31,REC_players+9(a1)
+	move.b	#13,REC_players+10(a1)
+	move.b	#2,REC_players+11(a1)
+	move.b	#6,REC_players+12(a1)
+	move.b	#11,REC_players+13(a1)
+
+	move.b	#2,REC_bat_order+1(a1)
+	move.b	#7,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#6,REC_bat_order+4(a1)
+	move.b	#4,REC_bat_order+5(a1)
+	move.b	#5,REC_bat_order+6(a1)
+	move.b	#1,REC_bat_order+7(a1)
+	move.b	#8,REC_bat_order+8(a1)
+	move.b	#9,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Ellen Atkins
+	mulu.w	#3,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'E',REC_letters(a1)   ;letter1
+	move.b	#'M',REC_letters+1(a1) ;letter2
+	move.b	#'A',REC_letters+2(a1) ;letter3
+	move.b	#5,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#1,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#9,REC_stat_win(a1)
+	move.w	#2,REC_stat_strikeouts(a1)
+	move.w	#3,REC_stat_homeruns(a1)
+	move.w	#6,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#5,REC_players(a1)
+	move.b	#5,REC_players+1(a1)
+	move.b	#5,REC_players+2(a1)
+	move.b	#5,REC_players+3(a1)
+	move.b	#5,REC_players+4(a1)
+	move.b	#5,REC_players+5(a1)
+	move.b	#5,REC_players+6(a1)
+	move.b	#31,REC_players+7(a1)
+	move.b	#5,REC_players+8(a1)
+	move.b	#5,REC_players+9(a1)
+	move.b	#5,REC_players+10(a1)
+	move.b	#5,REC_players+11(a1)
+	move.b	#5,REC_players+12(a1)
+	move.b	#5,REC_players+13(a1)
+
+	move.b	#7,REC_bat_order+1(a1)
+	move.b	#2,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#4,REC_bat_order+4(a1)
+	move.b	#5,REC_bat_order+5(a1)
+	move.b	#6,REC_bat_order+6(a1)
+	move.b	#1,REC_bat_order+7(a1)
+	move.b	#8,REC_bat_order+8(a1)
+	move.b	#9,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Alan Noon
+	mulu.w	#4,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'A',REC_letters(a1)   ;letter1
+	move.b	#'V',REC_letters+1(a1) ;letter2
+	move.b	#'N',REC_letters+2(a1) ;letter3
+	move.b	#11,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#24,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#8,REC_stat_win(a1)
+	move.w	#5,REC_stat_strikeouts(a1)
+	move.w	#6,REC_stat_homeruns(a1)
+	move.w	#4,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#21,REC_players(a1)
+	move.b	#21,REC_players+1(a1)
+	move.b	#21,REC_players+2(a1)
+	move.b	#31,REC_players+3(a1)
+	move.b	#21,REC_players+4(a1)
+	move.b	#21,REC_players+5(a1)
+	move.b	#21,REC_players+6(a1)
+	move.b	#21,REC_players+7(a1)
+	move.b	#21,REC_players+8(a1)
+	move.b	#21,REC_players+9(a1)
+	move.b	#21,REC_players+10(a1)
+	move.b	#21,REC_players+11(a1)
+	move.b	#21,REC_players+12(a1)
+	move.b	#21,REC_players+13(a1)
+
+	move.b	#9,REC_bat_order+1(a1)
+	move.b	#8,REC_bat_order+2(a1)
+	move.b	#4,REC_bat_order+3(a1)
+	move.b	#7,REC_bat_order+4(a1)
+	move.b	#6,REC_bat_order+5(a1)
+	move.b	#5,REC_bat_order+6(a1)
+	move.b	#2,REC_bat_order+7(a1)
+	move.b	#1,REC_bat_order+8(a1)
+	move.b	#3,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Jim Zielinski
+	mulu.w	#5,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'J',REC_letters(a1)   ;letter1
+	move.b	#'L',REC_letters+1(a1) ;letter2
+	move.b	#'Z',REC_letters+2(a1) ;letter3
+	move.b	#8,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#4,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#7,REC_stat_win(a1)
+	move.w	#6,REC_stat_strikeouts(a1)
+	move.w	#4,REC_stat_homeruns(a1)
+	move.w	#2,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#5,REC_players(a1)
+	move.b	#13,REC_players+1(a1)
+	move.b	#19,REC_players+2(a1)
+	move.b	#1,REC_players+3(a1)
+	move.b	#31,REC_players+4(a1)
+	move.b	#24,REC_players+5(a1)
+	move.b	#24,REC_players+6(a1)
+	move.b	#25,REC_players+7(a1)
+	move.b	#6,REC_players+8(a1)
+	move.b	#25,REC_players+9(a1)
+	move.b	#13,REC_players+10(a1)
+	move.b	#2,REC_players+11(a1)
+	move.b	#6,REC_players+12(a1)
+	move.b	#22,REC_players+13(a1)
+
+	move.b	#9,REC_bat_order+1(a1)
+	move.b	#7,REC_bat_order+2(a1)
+	move.b	#4,REC_bat_order+3(a1)
+	move.b	#1,REC_bat_order+4(a1)
+	move.b	#2,REC_bat_order+5(a1)
+	move.b	#8,REC_bat_order+6(a1)
+	move.b	#5,REC_bat_order+7(a1)
+	move.b	#3,REC_bat_order+8(a1)
+	move.b	#6,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Richard Ditton
+	mulu.w	#6,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'R',REC_letters(a1)   ;letter1
+	move.b	#'A',REC_letters+1(a1) ;letter2
+	move.b	#'D',REC_letters+2(a1) ;letter3
+	move.b	#8,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#1,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#6,REC_stat_win(a1)
+	move.w	#1,REC_stat_strikeouts(a1)
+	move.w	#10,REC_stat_homeruns(a1)
+	move.w	#7,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#31,REC_players(a1)
+	move.b	#13,REC_players+1(a1)
+	move.b	#19,REC_players+2(a1)
+	move.b	#4,REC_players+3(a1)
+	move.b	#25,REC_players+4(a1)
+	move.b	#27,REC_players+5(a1)
+	move.b	#7,REC_players+6(a1)
+	move.b	#1,REC_players+7(a1)
+	move.b	#4,REC_players+8(a1)
+	move.b	#25,REC_players+9(a1)
+	move.b	#24,REC_players+10(a1)
+	move.b	#11,REC_players+11(a1)
+	move.b	#19,REC_players+12(a1)
+	move.b	#3,REC_players+13(a1)
+
+	move.b	#9,REC_bat_order+1(a1)
+	move.b	#3,REC_bat_order+2(a1)
+	move.b	#4,REC_bat_order+3(a1)
+	move.b	#2,REC_bat_order+4(a1)
+	move.b	#8,REC_bat_order+5(a1)
+	move.b	#7,REC_bat_order+6(a1)
+	move.b	#6,REC_bat_order+7(a1)
+	move.b	#1,REC_bat_order+8(a1)
+	move.b	#5,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;John Newcomer
+	mulu.w	#7,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'J',REC_letters(a1)   ;letter1
+	move.b	#'R',REC_letters+1(a1) ;letter2
+	move.b	#'N',REC_letters+2(a1) ;letter3
+	move.b	#5,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#18,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#5,REC_stat_win(a1)
+	move.w	#7,REC_stat_strikeouts(a1)
+	move.w	#2,REC_stat_homeruns(a1)
+	move.w	#10,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#10,REC_players(a1)
+	move.b	#17,REC_players+1(a1)
+	move.b	#4,REC_players+2(a1)
+	move.b	#1,REC_players+3(a1)
+	move.b	#1,REC_players+4(a1)
+	move.b	#24,REC_players+5(a1)
+	move.b	#31,REC_players+6(a1)
+	move.b	#7,REC_players+7(a1)
+	move.b	#4,REC_players+8(a1)
+	move.b	#0,REC_players+9(a1)
+	move.b	#13,REC_players+10(a1)
+	move.b	#0,REC_players+11(a1)
+	move.b	#5,REC_players+12(a1)
+	move.b	#22,REC_players+13(a1)
+
+	move.b	#7,REC_bat_order+1(a1)
+	move.b	#8,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#2,REC_bat_order+4(a1)
+	move.b	#9,REC_bat_order+5(a1)
+	move.b	#4,REC_bat_order+6(a1)
+	move.b	#6,REC_bat_order+7(a1)
+	move.b	#1,REC_bat_order+8(a1)
+	move.b	#5,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Ken Harrelson
+	mulu.w	#8,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'K',REC_letters(a1)   ;letter1
+	move.b	#'S',REC_letters+1(a1) ;letter2
+	move.b	#'H',REC_letters+2(a1) ;letter3
+	move.b	#8,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#4,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#0,REC_stat_win(a1)
+	move.w	#0,REC_stat_strikeouts(a1)
+	move.w	#0,REC_stat_homeruns(a1)
+	move.w	#0,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#5,REC_players(a1)
+	move.b	#5,REC_players+1(a1)
+	move.b	#31,REC_players+2(a1)
+	move.b	#5,REC_players+3(a1)
+	move.b	#5,REC_players+4(a1)
+	move.b	#5,REC_players+5(a1)
+	move.b	#5,REC_players+6(a1)
+	move.b	#5,REC_players+7(a1)
+	move.b	#5,REC_players+8(a1)
+	move.b	#5,REC_players+9(a1)
+	move.b	#5,REC_players+10(a1)
+	move.b	#5,REC_players+11(a1)
+	move.b	#5,REC_players+12(a1)
+	move.b	#5,REC_players+13(a1)
+
+	move.b	#6,REC_bat_order+1(a1)
+	move.b	#7,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#2,REC_bat_order+4(a1)
+	move.b	#8,REC_bat_order+5(a1)
+	move.b	#5,REC_bat_order+6(a1)
+	move.b	#1,REC_bat_order+7(a1)
+	move.b	#9,REC_bat_order+8(a1)
+	move.b	#4,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Kristi Hall
+	mulu.w	#9,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'K',REC_letters(a1)   ;letter1
+	move.b	#'D',REC_letters+1(a1) ;letter2
+	move.b	#'H',REC_letters+2(a1) ;letter3
+	move.b	#10,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#24,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#4,REC_stat_win(a1)
+	move.w	#8,REC_stat_strikeouts(a1)
+	move.w	#7,REC_stat_homeruns(a1)
+	move.w	#3,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#5,REC_players(a1)
+	move.b	#5,REC_players+1(a1)
+	move.b	#5,REC_players+2(a1)
+	move.b	#5,REC_players+3(a1)
+	move.b	#5,REC_players+4(a1)
+	move.b	#5,REC_players+5(a1)
+	move.b	#5,REC_players+6(a1)
+	move.b	#5,REC_players+7(a1)
+	move.b	#31,REC_players+8(a1)
+	move.b	#5,REC_players+9(a1)
+	move.b	#5,REC_players+10(a1)
+	move.b	#5,REC_players+11(a1)
+	move.b	#5,REC_players+12(a1)
+	move.b	#5,REC_players+13(a1)
+
+	move.b	#1,REC_bat_order+1(a1)
+	move.b	#2,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#4,REC_bat_order+4(a1)
+	move.b	#5,REC_bat_order+5(a1)
+	move.b	#6,REC_bat_order+6(a1)
+	move.b	#7,REC_bat_order+7(a1)
+	move.b	#8,REC_bat_order+8(a1)
+	move.b	#9,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Donna Foshee
+	mulu.w	#10,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'D',REC_letters(a1)   ;letter1
+	move.b	#'K',REC_letters+1(a1) ;letter2
+	move.b	#'F',REC_letters+2(a1) ;letter3
+	move.b	#5,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#7,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#2,REC_stat_win(a1)
+	move.w	#9,REC_stat_strikeouts(a1)
+	move.w	#8,REC_stat_homeruns(a1)
+	move.w	#1,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#5,REC_players(a1)
+	move.b	#5,REC_players+1(a1)
+	move.b	#5,REC_players+2(a1)
+	move.b	#5,REC_players+3(a1)
+	move.b	#5,REC_players+4(a1)
+	move.b	#5,REC_players+5(a1)
+	move.b	#5,REC_players+6(a1)
+	move.b	#5,REC_players+7(a1)
+	move.b	#5,REC_players+8(a1)
+	move.b	#31,REC_players+9(a1)
+	move.b	#5,REC_players+10(a1)
+	move.b	#5,REC_players+11(a1)
+	move.b	#5,REC_players+12(a1)
+	move.b	#5,REC_players+13(a1)
+
+	move.b	#1,REC_bat_order+1(a1)
+	move.b	#2,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#4,REC_bat_order+4(a1)
+	move.b	#5,REC_bat_order+5(a1)
+	move.b	#6,REC_bat_order+6(a1)
+	move.b	#7,REC_bat_order+7(a1)
+	move.b	#8,REC_bat_order+8(a1)
+	move.b	#9,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	; SUB speed team
+	mulu.w	#11,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'S',REC_letters(a1)   ;letter1
+	move.b	#'U',REC_letters+1(a1) ;letter2
+	move.b	#'B',REC_letters+2(a1) ;letter3
+	move.b	#11,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#5,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#0,REC_stat_win(a1)
+	move.w	#0,REC_stat_strikeouts(a1)
+	move.w	#0,REC_stat_homeruns(a1)
+	move.w	#0,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#22,REC_players(a1)
+	move.b	#0,REC_players+1(a1)
+	move.b	#1,REC_players+2(a1)
+	move.b	#10,REC_players+3(a1)
+	move.b	#6,REC_players+4(a1)
+	move.b	#0,REC_players+5(a1)
+	move.b	#12,REC_players+6(a1)
+	move.b	#7,REC_players+7(a1)
+	move.b	#6,REC_players+8(a1)
+	move.b	#25,REC_players+9(a1)
+	move.b	#13,REC_players+10(a1)
+	move.b	#0,REC_players+11(a1)
+	move.b	#19,REC_players+12(a1)
+	move.b	#7,REC_players+13(a1)
+
+	move.b	#8,REC_bat_order+1(a1)
+	move.b	#6,REC_bat_order+2(a1)
+	move.b	#7,REC_bat_order+3(a1)
+	move.b	#9,REC_bat_order+4(a1)
+	move.b	#2,REC_bat_order+5(a1)
+	move.b	#5,REC_bat_order+6(a1)
+	move.b	#4,REC_bat_order+7(a1)
+	move.b	#1,REC_bat_order+8(a1)
+	move.b	#3,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	; fielding team
+	mulu.w	#12,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'F',REC_letters(a1)   ;letter1
+	move.b	#'L',REC_letters+1(a1) ;letter2
+	move.b	#'D',REC_letters+2(a1) ;letter3
+	move.b	#9,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#31,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#0,REC_stat_win(a1)
+	move.w	#0,REC_stat_strikeouts(a1)
+	move.w	#0,REC_stat_homeruns(a1)
+	move.w	#0,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#5,REC_players(a1)
+	move.b	#5,REC_players+1(a1)
+	move.b	#4,REC_players+2(a1)
+	move.b	#1,REC_players+3(a1)
+	move.b	#6,REC_players+4(a1)
+	move.b	#23,REC_players+5(a1)
+	move.b	#24,REC_players+6(a1)
+	move.b	#7,REC_players+7(a1)
+	move.b	#13,REC_players+8(a1)
+	move.b	#0,REC_players+9(a1)
+	move.b	#0,REC_players+10(a1)
+	move.b	#14,REC_players+11(a1)
+	move.b	#7,REC_players+12(a1)
+	move.b	#8,REC_players+13(a1)
+
+	move.b	#9,REC_bat_order+1(a1)
+	move.b	#6,REC_bat_order+2(a1)
+	move.b	#7,REC_bat_order+3(a1)
+	move.b	#2,REC_bat_order+4(a1)
+	move.b	#3,REC_bat_order+5(a1)
+	move.b	#5,REC_bat_order+6(a1)
+	move.b	#4,REC_bat_order+7(a1)
+	move.b	#1,REC_bat_order+8(a1)
+	move.b	#8,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	; arm team
+	mulu.w	#13,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'A',REC_letters(a1)   ;letter1
+	move.b	#'R',REC_letters+1(a1) ;letter2
+	move.b	#'M',REC_letters+2(a1) ;letter3
+	move.b	#11,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#25,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#0,REC_stat_win(a1)
+	move.w	#0,REC_stat_strikeouts(a1)
+	move.w	#0,REC_stat_homeruns(a1)
+	move.w	#0,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#5,REC_players(a1)
+	move.b	#26,REC_players+1(a1)
+	move.b	#3,REC_players+2(a1)
+	move.b	#6,REC_players+3(a1)
+	move.b	#24,REC_players+4(a1)
+	move.b	#23,REC_players+5(a1)
+	move.b	#24,REC_players+6(a1)
+	move.b	#8,REC_players+7(a1)
+	move.b	#13,REC_players+8(a1)
+	move.b	#25,REC_players+9(a1)
+	move.b	#13,REC_players+10(a1)
+	move.b	#0,REC_players+11(a1)
+	move.b	#19,REC_players+12(a1)
+	move.b	#0,REC_players+13(a1)
+
+	move.b	#3,REC_bat_order+1(a1)
+	move.b	#9,REC_bat_order+2(a1)
+	move.b	#8,REC_bat_order+3(a1)
+	move.b	#2,REC_bat_order+4(a1)
+	move.b	#1,REC_bat_order+5(a1)
+	move.b	#7,REC_bat_order+6(a1)
+	move.b	#4,REC_bat_order+7(a1)
+	move.b	#5,REC_bat_order+8(a1)
+	move.b	#6,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Power Team
+	mulu.w	#14,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'P',REC_letters(a1)   ;letter1
+	move.b	#'W',REC_letters+1(a1) ;letter2
+	move.b	#'R',REC_letters+2(a1) ;letter3
+	move.b	#6,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#4,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#0,REC_stat_win(a1)
+	move.w	#0,REC_stat_strikeouts(a1)
+	move.w	#0,REC_stat_homeruns(a1)
+	move.w	#0,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#2,REC_players(a1)
+	move.b	#13,REC_players+1(a1)
+	move.b	#19,REC_players+2(a1)
+	move.b	#4,REC_players+3(a1)
+	move.b	#25,REC_players+4(a1)
+	move.b	#27,REC_players+5(a1)
+	move.b	#7,REC_players+6(a1)
+	move.b	#1,REC_players+7(a1)
+	move.b	#4,REC_players+8(a1)
+	move.b	#25,REC_players+9(a1)
+	move.b	#24,REC_players+10(a1)
+	move.b	#11,REC_players+11(a1)
+	move.b	#19,REC_players+12(a1)
+	move.b	#3,REC_players+13(a1)
+
+	move.b	#9,REC_bat_order+1(a1)
+	move.b	#3,REC_bat_order+2(a1)
+	move.b	#4,REC_bat_order+3(a1)
+	move.b	#2,REC_bat_order+4(a1)
+	move.b	#8,REC_bat_order+5(a1)
+	move.b	#7,REC_bat_order+6(a1)
+	move.b	#6,REC_bat_order+7(a1)
+	move.b	#1,REC_bat_order+8(a1)
+	move.b	#5,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Slow team
+	mulu.w	#15,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'S',REC_letters(a1)   ;letter1
+	move.b	#'L',REC_letters+1(a1) ;letter2
+	move.b	#'O',REC_letters+2(a1) ;letter3
+	move.b	#5,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#21,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#0,REC_stat_win(a1)
+	move.w	#0,REC_stat_strikeouts(a1)
+	move.w	#0,REC_stat_homeruns(a1)
+	move.w	#0,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#16,REC_players(a1)
+	move.b	#3,REC_players+1(a1)
+	move.b	#9,REC_players+2(a1)
+	move.b	#3,REC_players+3(a1)
+	move.b	#9,REC_players+4(a1)
+	move.b	#3,REC_players+5(a1)
+	move.b	#16,REC_players+6(a1)
+	move.b	#20,REC_players+7(a1)
+	move.b	#5,REC_players+8(a1)
+	move.b	#11,REC_players+9(a1)
+	move.b	#12,REC_players+10(a1)
+	move.b	#2,REC_players+11(a1)
+	move.b	#24,REC_players+12(a1)
+	move.b	#9,REC_players+13(a1)
+
+	move.b	#9,REC_bat_order+1(a1)
+	move.b	#8,REC_bat_order+2(a1)
+	move.b	#5,REC_bat_order+3(a1)
+	move.b	#2,REC_bat_order+4(a1)
+	move.b	#3,REC_bat_order+5(a1)
+	move.b	#7,REC_bat_order+6(a1)
+	move.b	#4,REC_bat_order+7(a1)
+	move.b	#1,REC_bat_order+8(a1)
+	move.b	#6,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Design Team
+	mulu.w	#16,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'W',REC_letters(a1)   ;letter1
+	move.b	#'M',REC_letters+1(a1) ;letter2
+	move.b	#'S',REC_letters+2(a1) ;letter3
+	move.b	#1,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#29,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#0,REC_stat_win(a1)
+	move.w	#0,REC_stat_strikeouts(a1)
+	move.w	#9,REC_stat_homeruns(a1)
+	move.w	#9,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#31,REC_players(a1)
+	move.b	#31,REC_players+1(a1)
+	move.b	#31,REC_players+2(a1)
+	move.b	#31,REC_players+3(a1)
+	move.b	#31,REC_players+4(a1)
+	move.b	#31,REC_players+5(a1)
+	move.b	#31,REC_players+6(a1)
+	move.b	#31,REC_players+7(a1)
+	move.b	#31,REC_players+8(a1)
+	move.b	#31,REC_players+9(a1)
+	move.b	#31,REC_players+10(a1)
+	move.b	#31,REC_players+11(a1)
+	move.b	#31,REC_players+12(a1)
+	move.b	#31,REC_players+13(a1)
+
+	move.b	#4,REC_bat_order+1(a1)
+	move.b	#8,REC_bat_order+2(a1)
+	move.b	#9,REC_bat_order+3(a1)
+	move.b	#2,REC_bat_order+4(a1)
+	move.b	#3,REC_bat_order+5(a1)
+	move.b	#6,REC_bat_order+6(a1)
+	move.b	#5,REC_bat_order+7(a1)
+	move.b	#1,REC_bat_order+8(a1)
+	move.b	#7,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;A L All Stars
+	mulu.w	#17,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'A',REC_letters(a1)   ;letter1
+	move.b	#' ',REC_letters+1(a1) ;letter2
+	move.b	#'L',REC_letters+2(a1) ;letter3
+	move.b	#6,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#9,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#0,REC_stat_win(a1)
+	move.w	#0,REC_stat_strikeouts(a1)
+	move.w	#0,REC_stat_homeruns(a1)
+	move.w	#0,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#29,REC_players(a1)
+	move.b	#29,REC_players+1(a1)
+	move.b	#29,REC_players+2(a1)
+	move.b	#29,REC_players+3(a1)
+	move.b	#29,REC_players+4(a1)
+	move.b	#29,REC_players+5(a1)
+	move.b	#29,REC_players+6(a1)
+	move.b	#29,REC_players+7(a1)
+	move.b	#29,REC_players+8(a1)
+	move.b	#29,REC_players+9(a1)
+	move.b	#29,REC_players+10(a1)
+	move.b	#29,REC_players+11(a1)
+	move.b	#29,REC_players+12(a1)
+	move.b	#29,REC_players+13(a1)
+
+	move.b	#1,REC_bat_order+1(a1)
+	move.b	#2,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#4,REC_bat_order+4(a1)
+	move.b	#5,REC_bat_order+5(a1)
+	move.b	#6,REC_bat_order+6(a1)
+	move.b	#7,REC_bat_order+7(a1)
+	move.b	#8,REC_bat_order+8(a1)
+	move.b	#9,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;N L All Stars
+	mulu.w	#18,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'N',REC_letters(a1)   ;letter1
+	move.b	#' ',REC_letters+1(a1) ;letter2
+	move.b	#'L',REC_letters+2(a1) ;letter3
+	move.b	#6,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#9,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#0,REC_stat_win(a1)
+	move.w	#0,REC_stat_strikeouts(a1)
+	move.w	#0,REC_stat_homeruns(a1)
+	move.w	#0,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#30,REC_players(a1)
+	move.b	#30,REC_players+1(a1)
+	move.b	#30,REC_players+2(a1)
+	move.b	#30,REC_players+3(a1)
+	move.b	#30,REC_players+4(a1)
+	move.b	#30,REC_players+5(a1)
+	move.b	#30,REC_players+6(a1)
+	move.b	#30,REC_players+7(a1)
+	move.b	#30,REC_players+8(a1)
+	move.b	#30,REC_players+9(a1)
+	move.b	#30,REC_players+10(a1)
+	move.b	#30,REC_players+11(a1)
+	move.b	#30,REC_players+12(a1)
+	move.b	#30,REC_players+13(a1)
+
+	move.b	#1,REC_bat_order+1(a1)
+	move.b	#2,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#4,REC_bat_order+4(a1)
+	move.b	#5,REC_bat_order+5(a1)
+	move.b	#6,REC_bat_order+6(a1)
+	move.b	#7,REC_bat_order+7(a1)
+	move.b	#8,REC_bat_order+8(a1)
+	move.b	#9,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;bad team
+	mulu.w	#19,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'O',REC_letters(a1)   ;letter1
+	move.b	#'U',REC_letters+1(a1) ;letter2
+	move.b	#'T',REC_letters+2(a1) ;letter3
+	move.b	#3,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#1,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#0,REC_stat_win(a1)
+	move.w	#0,REC_stat_strikeouts(a1)
+	move.w	#0,REC_stat_homeruns(a1)
+	move.w	#0,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#12,REC_players(a1)
+	move.b	#14,REC_players+1(a1)
+	move.b	#24,REC_players+2(a1)
+	move.b	#24,REC_players+3(a1)
+	move.b	#9,REC_players+4(a1)
+	move.b	#16,REC_players+5(a1)
+	move.b	#9,REC_players+6(a1)
+	move.b	#14,REC_players+7(a1)
+	move.b	#12,REC_players+8(a1)
+	move.b	#22,REC_players+9(a1)
+	move.b	#8,REC_players+10(a1)
+	move.b	#15,REC_players+11(a1)
+	move.b	#3,REC_players+12(a1)
+	move.b	#9,REC_players+13(a1)
+
+	move.b	#6,REC_bat_order+1(a1)
+	move.b	#7,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#2,REC_bat_order+4(a1)
+	move.b	#9,REC_bat_order+5(a1)
+	move.b	#5,REC_bat_order+6(a1)
+	move.b	#4,REC_bat_order+7(a1)
+	move.b	#1,REC_bat_order+8(a1)
+	move.b	#8,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	;Roger Sharpe
+	mulu.w	#20,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'R',REC_letters(a1)   ;letter1
+	move.b	#'O',REC_letters+1(a1) ;letter2
+	move.b	#'G',REC_letters+2(a1) ;letter3
+	move.b	#7,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#1,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#0,REC_stat_win(a1)
+	move.w	#0,REC_stat_strikeouts(a1)
+	move.w	#0,REC_stat_homeruns(a1)
+	move.w	#0,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#5,REC_players(a1)
+	move.b	#4,REC_players+1(a1)
+	move.b	#4,REC_players+2(a1)
+	move.b	#5,REC_players+3(a1)
+	move.b	#5,REC_players+4(a1)
+	move.b	#4,REC_players+5(a1)
+	move.b	#5,REC_players+6(a1)
+	move.b	#5,REC_players+7(a1)
+	move.b	#5,REC_players+8(a1)
+	move.b	#5,REC_players+9(a1)
+	move.b	#5,REC_players+10(a1)
+	move.b	#5,REC_players+11(a1)
+	move.b	#5,REC_players+12(a1)
+	move.b	#31,REC_players+13(a1)
+
+	move.b	#7,REC_bat_order+1(a1)
+	move.b	#1,REC_bat_order+2(a1)
+	move.b	#4,REC_bat_order+3(a1)
+	move.b	#5,REC_bat_order+4(a1)
+	move.b	#9,REC_bat_order+5(a1)
+	move.b	#2,REC_bat_order+6(a1)
+	move.b	#3,REC_bat_order+7(a1)
+	move.b	#8,REC_bat_order+8(a1)
+	move.b	#6,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+	move.l	#RecordSize,d0	; Hit Team
+	mulu.w	#21,d0	;record number
+	lea.l	(Precords,d0.l),a1
+	move.b	#'H',REC_letters(a1)   ;letter1
+	move.b	#'I',REC_letters+1(a1) ;letter2
+	move.b	#'T',REC_letters+2(a1) ;letter3
+	move.b	#11,REC_month(a1)       ;zero based (jan=0) -1
+	move.b	#7,REC_dayofmonth(a1)  ;   1 based (1=1st)
+
+	move.b	#28,REC_team(a1)	;
+	move.w	#0,REC_stat_win(a1)
+	move.w	#0,REC_stat_strikeouts(a1)
+	move.w	#0,REC_stat_homeruns(a1)
+	move.w	#0,REC_stat_hits(a1)
+
+	move.b	#11,REC_first_pitcher(a1)	;first pitchers position
+	move.b	#20,REC_players(a1)
+	move.b	#13,REC_players+1(a1)
+	move.b	#5,REC_players+2(a1)
+	move.b	#15,REC_players+3(a1)
+	move.b	#25,REC_players+4(a1)
+	move.b	#14,REC_players+5(a1)
+	move.b	#8,REC_players+6(a1)
+	move.b	#18,REC_players+7(a1)
+	move.b	#23,REC_players+8(a1)
+	move.b	#11,REC_players+9(a1)
+	move.b	#17,REC_players+10(a1)
+	move.b	#21,REC_players+11(a1)
+	move.b	#24,REC_players+12(a1)
+	move.b	#4,REC_players+13(a1)
+
+	move.b	#5,REC_bat_order+1(a1)
+	move.b	#4,REC_bat_order+2(a1)
+	move.b	#3,REC_bat_order+3(a1)
+	move.b	#2,REC_bat_order+4(a1)
+	move.b	#6,REC_bat_order+5(a1)
+	move.b	#9,REC_bat_order+6(a1)
+	move.b	#8,REC_bat_order+7(a1)
+	move.b	#1,REC_bat_order+8(a1)
+	move.b	#7,REC_bat_order+9(a1)
+	move.l	a1,a0	;start of record
+	lea.l	RecordSize-2(a0),a1	;point at checksum
+	jsr	fix_checksum
+;............................................................................
+
+;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+* adjust the value of PRecCnt in SELECT.ASM when adding records
+;XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+
+	rts
+
+;	.region	"RECRAM"
+;	.align	2
+;
+;	.export	PermRecords,Pendrec,PRecCnt
+;PRecCnt	equ	19	; number of last record ABOVE
+;PermRecords	ds.b	RecordSize*PRecCnt ;permanent records
+;Pendrec	ds.w	1	;
+;
+;
+;	.region	"RomCode"
+;	ds	0
+
+
+
+	end
+
+
+

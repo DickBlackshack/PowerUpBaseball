@@ -1,0 +1,72 @@
+!TOPS
+!loadpcx ALTRT00
+!swapwork
+!loadpcx AWAYT00; movecolors 1 31; saveiff AWAYT00
+!loadpcx AWAYT00; movecolors 32 36; saveiff AWAYT00
+!loadpcx AWAYT00; movecolors 37 89; saveiff AWAYT00
+!loadpcx AWAYT00; movecolors 90 125; saveiff AWAYT00
+!loadpcx HOMET01; movecolors 126 200; saveiff HOMET01
+!loadpcx HOMET01; movecolors 201 254; saveiff HOMET01
+
+loadpcx D:\WHITSHRT
+swapwork
+loadiff HOMET00; movecolors 126 200; saveiff HOMET00
+loadiff HOMET01; movecolors 126 200; saveiff HOMET01
+loadiff HOMET02; movecolors 126 200; saveiff HOMET02
+loadiff HOMET03; movecolors 126 200; saveiff HOMET03
+loadiff HOMET04; movecolors 126 200; saveiff HOMET04
+loadiff HOMET05; movecolors 126 200; saveiff HOMET05
+loadiff HOMET06; movecolors 126 200; saveiff HOMET06
+loadiff HOMET07; movecolors 126 200; saveiff HOMET07
+loadiff ALTRT05; movecolors 126 200; saveiff ALTRT05
+
+loadpcx D:\GREYSHRT
+swapwork
+loadiff AWAYT00; movecolors 126 200; saveiff AWAYT00
+loadiff AWAYT01; movecolors 126 200; saveiff AWAYT01
+loadiff AWAYT02; movecolors 126 200; saveiff AWAYT02
+loadiff AWAYT03; movecolors 126 200; saveiff AWAYT03
+loadiff AWAYT04; movecolors 126 200; saveiff AWAYT04
+loadiff AWAYT05; movecolors 126 200; saveiff AWAYT05
+loadiff AWAYT06; movecolors 126 200; saveiff AWAYT06
+loadiff AWAYT07; movecolors 126 200; saveiff AWAYT07
+loadiff AWAYT08; movecolors 126 200; saveiff AWAYT08
+loadiff AWAYT09; movecolors 126 200; saveiff AWAYT09
+loadiff AWAYT10; movecolors 126 200; saveiff AWAYT10
+
+!BOTTOMS
+!loadpcx HOMEB04
+!swapwork
+!loadpcx AWAYT00; movecolors 1 15; saveiff AWAYT00
+!loadpcx HOMEB00; movecolors 16 170; saveiff HOMEB00
+!loadpcx HOMEB01; movecolors 172 254; saveiff HOMEB01
+
+loadpcx D:\WHITPANT
+swapwork
+loadiff HOMEB00; movecolors 16 170; saveiff HOMEB00
+loadiff HOMEB01; movecolors 16 170; saveiff HOMEB01
+loadiff HOMEB02; movecolors 16 170; saveiff HOMEB02
+loadiff HOMEB03; movecolors 16 170; saveiff HOMEB03
+loadiff HOMEB04; movecolors 16 170; saveiff HOMEB04
+loadiff HOMEB05; movecolors 16 170; saveiff HOMEB05
+
+loadpcx D:\GREYPANT
+swapwork
+loadiff AWAYB00; movecolors 16 170; saveiff AWAYB00
+loadiff AWAYB01; movecolors 16 170; saveiff AWAYB01
+loadiff AWAYB02; movecolors 16 170; saveiff AWAYB02
+loadiff AWAYB03; movecolors 16 170; saveiff AWAYB03
+loadiff AWAYB04; movecolors 16 170; saveiff AWAYB04
+loadiff AWAYB05; movecolors 16 170; saveiff AWAYB05
+
+
+!HEADS
+!loadiff HEDHAR04
+!swapwork
+!loadiff HEDSKN01; movecolors 1 183; saveiff HEDSKN01
+!loadiff HEDSKN01; movecolors 184 191; saveiff HEDSKN01
+!loadiff HEDSKN01; movecolors 192 239; saveiff HEDSKN01
+!loadiff HEDSKN01; movecolors 240 254; saveiff HEDSKN01
+
+done
+

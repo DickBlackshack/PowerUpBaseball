@@ -1,0 +1,35 @@
+
+ Volume in drive R is BIG2       
+ Directory of R:\BASEBALL\ART\LOGOS
+
+LOGOANG  PCX         3,616 10-06-95   2:16p
+LOGOAST  PCX         3,610 10-06-95   2:12p
+LOGOATH  PCX         3,692 10-06-95   2:18p
+LOGOBLU  PCX         3,680 10-06-95   2:18p
+LOGOBRA  PCX         3,617 10-06-95   2:10p
+LOGOBRE  PCX         3,649 10-06-95   2:17p
+LOGOCAR  PCX         3,684 10-06-95   2:14p
+LOGOCIN  PCX         3,572 10-06-95   2:16p
+LOGOCUB  PCX         3,577 10-06-95   2:11p
+LOGODOD  PCX         3,656 10-06-95   2:13p
+LOGOEXP  PCX         3,601 10-06-95   2:13p
+LOGOFLO  PCX         3,643 10-06-95   2:12p
+LOGOGIA  PCX         3,614 10-06-95   2:15p
+LOGOIND  PCX         3,643 10-06-95   2:16p
+LOGOMAR  PCX         3,664 10-06-95   2:18p
+LOGOMET  PCX         3,578 10-06-95   2:13p
+LOGOORI  PCX         3,635 10-06-95   2:15p
+LOGOPAD  PCX         3,619 10-06-95   2:14p
+LOGOPHI  PCX         3,667 10-06-95   2:13p
+LOGOPIR  PCX         3,632 10-06-95   2:14p
+LOGORAN  PCX         3,636 10-06-95   2:18p
+LOGORED  PCX         3,630 10-06-95   2:16p
+LOGOROC  PCX         3,634 10-06-95   2:11p
+LOGOROY  PCX         3,621 10-06-95   2:17p
+LOGOTIG  PCX         3,609 10-06-95   2:17p
+LOGOTWI  PCX         3,603 10-06-95   2:17p
+LOGOWHI  PCX         3,693 10-06-95   2:16p
+LOGOYAN  PCX         3,649 10-06-95   2:17p
+LOGO     TXT             0 10-06-95   2:34p
+       29 file(s)        101,724 bytes
+                     375,521,280 bytes free

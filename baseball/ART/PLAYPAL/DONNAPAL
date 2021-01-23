@@ -1,0 +1,298 @@
+!TOPS
+!loadpcx ALTRT00
+!swapwork
+!loadpcx AWAYT00; movecolors 1 31; saveiff AWAYT00 !MITT
+!loadpcx AWAYT00; movecolors 32 36; saveiff AWAYT00 !BRIM
+!loadpcx AWAYT00; movecolors 37 89; saveiff AWAYT00 !SKIN
+!loadpcx AWAYT00; movecolors 90 125; saveiff AWAYT00 !SLEEVE
+!loadpcx HOMET01; movecolors 126 200; saveiff HOMET01 !JERSEY
+!loadpcx HOMET01; movecolors 201 254; saveiff HOMET01 !HAT
+
+
+loadpcx AWAYT07
+swapwork
+loadpcx ALTRT10; movecolors 90 125; saveiff ALTRT10
+
+!loadpcx HOMEB01
+!swapwork
+!loadpcx AWAYB01; movecolors 172 254; saveiff AWAYB01 
+
+
+
+!loadpcx HOMET01
+!swapwork
+!loadpcx HOMET03; movecolors 1 31; saveiff HOMET03
+
+
+
+!loadpcx d:\baseball\clnupal\GREYT
+!swapwork
+
+!loadpcx AWAYT00; movecolors 126 200; saveiff AWAYT00
+!loadpcx AWAYT01; movecolors 126 200; saveiff AWAYT01
+!loadpcx AWAYT02; movecolors 126 200; saveiff AWAYT02
+!loadpcx AWAYT03; movecolors 126 200; saveiff AWAYT03
+!loadpcx AWAYT04; movecolors 126 200; saveiff AWAYT04
+!loadpcx AWAYT05; movecolors 126 200; saveiff AWAYT05
+!loadpcx AWAYT06; movecolors 126 200; saveiff AWAYT06
+!loadpcx AWAYT07; movecolors 126 200; saveiff AWAYT07
+!loadpcx AWAYT08; movecolors 126 200; saveiff AWAYT08
+!loadpcx AWAYT09; movecolors 126 200; saveiff AWAYT09
+!loadpcx AWAYT10; movecolors 126 200; saveiff AWAYT10
+
+
+!loadpcx d:\baseball\clnupal\GREYB
+!swapwork
+!loadpcx AWAYB00; movecolors 16 170; saveiff AWAYB00
+!loadpcx AWAYB01; movecolors 16 170; saveiff AWAYB01
+!loadpcx AWAYB02; movecolors 16 170; saveiff AWAYB02
+!loadpcx AWAYB03; movecolors 16 170; saveiff AWAYB03
+!loadpcx AWAYB04; movecolors 16 170; saveiff AWAYB04
+!loadpcx AWAYB05; movecolors 16 170; saveiff AWAYB05
+
+
+
+!loadpcx ALTRT05
+!swapwork
+!loadpcx AWAYT06; movecolors 90 125; saveiff AWAYT06
+
+
+!loadpcx d:\baseball\clnupal\bluet
+!swapwork
+!loadpcx HOMET00; movecolors 201 254; saveiff HOMET00
+!loadpcx HOMET01; movecolors 90 125; saveiff HOMET01
+!loadiff HOMET01; movecolors 201 254; saveiff HOMET01
+!loadiff HOMET01; movecolors 32 36; saveiff HOMET01
+!loadpcx HOMET05; movecolors 201 254; saveiff HOMET05
+!loadpcx AWAYT00; movecolors 201 254; saveiff AWAYT00
+!loadpcx AWAYT01; movecolors 90 125; saveiff AWAYT01
+!loadiff AWAYT01; movecolors 201 254; saveiff AWAYT01
+!loadiff AWAYT01; movecolors 32 36; saveiff AWAYT01
+!loadpcx AWAYT05; movecolors 201 254; saveiff AWAYT05
+!loadpcx AWAYT10; movecolors 201 254; saveiff AWAYT10
+!loadpcx ALTRT00; movecolors 126 200; saveiff ALTRT00
+!loadiff ALTRT00; movecolors 201 254; saveiff ALTRT00
+!loadpcx ALTRT01; movecolors 126 200; saveiff ALTRT01
+!loadiff ALTRT01; movecolors 201 254; saveiff ALTRT01
+!loadiff ALTRT01; movecolors 32 36; saveiff ALTRT01
+!loadpcx ALTRT03; movecolors 126 200; saveiff ALTRT03
+!loadiff ALTRT03; movecolors 201 254; saveiff ALTRT03
+!loadpcx ALTRT04; movecolors 90 125; saveiff ALTRT04
+!loadiff ALTRT04; movecolors 32 36; saveiff ALTRT04
+!loadpcx ALTRT09; movecolors 126 200; saveiff ALTRT09
+!loadiff ALTRT09; movecolors 201 254; saveiff ALTRT09
+
+!loadpcx d:\baseball\clnupal\bbluet
+!swapwork
+!loadpcx HOMET07; movecolors 90 125; saveiff HOMET07
+!loadiff HOMET07; movecolors 201 254; saveiff HOMET07
+!loadiff HOMET07; movecolors 32 36; saveiff HOMET07
+!loadiff AWAYT09; movecolors 90 125; saveiff AWAYT09
+!loadiff AWAYT09; movecolors 201 254; saveiff AWAYT09
+!loadiff AWAYT09; movecolors 32 36; saveiff AWAYT09
+!loadpcx ALTRT07; movecolors 126 200; saveiff ALTRT07
+!loadpcx ALTRT08; movecolors 126 200; saveiff ALTRT08
+!loadpcx ALTRT08; movecolors 90 125; saveiff ALTRT08
+!loadpcx ALTRT08; movecolors 32 36; saveiff ALTRT08
+
+
+!loadpcx C:\CONVERT\PIC017
+!swapwork
+!loadiff AWAYT10; movecolors 90 125; saveiff AWAYT10
+!loadiff AWAYT10; movecolors 32 36; saveiff AWAYT10
+!loadpcx ALTRT06; movecolors 90 125; saveiff ALTRT06
+!loadiff ALTRT06; movecolors 32 36; saveiff ALTRT06
+!loadiff ALTRT09; movecolors 90 125; saveiff ALTRT09
+!loadiff ALTRT09; movecolors 32 36; saveiff ALTRT09
+
+
+!loadpcx ALTRT10
+!swapwork
+!loadpcx d:\baseball\clnupal\bbluet; movecolors 90 125; saveiff ALTRT11
+
+!loadpcx HOMET00
+!swapwork
+!loadpcx d:\baseball\clnupal\bbluet; movecolors 90 125; saveiff ALTRT12
+!loadiff ALTRT12; movecolors 32 36; saveiff ALTRT12
+
+!loadpcx AWAYT00
+!swapwork
+!loadpcx AWAYT09; movecolors 126 200; saveiff AWAYT09
+!loadpcx AWAYT12; movecolors 126 200; saveiff AWAYT12
+!loadpcx AWAYT13; movecolors 126 200; saveiff AWAYT13
+
+!loadpcx HOMET00
+!swapwork
+!loadiff AWAYT09; movecolors 90 125; saveiff AWAYT13
+
+!loadpcx C:\CONVERT\PIC017
+!swapwork
+!loadiff AWAYT01; movecolors 90 125; saveiff AWAYT14
+
+
+
+
+
+!loadpcx d:\baseball\clnupal\witen
+!swapwork
+!loadpcx d:\baseball\clnupal\clpalt02; movecolors 37 89; saveiff all
+
+!loadpcx q:\baseball\art\playpal\homet01
+!swapwork
+!loadpcx ALTRT01; movecolors 90 125; saveiff BLUE
+
+
+
+!loadpcx q:\baseball\art\playpal\head00
+!swapwork
+!loadpcx HEAD01; movecolors 192 239; saveiff HEAD01
+!loadpcx HEAD05; movecolors 192 239; saveiff HEAD05
+!loadpcx HEAD08; movecolors 192 239; saveiff HEAD08
+
+
+
+!loadpcx C:\CONVERT\PIC022
+!swapwork
+!loadpcx ALTRT02; movecolors 126 200; saveiff ALTRT02
+!loadiff ALTRT02; movecolors 201 254; saveiff ALTRT02
+!loadpcx ALTRT03; movecolors 90 125; saveiff ALTRT03
+!loadiff ALTRT03; movecolors 32 36; saveiff ALTRT03
+!loadpcx HOMET04; movecolors 201 254; saveiff HOMET04
+!loadpcx AWAYT05; movecolors 90 125; saveiff AWAYT05
+!loadiff AWAYT05; movecolors 32 36; saveiff AWAYT05
+!loadpcx AWAYT04; movecolors 90 125; saveiff AWAYT04
+!loadiff AWAYT04; movecolors 32 36; saveiff AWAYT04
+!loadiff AWAYT04; movecolors 201 254; saveiff AWAYT04
+
+
+!loadpcx d:\baseball\clnupal\bot
+!swapwork
+!loadpcx HOMEB01; movecolors 172 254; saveiff HOMEB01 
+!loadpcx AWAYB01; movecolors 172 254; saveiff AWAYB01
+
+
+!loadpcx d:\baseball\clnupal\bbot
+!swapwork
+!loadpcx HOMEB04; movecolors 172 254; saveiff HOMEB04 
+!loadpcx AWAYB04; movecolors 172 254; saveiff AWAYB04
+
+
+!loadpcx d:\baseball\clnupal\head
+!swapwork
+!loadpcx HEAD00; movecolors 184 239; saveiff HEAD00
+!loadpcx HEAD01; movecolors 192 239; saveiff HEAD01
+!loadpcx HEAD05; movecolors 192 239; saveiff HEAD05
+!loadpcx HEAD08; movecolors 192 239; saveiff HEAD08
+
+!loadpcx d:\baseball\clnupal\bbhead
+!swapwork
+!loadpcx HEAD07; movecolors 184 239; saveiff HEAD07
+!loadpcx HEAD09; movecolors 192 239; saveiff HEAD09
+
+
+
+!loadpcx C:\CONVERT\PIC020
+!swapwork
+!loadpcx ALTRT05; movecolors 90 125; saveiff ALTRT05
+!loadiff ALTRT05; movecolors 201 254; saveiff ALTRT05
+!loadiff ALTRT05; movecolors 32 36; saveiff ALTRT05
+!loadpcx AWAYT06; movecolors 201 254; saveiff AWAYT06
+
+
+!loadpcx C:\CONVERT\PIC021
+!swapwork
+!loadpcx HEAD06; movecolors 184 239; saveiff HEAD06
+
+
+
+
+
+
+
+
+!loadpcx R:\BASEBALL\ART\PLAYPAL\Altrt10
+!swapwork
+!loadiff HOMET00; movecolors 126 200; saveiff HOMET00
+!loadiff HOMET01; movecolors 126 200; saveiff HOMET01
+!loadiff HOMET02; movecolors 126 200; saveiff HOMET02
+!loadiff HOMET03; movecolors 126 200; saveiff HOMET03
+!loadiff HOMET04; movecolors 126 200; saveiff HOMET04
+!loadiff HOMET05; movecolors 126 200; saveiff HOMET05
+!loadiff HOMET06; movecolors 126 200; saveiff HOMET06
+!loadiff HOMET07; movecolors 126 200; saveiff HOMET07
+!loadpcx ALTRT06; movecolors 126 200; saveiff ALTRT06
+!loadiff ALTRT06; movecolors 201 254; saveiff ALTRT06
+!loadpcx AWAYT08; movecolors 32 36; saveiff AWAYT08
+!loadiff AWAYT08; movecolors 201 254; saveiff AWAYT08
+!loadpcx AWAYT07; movecolors 32 36; saveiff AWAYT07
+!loadpcx AWAYT06; movecolors 32 36; saveiff AWAYT06
+!loadpcx AWAYT03; movecolors 32 36; saveiff AWAYT03
+!loadiff AWAYT03; movecolors 201 254; saveiff AWAYT03
+!loadpcx HOMET03; movecolors 32 36; saveiff HOMET03
+!loadiff HOMET03; movecolors 201 254; saveiff HOMET03
+
+!loadpcx D:\GREYSHRT
+!swapwork
+!loadiff AWAYT00; movecolors 126 200; saveiff AWAYT00
+!loadiff AWAYT01; movecolors 126 200; saveiff AWAYT01
+!loadiff AWAYT02; movecolors 126 200; saveiff AWAYT02
+!loadiff AWAYT03; movecolors 126 200; saveiff AWAYT03
+!loadiff AWAYT04; movecolors 126 200; saveiff AWAYT04
+!loadiff AWAYT05; movecolors 126 200; saveiff AWAYT05
+!loadiff AWAYT06; movecolors 126 200; saveiff AWAYT06
+!loadiff AWAYT07; movecolors 126 200; saveiff AWAYT07
+!loadiff AWAYT08; movecolors 126 200; saveiff AWAYT08
+!loadiff AWAYT09; movecolors 126 200; saveiff AWAYT09
+!loadiff AWAYT10; movecolors 126 200; saveiff AWAYT10
+
+!BOTTOMS
+!loadpcx HOMEB04
+!swapwork
+!loadpcx AWAYT00; movecolors 1 15; saveiff AWAYT00
+!loadpcx HOMEB00; movecolors 16 170; saveiff HOMEB00
+!loadpcx HOMEB01; movecolors 172 254; saveiff HOMEB01
+
+!loadpcx D:\WHITPANT
+!swapwork
+!loadpcx HOMEB00; movecolors 16 170; saveiff HOMEB00
+!loadpcx HOMEB01; movecolors 16 170; saveiff HOMEB01
+!loadpcx HOMEB02; movecolors 16 170; saveiff HOMEB02
+!loadpcx HOMEB03; movecolors 16 170; saveiff HOMEB03
+!loadpcx HOMEB04; movecolors 16 170; saveiff HOMEB04
+!loadpcx HOMEB05; movecolors 16 170; saveiff HOMEB05
+
+!loadpcx D:\GREYPANT
+!swapwork
+!loadpcx AWAYB00; movecolors 16 170; saveiff AWAYB00
+!loadpcx AWAYB01; movecolors 16 170; saveiff AWAYB01
+!loadpcx AWAYB02; movecolors 16 170; saveiff AWAYB02
+!loadpcx AWAYB03; movecolors 16 170; saveiff AWAYB03
+!loadpcx AWAYB04; movecolors 16 170; saveiff AWAYB04
+!loadpcx AWAYB05; movecolors 16 170; saveiff AWAYB05
+
+
+!HEADS
+!loadiff HEDHAR04
+!swapwork
+!loadiff HEDSKN01; movecolors 1 183; saveiff HEDSKN01
+!loadiff HEDSKN01; movecolors 184 191; saveiff HEDSKN01
+!loadiff HEDSKN01; movecolors 192 239; saveiff HEDSKN01
+!loadiff HEDSKN01; movecolors 240 254; saveiff HEDSKN01
+
+!HEADS
+!loadpcx HEDHAR05
+!swapwork
+!loadpcx HEAD00; movecolors 176 183; saveiff HEAD00
+!loadpcx HEAD01; movecolors 176 183; saveiff HEAD01
+!loadpcx HEAD02; movecolors 176 183; saveiff HEAD02
+!loadpcx HEAD03; movecolors 176 183; saveiff HEAD03
+!loadpcx HEAD04; movecolors 176 183; saveiff HEAD04
+!loadpcx HEAD05; movecolors 176 183; saveiff HEAD05
+!loadpcx HEAD06; movecolors 176 183; saveiff HEAD06
+!loadpcx HEAD07; movecolors 176 183; saveiff HEAD07
+!loadpcx HEAD08; movecolors 176 183; saveiff HEAD08
+!loadpcx HEAD09; movecolors 176 183; saveiff HEAD09
+
+
+done
+

@@ -1,0 +1,34 @@
+
+makepalp q:\baseball\art\palettes\fontblu1  p_fontb1  p_fontb1
+makepalp q:\baseball\art\palettes\fontblu2  p_fontb2  p_fontb2
+makepalp q:\baseball\art\palettes\fontred1  p_fontr1  p_fontr1
+makepalp q:\baseball\art\palettes\fontred2  p_fontr2  p_fontr2
+makepalp q:\baseball\art\palettes\fontwhi1  p_fontw1  p_fontw1
+makepalp q:\baseball\art\palettes\fontwhi2  p_fontw2  p_fontw2
+
+makepalp q:\baseball\art\palettes\fontyel1  p_fonty1  p_fonty1
+makepalp q:\baseball\art\palettes\fontyel2  p_fonty2  p_fonty2
+
+!neo pals follow
+
+makepalp q:\baseball\art\alan\palettes\fontblu1  Nfontb1  Nfontb1
+makepalp q:\baseball\art\alan\palettes\fontblu2  Nfontb2  Nfontb2
+makepalp q:\baseball\art\alan\palettes\fontblu3  Nfontb3  Nfontb3
+makepalp q:\baseball\art\alan\palettes\fontblu4  Nfontb4  Nfontb4
+
+!makepalp q:\baseball\art\alan\palettes\fontwhi1  Nfontw1  Nfontw1
+!makepalp q:\baseball\art\alan\palettes\fontwhi2  Nfontw2  Nfontw2
+makepalp q:\baseball\art\alan\palettes\fontwhi3  Nfontw3  Nfontw3
+makepalp q:\baseball\art\alan\palettes\fontwhi4  Nfontw4  Nfontw4
+
+makepalp q:\baseball\art\alan\palettes\fontyel1  Nfonty1  Nfonty1
+makepalp q:\baseball\art\alan\palettes\fontyel2  Nfonty2  Nfonty2
+makepalp q:\baseball\art\alan\palettes\fontyel3  Nfonty3  Nfonty3
+makepalp q:\baseball\art\alan\palettes\fontyel4  Nfonty4  Nfonty4
+
+makepalp q:\baseball\art\alan\palettes\fontred1  Nfontr1  Nfontr1
+makepalp q:\baseball\art\alan\palettes\fontred2  Nfontr2  Nfontr2
+makepalp q:\baseball\art\alan\palettes\fontred3  Nfontr3  Nfontr3
+makepalp q:\baseball\art\alan\palettes\fontred4  Nfontr4  Nfontr4
+
+

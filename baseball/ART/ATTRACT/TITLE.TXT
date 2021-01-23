@@ -1,0 +1,18 @@
+
+ Volume in drive R is BIG2       
+ Directory of R:\BASEBALL\ART\ATTRACT
+
+TITLE    TXT             0 01-09-96  10:22a
+TITLESEP PCX       152,889 01-08-96   3:40p
+TITLEBAT PCX         7,671 01-08-96   3:48p
+TITLEBLU PCX        15,528 01-08-96   3:48p
+TITLEBRN PCX        16,320 01-08-96   3:49p
+TITLEDK1 PCX        20,312 01-08-96   3:49p
+TITLEDK2 PCX        12,696 01-08-96   3:50p
+TITLEDK3 PCX        32,855 01-08-96   3:50p
+TITLEGRN PCX        11,395 01-08-96   3:52p
+TITLEPOW PCX        20,675 01-08-96   3:53p
+TITLERED PCX         9,129 01-08-96   3:53p
+TITLEWHI PCX         7,647 01-08-96   3:54p
+       12 file(s)        307,117 bytes
+                     156,631,040 bytes free

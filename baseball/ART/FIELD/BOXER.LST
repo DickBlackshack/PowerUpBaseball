@@ -1,0 +1,87 @@
+V  47  79
+w00 e:\baseball\backgnd.asm
+W00 T534     L538        1  47   1  78   5  25   4  24  25
+w01 e:\baseball\field.asm
+W01 T91      L110        1  47   1  78  20   1  19   0   1
+w02 e:\baseball\batgame.asm
+W02 T390     L428        1  47   1  78  39   1  38   0   1
+w03 e:\baseball\player.asm
+W03 T521     L557        1  47   1  78  37   1  36   0   1
+w04 e:\baseball\batter.asm
+W04 T187     L202        1  47   1  78  16  22  15  21  22
+w05 e:\baseball\game.asm
+W05 T436     L461        1  47   1  78  26  50  25  49  50
+w06 e:\baseball\anim.asm
+W06 T949     L964        1  47   1  78  16   6  15   5   6
+w07 e:\baseball\object.asm
+W07 T81      L103        1  47   1  78  23   1  22   0   1
+F000 L538     C25  e:\baseball\backgnd.asm
+F001 L91      C16  e:\baseball\sbase.asm
+F002 L198     C22  e:\baseball\select.asm
+A00 L1158    C0   
+F003 L136     C1   e:\baseball\tbase.asm
+F004 L213     C7   e:\baseball\ramblock.h
+F005 L90      C4   e:\baseball\anim.mac
+F006 L964     C6   e:\baseball\anim.asm
+F007 L428     C1   e:\baseball\batgame.asm
+A00 L600     C0   
+A01 L367     C0   
+A02 L410     C0   
+F008 L202     C22  e:\baseball\batter.asm
+A00 L3539    C0   
+A01 L724     C0   
+F009 L61      C1   e:\baseball\fbase.asm
+A00 L54      C0   
+F010 L110     C1   e:\baseball\field.asm
+A00 L817     C0   
+A01 L816     C0   
+F011 L1       C1   e:\baseball\fplayer.asm
+F012 L461     C50  e:\baseball\game.asm
+A00 L333     C0   
+F013 L1563    C31  e:\baseball\graphlib.asm
+F014 L1       C1   e:\baseball\intsvc.asm
+F015 L1       C1   e:\baseball\main.asm
+F016 L103     C1   e:\baseball\object.asm
+F017 L1       C1   e:\baseball\palettes.asm
+F018 L557     C1   e:\baseball\player.asm
+A00 L384     C0   
+A01 L494     C9   
+A02 L379     C0   
+F019 L1       C1   e:\baseball\rosters.asm
+Search Strings
+parse
+PlayAtHome
+GRAVITY
+animplay
+AnimPlayer
+HomeRunner
+vel
+SETVEL
+scroll
+BackScroll
+update
+GiveAssignments
+center
+HomeTest
+B_CardObj
+world
+bounc
+ground
+damp
+ONGROUND
+a5
+groundy
+GroundY
+INCRAM
+xposition
+CalcFieldCoord
+Split
+ForceInRange
+camer
+blitx
+CameraX
+d4
+Other Strings
+d4
+NOFLIP
+CLRFLIP

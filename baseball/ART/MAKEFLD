@@ -1,0 +1,129 @@
+mode binary
+
+load r:\baseball\art\field\foulpole
+open r:\baseball\art\images\foulpole.img
+compress off
+change 255 0
+swap 0 255
+output size,0
+output workspace
+close
+
+loadpcx r:\baseball\art\field\wall01
+open r:\baseball\art\images\wall01.img
+compress off
+change 255 0
+swap 0 255
+output size,0
+output workspace
+close
+
+loadpcx r:\baseball\art\field\wall02
+open r:\baseball\art\images\wall02.img
+compress off
+change 255 0
+swap 0 255
+output size,0
+output workspace
+close
+
+loadpcx r:\baseball\art\field\wall03
+open r:\baseball\art\images\wall03.img
+compress off
+change 255 0
+swap 0 255
+output size,0
+output workspace
+close
+
+loadpcx r:\baseball\art\field\seat01
+open r:\baseball\art\images\seat01.img
+compress off
+change 255 0
+swap 0 255
+output size,0
+output workspace
+close
+
+loadpcx r:\baseball\art\field\seat02
+open r:\baseball\art\images\seat02.img
+compress off
+change 255 0
+swap 0 255
+output size,0
+output workspace
+close
+
+loadpcx r:\baseball\art\field\seat03
+open r:\baseball\art\images\seat03.img
+compress off
+change 255 0
+swap 0 255
+output size,0
+output workspace
+close
+
+loadpcx r:\baseball\art\field\seat05
+open r:\baseball\art\images\seat05.img
+compress off
+change 255 0
+swap 0 255
+output size,0
+output workspace
+close
+
+loadpcx r:\baseball\art\field\seat06
+open r:\baseball\art\images\seat06.img
+compress off
+change 255 0
+swap 0 255
+output size,0
+output workspace
+close
+
+loadpcx r:\baseball\art\field\seat07
+open r:\baseball\art\images\seat07.img
+compress off
+change 255 0
+swap 0 255
+output size,0
+output workspace
+close
+
+loadpcx r:\baseball\art\field\seat10
+open r:\baseball\art\images\seat10.img
+compress off
+change 255 0
+swap 0 255
+output size,0
+output workspace
+close
+
+loadpcx r:\baseball\art\field\seat11
+open r:\baseball\art\images\seat11.img
+compress off
+change 255 0
+swap 0 255
+output size,0
+output workspace
+close
+
+loadpcx r:\baseball\art\field\seat13
+open r:\baseball\art\images\seat13.img
+compress off
+change 255 0
+swap 0 255
+output size,0
+output workspace
+close
+
+loadpcx r:\baseball\art\field\seat14
+open r:\baseball\art\images\seat14.img
+compress off
+change 255 0
+swap 0 255
+output size,0
+output workspace
+close
+
+done

@@ -1,0 +1,56 @@
+;r:\baseball\art\frames\pa1a01.frm
+Apa1a01:
+	dc.b	(pa1at001>>8)&0xff,pa1at001&0xff,-14,26	;Shirt
+	dc.b	(pa1ab001>>8)&0xff,pa1ab001&0xff,-10,56	;Pants
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46,0	;Baseball
+	dc.b	0xff,0xff,0,0	;Tens Digit
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46	;Ones Digit
+	dc.b	(shad01>>8)&0xff,shad01&0xff,-23,88,0	;shadow
+;r:\baseball\art\frames\pa1a02.frm
+Apa1a02:
+	dc.b	(pa1at002>>8)&0xff,pa1at002&0xff,-12,25	;Shirt
+	dc.b	(pa1ab002>>8)&0xff,pa1ab002&0xff,-10,55	;Pants
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46,0	;Baseball
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46	;Tens Digit
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46	;Ones Digit
+	dc.b	(shad01>>8)&0xff,shad01&0xff,-23,88,0	;Shadow
+;r:\baseball\art\frames\pa1a03.frm
+Apa1a03:
+	dc.b	(pa1at003>>8)&0xff,pa1at003&0xff,-16,24	;Shirt
+	dc.b	(pa1ab003>>8)&0xff,pa1ab003&0xff,-10,54	;Pants
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46,0	;Baseball
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-29,-47	;Tens Digit
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-33,-46	;Ones Digit
+	dc.b	(shad01>>8)&0xff,shad01&0xff,-24,88,0	;Shadow
+;r:\baseball\art\frames\pa1a04.frm
+Apa1a04:
+	dc.b	(pa1at004>>8)&0xff,pa1at004&0xff,-17,24	;Shirt
+	dc.b	(pa1ab004>>8)&0xff,pa1ab004&0xff,-11,54	;Pants
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46,0	;Baseball
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-32,-47	;Tens Digit
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46	;Ones Digit
+	dc.b	(shad01>>8)&0xff,shad01&0xff,-24,88,0	;Shadow
+;r:\baseball\art\frames\pa1a05.frm
+Apa1a05:
+	dc.b	(pa1at005>>8)&0xff,pa1at005&0xff,-18,25	;Shirt
+	dc.b	(pa1ab005>>8)&0xff,pa1ab005&0xff,-12,54	;Pants
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46,0	;Baseball
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46	;Tens Digit
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46	;Ones Digit
+	dc.b	(shad01>>8)&0xff,shad01&0xff,-25,88,0	;Shadow
+;r:\baseball\art\frames\pa1a06.frm
+Apa1a06:
+	dc.b	(pa1at006>>8)&0xff,pa1at006&0xff,-14,26	;Shirt
+	dc.b	(pa1ab006>>8)&0xff,pa1ab006&0xff,-10,54	;Pants
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46,0	;Baseball
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46	;Tens Digit
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46	;Ones Digit
+	dc.b	(shad01>>8)&0xff,shad01&0xff,-25,88,0	;Shadow
+;r:\baseball\art\frames\pa1a07.frm
+Apa1a07:
+	dc.b	(pa1at007>>8)&0xff,pa1at007&0xff,-15,28	;Shirt
+	dc.b	(pa1ab007>>8)&0xff,pa1ab007&0xff,-10,56	;Pants
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46,0	;Baseball
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-30,-46	;Tens Digit
+	dc.b	(UNUSED>>8)&0xff,UNUSED&0xff,-31,-46	;Ones Digit
+	dc.b	(shad01>>8)&0xff,shad01&0xff,-25,88,0	;Shadow

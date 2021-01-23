@@ -1,0 +1,2743 @@
+! ROMS to make
+***MAKEROM 0
+***MAKEROM 1
+***MAKEROM 2
+***MAKEROM 3
+***MAKEROM 4
+***MAKEROM 5
+***MAKEROM 6
+***MAKEROM 7
+***MAKEROM 8
+***MAKEROM 9
+***MAKEROM 10
+***MAKEROM 11
+***MAKEROM 12
+***MAKEROM 13
+***MAKEROM 14
+***MAKEROM 15
+
+!***SPLITROM
+***INDEXFILE
+***EQUFILE
+
+***CHECKSUMON
+***PADROM
+
+! Checksum asm file to produce
+***CHECKSUMASM checksum
+
+! ROMS to process checksums on
+***MAKECHECKSUM 0 4
+***MAKECHECKSUM 1 4
+***MAKECHECKSUM 2 4
+***MAKECHECKSUM 3 4
+***MAKECHECKSUM 4 4
+***MAKECHECKSUM 5 4
+***MAKECHECKSUM 6 4
+***MAKECHECKSUM 7 4
+***MAKECHECKSUM 8 4
+***MAKECHECKSUM 9 4
+***MAKECHECKSUM 10 4
+***MAKECHECKSUM 11 4
+***MAKECHECKSUM 12 4
+***MAKECHECKSUM 13 4
+***MAKECHECKSUM 14 4
+***MAKECHECKSUM 15 4
+
+! Prefixes	
+***BYTE dc.b
+***WORD dc.w
+***LONG dc.l
+***POINTER dc.l
+
+! Eprom Size in 512 Chunks (64 = 4x8 Meg Eprom)
+***EPROM 32
+
+! 4 Bits Per Pixel, use for 16 color art
+***PIXMODE8
+
+! Source .img Data Path
+***SOURCE j:\baseball\art\images\
+
+! Dest For All Files
+***DEST j:\baseball\art\
+
+! File Name For Source Code Index File
+***INDEX groms.asm
+
+! DOTS FILE
+***DOTFILE dots.asm
+
+! Prefix For Binary Files
+***PREFIX grom
+
+! Hex C Format For The Short Numbers (Example: 0x%X)
+***HEXFORMAT 0x%X
+
+! Hex C Format For The Long Numbers (Example: 0x%lX)
+***HEXFORMLONG 0x%lX
+
+! Declare Base Region here.
+***BASEREGION '	.region "basetable"'
+
+! Declare ROM Base here.
+***ROMREGION '	.region "romlength"'
+
+! Declare Check Sum Region here.
+***CHKSUMREGION '	.region "Checksum"'
+
+! RAM Entry ON/OFF Switch in Base Table.
+***RAMFLAG
+
+! ROM Length Ending Zero Bytes ON/OFF Switch.
+***ENDLENGTH
+
+! ROM Table start number for Checksum and RomLength (DEFAULT = 0).
+***ROMSTART 0
+
+! Allow Output, Bank, And Images To Be Processed
+***START
+
+***OUTPUT '	.region "RomCode"'
+***OUTPUT ""
+***OUTPUT "	.export BaseTable"
+***OUTPUT "	.export BaseFlags"
+***OUTPUT "	.export BaseAddress"
+***OUTPUT ""
+***OUTPUT "	.import ram_entry"
+***OUTPUT ""
+***TIMESTAMP
+***OUTPUT ""
+***OUTPUT "     ds 0"
+***OUTPUT ""
+
+***STARTROM 0
+
+***BANK font0
+nofrs fonts_sp
+nofrs fonts_0
+nofrs fonts_1
+nofrs fonts_2 
+nofrs fonts_3
+nofrs fonts_4
+nofrs fonts_5
+nofrs fonts_6
+nofrs fonts_7
+nofrs fonts_8
+nofrs fonts_9
+nofrs fonts_a
+nofrs fonts_b
+nofrs fonts_c
+nofrs fonts_d
+nofrs fonts_e
+nofrs fonts_f
+nofrs fonts_g
+nofrs fonts_h
+nofrs fonts_i
+nofrs fonts_j
+nofrs fonts_k
+nofrs fonts_l
+nofrs fonts_m
+nofrs fonts_n
+nofrs fonts_o
+nofrs fonts_p
+nofrs fonts_q
+nofrs fonts_r
+nofrs fonts_s
+nofrs fonts_t
+nofrs fonts_u
+nofrs fonts_v
+nofrs fonts_w
+nofrs fonts_x
+nofrs fonts_y
+nofrs fonts_z
+nofrs fonts_at
+nofrs fonts_am
+nofrs fonts_qo
+nofrs fonts_pe
+nofrs fonts_co
+nofrs fonts_cl
+nofrs fonts_se
+nofrs fonts_lt
+nofrs fonts_gt
+nofrs fonts_qu
+nofrs fonts_sl
+nofrs fonts_lr
+nofrs fonts_rr
+nofrs fonts_lb
+nofrs fonts_rb
+nofrs fonts_bs
+nofrs fonts_eq
+nofrs fonts_pl
+nofrs fonts_mi
+nofrs fonts_da
+nofrs fonts_lp
+nofrs fonts_rp
+nofrs fonts_as
+nofrs fonts_cr
+nofrs fonts_pr
+nofrs fonts_do
+nofrs fonts_po
+nofrs fonts_ex
+nofrs fonts_dq
+nofrs fonts_b1
+nofrs fonts_b2
+***BANK font1
+nofrs font1_SP
+nofrs font1_0
+nofrs font1_1
+nofrs font1_2
+nofrs font1_3
+nofrs font1_4
+nofrs font1_5
+nofrs font1_6
+nofrs font1_7
+nofrs font1_8
+nofrs font1_9
+nofrs font1_A
+nofrs font1_B
+nofrs font1_C
+nofrs font1_D
+nofrs font1_E
+nofrs font1_F
+nofrs font1_G
+nofrs font1_H
+nofrs font1_I
+nofrs font1_J
+nofrs font1_K
+nofrs font1_L
+nofrs font1_M
+nofrs font1_N
+nofrs font1_O
+nofrs font1_P
+nofrs font1_Q
+nofrs font1_R
+nofrs font1_S
+nofrs font1_T
+nofrs font1_U
+nofrs font1_V
+nofrs font1_W
+nofrs font1_X
+nofrs font1_Y
+nofrs font1_Z
+
+nofrs font1_ex
+nofrs font1_qu
+nofrs font1_pe
+nofrs font1_da
+
+***BANK font2
+
+nofrs fontb_SP
+nofrs fontb_0
+nofrs fontb_1
+nofrs fontb_2
+nofrs fontb_3
+nofrs fontb_4
+nofrs fontb_5
+nofrs fontb_6
+nofrs fontb_7
+nofrs fontb_8
+nofrs fontb_9
+nofrs fontb_A
+nofrs fontb_B
+nofrs fontb_C
+nofrs fontb_D
+nofrs fontb_E
+nofrs fontb_F
+nofrs fontb_G
+nofrs fontb_H
+nofrs fontb_I
+nofrs fontb_J
+nofrs fontb_K
+nofrs fontb_L
+nofrs fontb_M
+nofrs fontb_N
+nofrs fontb_O
+nofrs fontb_P
+nofrs fontb_Q
+nofrs fontb_R
+nofrs fontb_S
+nofrs fontb_T
+nofrs fontb_U
+nofrs fontb_V
+nofrs fontb_W
+nofrs fontb_X
+nofrs fontb_Y
+nofrs fontb_Z
+nofrs fontb_ex
+nofrs fontb_qu
+nofrs fontb_pe
+
+***BANK fontm
+nofrs fontm000
+nofrs fontm001
+nofrs fontm002
+nofrs fontm003
+nofrs fontm004
+nofrs fontm005
+nofrs fontm006
+nofrs fontm007
+nofrs fontm008
+nofrs fontm009
+nofrs fontm010
+nofrs fontm011
+nofrs fontm012
+nofrs fontm013
+nofrs fontm014
+nofrs fontm015
+nofrs fontm016
+nofrs fontm017
+nofrs fontm018
+nofrs fontm019
+nofrs fontm020
+nofrs fontm021
+nofrs fontm022
+nofrs fontm023
+nofrs fontm024
+nofrs fontm025
+nofrs fontm026
+nofrs fontm027
+nofrs fontm028
+nofrs fontm029
+nofrs fontm030
+nofrs fontm031
+nofrs fontm032
+nofrs fontm033
+nofrs fontm034
+nofrs fontm035
+nofrs fontm036
+nofrs fontm037
+nofrs fontm038
+nofrs fontm039
+nofrs fontm040
+nofrs fontm041
+nofrs fontm042
+nofrs fontm043
+nofrs fontm044
+nofrs fontm045
+nofrs fontm046
+nofrs fontm047
+nofrs fontm048
+nofrs fontm049
+nofrs fontm050
+nofrs fontm051
+nofrs fontm052
+nofrs fontm053
+nofrs fontm054
+nofrs fontm055
+nofrs fontm056
+nofrs fontm057
+nofrs fontm058
+nofrs fontm059
+nofrs fontm060
+nofrs fontm061
+nofrs fontm062
+nofrs fontm063
+nofrs fontm064
+nofrs fontm065
+nofrs fontm066
+nofrs fontm067
+nofrs fontm068
+nofrs fontm069
+
+***EQUON
+
+***BANK BatterTopBank
+dopicp ba2at001 
+dopicp ba2at002 
+dopicp ba2at003 
+dopicp ba2at004 
+dopicp ba2at005 
+dopicp ba2at006 
+dopicp ba2at007 
+dopicp b01at001 
+dopicp b01at002 
+dopicp b01at003 
+dopicp b01at004 
+dopicp b01at005 
+dopicp b01at006 
+dopicp b01at007 
+dopicp b01at008 
+dopicp b06at001
+dopicp b06at002
+dopicp b06at003
+dopicp b06at004
+dopicp b06at005
+dopicp b06at006
+dopicp b06at007
+dopicp b06at008
+dopicp b06at009
+dopicp b06at010
+dopicp b06at011
+dopicp b07at001 
+dopicp b07at002 
+dopicp b07at003 
+dopicp b07at004 
+dopicp b07at005 
+dopicp b07at006 
+dopicp b07at007 
+dopicp b07at008 
+dopicp b07at009
+dopicp b08at001
+dopicp b08at002
+dopicp b08at003
+dopicp b08at004
+dopicp b08at005
+dopicp b08at006
+dopicp b08at007
+dopicp b08at008
+dopicp b08at009 
+dopicp b09ct001
+dopicp b09ct002
+dopicp b09ct003
+dopicp b09ct004
+dopicp b09ct005
+dopicp b09ct006
+dopicp b09ct007
+dopicp b09ct008
+dopicp b12at001
+dopicp b12at002
+dopicp b12at003
+dopicp b12at004
+dopicp b12at005
+dopicp b12at006
+dopicp b12at007
+dopicp b12at008
+dopicp b12bt001
+dopicp b12bt002
+dopicp b12bt003
+dopicp b12bt004
+dopicp b12bt005
+dopicp b12bt006
+dopicp b12bt007
+dopicp b12bt008
+dopicp b12bt009
+dopicp b14at001
+dopicp b14at002
+dopicp b14at003
+dopicp b14at004
+dopicp b14at005
+dopicp b14at006
+dopicp b14at007
+dopicp b14at008
+dopicp b14at009
+dopicp b14at010
+dopicp b14at011
+dopicp b14at012
+dopicp b14at013
+dopicp b14at014
+dopicp b14at015
+dopicp b14at016
+dopicp b26at01
+dopicp b26at02
+dopicp b26at03
+dopicp b26at04
+dopicp b26at05
+dopicp b26at06
+dopicp b26at07
+dopicp b26at08
+dopicp b26at09
+dopicp b26at10
+dopicp b26at11
+dopicp b26at12
+dopicp b26at13
+dopicp b26at14
+dopicp b26at15
+dopicp b26at16
+dopicp b26at17
+dopicp b26at18
+dopicp b26at19
+dopicp b26at20
+dopicp b26at21
+dopicp b26at22
+dopicp b26at23
+dopicp b26at24
+dopicp b26at25
+dopicp b27et001
+dopicp b27et002
+dopicp b27et003
+dopicp b27et004
+dopicp b27et005
+dopicp b27et006
+dopicp b27et007
+dopicp b27et008
+dopicp b27et009
+dopicp b27et010
+dopicp b27et011
+dopicp b27et012
+dopicp b27et013
+dopicp b27et014
+dopicp b27et015
+dopicp b27et016
+dopicp b27et017
+dopicp b27et018
+dopicp b27et019
+dopicp b27et020
+dopicp b27et021
+dopicp b27et022
+dopicp b27et023
+dopicp b27et024
+dopicp b27et025
+dopicp b28et001
+dopicp b28et002
+dopicp b28et003
+dopicp b28et004
+dopicp b28et005
+dopicp b28et006
+dopicp b28et007
+dopicp b28et008
+dopicp b28et009
+dopicp b28et010
+dopicp b28et011
+dopicp b28et012
+dopicp b28et013
+dopicp b28et014
+dopicp b28et015
+dopicp b28et016
+dopicp b28et017
+dopicp b28et018
+dopicp b28et019
+dopicp b28et020
+dopicp b28et021
+dopicp b28et022
+dopicp b28et023
+dopicp b29et01
+dopicp b29et02
+dopicp b29et03
+dopicp b29et04
+dopicp b29et05
+dopicp b29et06
+dopicp b29et07
+dopicp b29et08
+dopicp b29et09
+dopicp b29et10
+dopicp b29et11
+dopicp b29et12
+dopicp b29et13
+dopicp b29et14
+dopicp b29et15
+dopicp b29et16
+dopicp b29et17
+dopicp b29et18
+dopicp b29et19
+dopicp b29et20
+dopicp b30et001  
+dopicp b30et002  
+dopicp b30et003  
+dopicp b30et004  
+dopicp b30et005  
+dopicp b30et006  
+dopicp b30et007  
+dopicp b30et008  
+dopicp b30et009  
+dopicp b30et010  
+dopicp b30et011  
+dopicp b30et012  
+dopicp b30et013  
+dopicp b30et014  
+dopicp b30et015  
+dopicp b30et016  
+dopicp b30et017  
+dopicp b30et018  
+dopicp b30et019  
+dopicp b30et020  
+dopicp b30et021  
+dopicp b30et022  
+dopicp b30et023  
+dopicp b30et024  
+dopicp b30et025
+dopicp b35et001
+dopicp b35et002
+dopicp b35et003
+dopicp b35et004
+dopicp b35et005
+dopicp b35et006
+dopicp b35et007
+dopicp b35et008
+dopicp b35et009
+dopicp b35et010
+dopicp b35et011
+dopicp b35et012
+dopicp b35et013
+dopicp b35et014
+dopicp b35et015
+dopicp b35et016
+dopicp b35et017
+dopicp b48et001
+dopicp b48et002
+dopicp b48et003
+dopicp b48et004
+dopicp b48et005
+dopicp b48et006
+dopicp b48et007
+dopicp b48et008
+dopicp b48et009
+dopicp b48et010
+dopicp b48et011
+dopicp b48et012
+dopicp b48et013
+dopicp b48et014
+dopicp b48et015
+dopicp b48et016
+dopicp b48et017
+dopicp b48et018
+dopicp v04et001
+dopicp v04et002
+dopicp v04et003
+dopicp v04et004
+dopicp v04et005
+dopicp v04et006
+dopicp v04et007
+dopicp v04et008
+dopicp v04et009
+dopicp v04et010
+dopicp v04et011
+dopicp v04et012
+dopicp v04et013
+dopicp v04et014
+dopicp v04et015
+dopicp v04et016
+dopicp v04et017
+dopicp v04et018
+dopicp v04et019
+dopicp v04et020
+dopicp v04et021
+dopicp v04et022
+dopicp v04et023
+dopicp v04et024
+dopicp v04et025
+dopicp v04et026
+       
+***BANK BatterBottomBank
+dopicp ba2ab001 
+dopicp ba2ab002 
+dopicp ba2ab003 
+dopicp ba2ab004 
+dopicp ba2ab005 
+dopicp ba2ab006 
+dopicp ba2ab007 
+dopicp b01ab001 
+dopicp b01ab002 
+dopicp b01ab003 
+dopicp b01ab004 
+dopicp b01ab005 
+dopicp b01ab006 
+dopicp b01ab007 
+dopicp b06ab001
+dopicp b06ab002
+dopicp b06ab003
+dopicp b06ab004
+dopicp b06ab005
+dopicp b06ab006
+dopicp b06ab007
+dopicp b06ab008
+dopicp b06ab009
+dopicp b06ab010
+dopicp b06ab011
+dopicp b07ab001 
+dopicp b07ab002 
+dopicp b07ab003 
+dopicp b07ab004 
+dopicp b07ab005 
+dopicp b07ab006 
+dopicp b07ab007 
+dopicp b07ab008 
+dopicp b07ab009 
+dopicp b08ab001
+dopicp b08ab002
+dopicp b08ab003
+dopicp b08ab004
+dopicp b08ab005
+dopicp b08ab006
+dopicp b08ab007
+dopicp b08ab008
+dopicp b08ab009 
+dopicp b09cb001
+dopicp b09cb002
+dopicp b09cb003
+dopicp b09cb004
+dopicp b09cb005
+dopicp b09cb006
+dopicp b09cb007
+dopicp b09cb008
+dopicp b12ab001
+dopicp b12ab002
+dopicp b12ab003
+dopicp b12ab004
+dopicp b12ab005
+dopicp b12ab006
+dopicp b12ab007
+dopicp b12ab008
+dopicp b12bb001
+dopicp b12bb002
+dopicp b12bb003
+dopicp b12bb004
+dopicp b12bb005
+dopicp b12bb006
+dopicp b12bb007
+dopicp b12bb008
+dopicp b12bb009
+dopicp b14ab001
+dopicp b14ab002
+dopicp b14ab003
+dopicp b14ab004
+dopicp b14ab005
+dopicp b14ab006
+dopicp b14ab007
+dopicp b14ab008
+dopicp b14ab009
+dopicp b14ab010
+dopicp b14ab011
+dopicp b14ab012
+dopicp b14ab013
+dopicp b14ab014
+dopicp b14ab015
+dopicp b14ab016
+dopicp b26ab01
+dopicp b26ab02
+dopicp b26ab03
+dopicp b26ab04
+dopicp b26ab05
+dopicp b26ab06
+dopicp b26ab07
+dopicp b26ab08
+dopicp b26ab09
+dopicp b26ab10
+dopicp b26ab11
+dopicp b26ab12
+dopicp b26ab13
+dopicp b26ab14
+dopicp b26ab15
+dopicp b26ab16
+dopicp b26ab17
+dopicp b26ab18
+dopicp b26ab19
+dopicp b26ab20
+dopicp b26ab21
+dopicp b26ab22
+dopicp b26ab23
+dopicp b26ab24
+dopicp b26ab25
+dopicp b27eb001
+dopicp b27eb002
+dopicp b27eb003
+dopicp b27eb004
+dopicp b27eb005
+dopicp b27eb006
+dopicp b27eb007
+dopicp b27eb008
+dopicp b27eb009
+dopicp b27eb010
+dopicp b27eb011
+dopicp b27eb012
+dopicp b27eb013
+dopicp b27eb014
+dopicp b27eb015
+dopicp b27eb016
+dopicp b27eb017
+dopicp b27eb018
+dopicp b27eb019
+dopicp b27eb020
+dopicp b27eb021
+dopicp b27eb022
+dopicp b27eb023
+dopicp b27eb024
+dopicp b27eb025
+dopicp b28eb001
+dopicp b28eb002
+dopicp b28eb003
+dopicp b28eb004
+dopicp b28eb005
+dopicp b28eb006
+dopicp b28eb007
+dopicp b28eb008
+dopicp b28eb009
+dopicp b28eb010
+dopicp b28eb011
+dopicp b28eb012
+dopicp b28eb013
+dopicp b28eb014
+dopicp b28eb015
+dopicp b28eb016
+dopicp b28eb017
+dopicp b28eb018
+dopicp b28eb019
+dopicp b28eb020
+dopicp b28eb021
+dopicp b28eb022
+dopicp b28eb023
+dopicp b29eb01
+dopicp b29eb02
+dopicp b29eb03
+dopicp b29eb04
+dopicp b29eb05
+dopicp b29eb06
+dopicp b29eb07
+dopicp b29eb08
+dopicp b29eb09
+dopicp b29eb10
+dopicp b29eb11
+dopicp b29eb12
+dopicp b29eb13
+dopicp b29eb14
+dopicp b29eb15
+dopicp b29eb16
+dopicp b29eb17
+dopicp b29eb18
+dopicp b29eb19
+dopicp b29eb20
+dopicp b30eb001  
+dopicp b30eb002  
+dopicp b30eb003  
+dopicp b30eb004  
+dopicp b30eb005  
+dopicp b30eb006  
+dopicp b30eb007  
+dopicp b30eb008  
+dopicp b30eb009  
+dopicp b30eb010  
+dopicp b30eb011  
+dopicp b30eb012  
+dopicp b30eb013  
+dopicp b30eb014  
+dopicp b30eb015  
+dopicp b30eb016  
+dopicp b30eb017  
+dopicp b30eb018  
+dopicp b30eb019  
+dopicp b30eb020  
+dopicp b30eb021  
+dopicp b30eb022  
+dopicp b30eb023  
+dopicp b30eb024  
+dopicp b30eb025   
+dopicp b35eb001
+dopicp b35eb002
+dopicp b35eb003
+dopicp b35eb004
+dopicp b35eb005
+dopicp b35eb006
+dopicp b35eb007
+dopicp b35eb008
+dopicp b35eb009
+dopicp b35eb010
+dopicp b35eb011
+dopicp b35eb012
+dopicp b35eb013
+dopicp b35eb014
+dopicp b35eb015
+dopicp b35eb016
+dopicp b35eb017
+dopicp b48eb001
+dopicp b48eb002
+dopicp b48eb003
+dopicp b48eb004
+dopicp b48eb005
+dopicp b48eb006
+dopicp b48eb007
+dopicp b48eb008
+dopicp b48eb009
+dopicp b48eb010
+dopicp b48eb011
+dopicp b48eb012
+dopicp b48eb013
+dopicp b48eb014
+dopicp b48eb015
+dopicp b48eb016
+dopicp b48eb017
+dopicp b48eb018
+dopicp v04eb001
+dopicp v04eb002
+dopicp v04eb003
+dopicp v04eb004
+dopicp v04eb005
+dopicp v04eb006
+dopicp v04eb007
+dopicp v04eb008
+dopicp v04eb009
+dopicp v04eb010
+dopicp v04eb011
+dopicp v04eb012
+dopicp v04eb013
+dopicp v04eb014
+dopicp v04eb015
+dopicp v04eb016
+dopicp v04eb017
+dopicp v04eb018
+dopicp v04eb019
+dopicp v04eb020
+dopicp v04eb021
+dopicp v04eb022
+dopicp v04eb023
+dopicp v04eb024
+dopicp v04eb025
+dopicp v04eb026
+           
+***BANK BattersBat
+dopicbat zbat0001
+dopicbat zbat0002
+dopicbat zbat0003
+dopicbat zbat0004
+dopicbat zbat0005
+dopicbat zbat0006
+dopicbat zbat0007
+dopicbat zbat0008
+dopicbat zbat0009
+dopicbat zbat0010
+dopicbat zbat0011
+dopicbat zbat0012
+dopicbat zbat0013
+dopicbat zbat0014
+dopicbat zbat0015
+dopicbat zbat0016
+dopicbat zbat0017
+dopicbat zbat0018
+dopicbat zbat0019
+dopicbat zbat0020
+dopicbat zbat0021
+dopicbat zbat0022
+dopicbat zbat0023
+dopicbat zbat0024
+dopicbat zbat0025
+dopicbat zbat0026
+dopicbat zbat0027
+dopicbat zbat0028
+dopicbat zbat0029
+dopicbat zbat0030
+dopicbat zbat0031
+dopicbat zbat0032
+dopicbat zbat0033
+dopicbat zbat0034
+dopicbat zbat0035
+dopicbat zbat0036
+dopicbat zbat0037
+dopicbat zbat0038
+dopicbat zbat0039
+dopicbat zbat0040
+dopicbat zbat0041
+dopicbat zbat0042
+dopicbat zbat0043
+dopicbat zbat0044
+dopicbat zbat0045
+dopicbat zbat0046
+dopicbat zbat0047
+dopicbat zbat0048
+dopicbat zbat0049
+dopicbat zbat0050
+dopicbat zbat0051
+dopicbat zbat0052
+dopicbat zbat0053
+dopicbat zbat0054
+dopicbat zbat0055
+dopicbat zbat0056
+dopicbat zbat0057
+dopicbat zbat0058
+dopicbat zbat0059
+dopicbat zbat0060
+dopicbat zbat0061
+dopicbat zbat0062
+dopicbat zbat0063
+dopicbat zbat0064
+dopicbat zbat0065
+dopicbat zbat0066
+dopicbat zbat0067
+dopicbat zbat0068
+dopicbat zbat0069
+dopicbat zbat0070
+dopicbat zbat0071
+dopicbat zbat0072
+dopicbat zbat0073
+dopicbat zbat0074
+dopicbat zbat0075
+dopicbat zbat0076
+dopicbat zbat0077
+dopicbat zbat0078
+dopicbat zbat0079
+dopicbat zbat0080
+dopicbat zbat0081
+dopicbat zbat0082
+dopicbat zbat0083
+dopicbat zbat0084
+dopicbat zbat0085
+dopicbat zbat0086
+dopicbat zbat0087
+dopicbat zbat0088
+dopicbat zbat0089
+dopicbat zbat0090
+dopicbat zbat0091
+dopicbat zbat0092
+dopicbat zbat0093
+dopicbat zbat0094
+dopicbat zbat0095
+dopicbat zbat0096
+dopicbat zbat0097
+dopicbat zbat0098
+dopicbat zbat0099
+dopicbat zbat0100
+dopicbat zbat0101
+dopicbat zbat0102
+dopicbat zbat0103
+dopicbat zbat0104
+dopicbat zbat0105
+dopicbat zbat0106
+dopicbat zbat0107
+dopicbat zbat0108
+dopicbat zbat0109
+dopicbat zbat0110
+dopicbat zbat0111
+dopicbat zbat0112
+dopicbat zbat0113
+dopicbat zbat0114
+dopicbat zbat0115
+dopicbat zbat0116
+dopicbat zbat0117
+dopicbat zbat0118
+dopicbat zbat0119
+dopicbat zbat0120
+dopicbat zbat0121
+dopicbat zbat0122
+dopicbat zbat0123
+dopicbat zbat0124
+dopicbat zbat0125
+dopicbat zbat0126
+dopicbat zbat0127
+dopicbat zbat0128
+dopicbat zbat0129
+dopicbat zbat0130
+dopicbat zbat0131
+dopicbat zbat0132
+dopicbat zbat0133
+dopicbat zbat0134
+dopicbat zbat0135
+dopicbat zbat0136
+dopicbat zbat0137
+dopicbat zbat0138
+dopicbat zbat0139
+dopicbat zbat0140
+dopicbat zbat0141
+dopicbat zbat0142
+dopicbat zbat0143
+dopicbat zbat0144
+dopicbat zbat0145
+dopicbat zbat0146
+dopicbat zbat0147
+dopicbat zbat0148
+dopicbat zbat0149
+dopicbat zbat0150
+dopicbat zbat0151
+dopicbat zbat0152
+dopicbat zbat0153
+dopicbat zbat0154
+dopicbat zbat0155
+dopicbat zbat0156
+dopicbat zbat0157
+dopicbat zbat0158
+dopicbat zbat0159
+dopicbat zbat0160
+dopicbat zbat0161
+dopicbat zbat0162
+dopicbat zbat0163
+dopicbat zbat0164
+dopicbat zbat0165
+dopicbat zbat0166
+dopicbat zbat0167
+dopicbat zbat0168
+dopicbat zbat0169
+dopicbat zbat0170
+dopicbat zbat0171
+dopicbat zbat0172
+
+***BANK PitcherTopBank
+dopicp pa1at001
+dopicp pa1at002
+dopicp pa1at003
+dopicp pa1at004
+dopicp pa1at005
+dopicp pa1at006
+dopicp pa1at007
+dopicp p01at001
+dopicp p01at002
+dopicp p01at003
+dopicp p01at004
+dopicp p01at005
+dopicp p01at006
+dopicp p01at007
+dopicp p01at008
+dopicp p01at009
+dopicp p02at001
+dopicp p02at002
+dopicp p02at003
+dopicp p02at004
+dopicp p02at005
+dopicp p02at006
+dopicp p02at007
+dopicp p02at008
+dopicp p02at009
+dopicp p02at010
+dopicp p02at011
+dopicp p02at012
+dopicp p02at013
+dopicp p02at014
+dopicp p02at015
+dopicp p02at016
+dopicp p05at001
+dopicp p05at002
+dopicp p05at003
+dopicp p05at004
+dopicp p05at005
+dopicp p05at006
+dopicp p05at007
+dopicp p05at008
+dopicp p05at009
+dopicp p07at001
+dopicp p07at002
+dopicp p07at003
+dopicp p07at004
+dopicp p07at005
+dopicp p07at006
+dopicp p07at007
+dopicp p07at008
+dopicp p07at009
+dopicp p07at010
+dopicp p07at011
+dopicp p07at012
+dopicp p07at013
+dopicp p07at014
+dopicp p07at015
+dopicp p07at016
+dopicp p07at017
+dopicp p07at018
+dopicp p07at019
+dopicp p07at020
+dopicp p07at021
+dopicp p07at022
+dopicp p07at023
+dopicp p07at024
+dopicp p07at025
+dopicp p07at026
+dopicp p07at027
+dopicp p07at028
+dopicp p07at029
+dopicp p07at030
+dopicp p07at031
+dopicp p07at032
+dopicp p07at033
+dopicp p07at034
+dopicp p07at035
+dopicp p07at036
+dopicp p07at037
+dopicp p07at038
+dopicp p07at039
+dopicp p09at001
+dopicp p09at002
+dopicp p09at003
+dopicp p09at004
+dopicp p09at005
+dopicp p09at006
+dopicp p09at007
+dopicp p09at008
+dopicp p09at009
+dopicp p09at010
+dopicp p09at011
+dopicp p09at012
+dopicp p09at013
+dopicp p09at014
+dopicp p09at015
+dopicp p09at016
+dopicp p09at017
+dopicp p09at018
+dopicp p09at019
+dopicp p09at020
+dopicp p09at021
+dopicp p09at022
+dopicp p09at023
+dopicp p09at024
+dopicp p09at025
+dopicp p09at026
+dopicp p11at001
+dopicp p11at002
+dopicp p11at003
+dopicp p11at004
+dopicp p11at005
+dopicp p11at006
+dopicp p11at007
+dopicp p11at008
+dopicp p11at009
+dopicp p11at010
+dopicp p11at011
+dopicp p11at012
+dopicp p11at013
+dopicp p11at014
+dopicp p11at015
+dopicp p11at016
+dopicp p11at017
+dopicp p11at018
+dopicp p11at019
+dopicp p11at020
+dopicp p11at021
+dopicp p11at022
+dopicp p11at023
+dopicp p11at024
+dopicp p11at025
+dopicp p11at026
+dopicp p11at027
+dopicp p11at028
+dopicp p11at029
+dopicp p11at030
+
+
+***BANK PitcherBottomBank
+dopicp pa1ab001
+dopicp pa1ab002
+dopicp pa1ab003
+dopicp pa1ab004
+dopicp pa1ab005
+dopicp pa1ab006
+dopicp pa1ab007
+dopicp p01ab001
+dopicp p01ab002
+dopicp p01ab003
+dopicp p01ab004
+dopicp p01ab005
+dopicp p01ab006
+dopicp p01ab007
+dopicp p01ab008
+dopicp p01ab009
+dopicp p02ab001
+dopicp p02ab002
+dopicp p02ab003
+dopicp p02ab004
+dopicp p02ab005
+dopicp p02ab006
+dopicp p02ab007
+dopicp p02ab008
+dopicp p02ab009
+dopicp p02ab010
+dopicp p02ab011
+dopicp p02ab012
+dopicp p02ab013
+dopicp p02ab014
+dopicp p02ab015
+dopicp p02ab016
+dopicp p05ab001
+dopicp p05ab002
+dopicp p05ab003
+dopicp p05ab004
+dopicp p05ab005
+dopicp p05ab006
+dopicp p05ab007
+dopicp p05ab008
+dopicp p05ab009
+dopicp p07ab001
+dopicp p07ab002
+dopicp p07ab003
+dopicp p07ab004
+dopicp p07ab005
+dopicp p07ab006
+dopicp p07ab007
+dopicp p07ab008
+dopicp p07ab009
+dopicp p07ab010
+dopicp p07ab011
+dopicp p07ab012
+dopicp p07ab013
+dopicp p07ab014
+dopicp p07ab015
+dopicp p07ab016
+dopicp p07ab017
+dopicp p07ab018
+dopicp p07ab019
+dopicp p07ab020
+dopicp p07ab021
+dopicp p07ab022
+dopicp p07ab023
+dopicp p07ab024
+dopicp p07ab025
+dopicp p07ab026
+dopicp p07ab027
+dopicp p07ab028
+dopicp p07ab029
+dopicp p07ab030
+dopicp p07ab031
+dopicp p07ab032
+dopicp p07ab033
+dopicp p07ab034
+dopicp p07ab035
+dopicp p07ab036
+dopicp p07ab037
+dopicp p07ab038
+dopicp p07ab039
+dopicp p09ab001
+dopicp p09ab002
+dopicp p09ab003
+dopicp p09ab004
+dopicp p09ab005
+dopicp p09ab006
+dopicp p09ab007
+dopicp p09ab008
+dopicp p09ab009
+dopicp p09ab010
+dopicp p09ab011
+dopicp p09ab012
+dopicp p09ab013
+dopicp p09ab014
+dopicp p09ab015
+dopicp p09ab016
+dopicp p09ab017
+dopicp p09ab018
+dopicp p09ab019
+dopicp p09ab020
+dopicp p09ab021
+dopicp p09ab022
+dopicp p09ab023
+dopicp p09ab024
+dopicp p09ab025
+dopicp p09ab026
+dopicp p11ab001
+dopicp p11ab002
+dopicp p11ab003
+dopicp p11ab004
+dopicp p11ab005
+dopicp p11ab006
+dopicp p11ab007
+dopicp p11ab008
+dopicp p11ab009
+dopicp p11ab010
+dopicp p11ab011
+dopicp p11ab012
+dopicp p11ab013
+dopicp p11ab014
+dopicp p11ab015
+dopicp p11ab016
+dopicp p11ab017
+dopicp p11ab018
+dopicp p11ab019
+dopicp p11ab020
+dopicp p11ab021
+dopicp p11ab022
+dopicp p11ab023
+dopicp p11ab024
+dopicp p11ab025
+dopicp p11ab026
+dopicp p11ab027
+dopicp p11ab028
+dopicp p11ab029
+dopicp p11ab030
+           
+***BANK FielderTopBank
+dopicp f68at001
+dopicp f68at002
+dopicp f68at003
+dopicp f68at004
+dopicp f68at005
+dopicp f68at006
+dopicp f68at007
+dopicp f68at008
+dopicp f68at009
+dopicp f68at011
+dopicp f68at012
+dopicp f69at001
+dopicp f69at002
+dopicp f69at003
+dopicp f69at004
+dopicp f69at005
+dopicp f69at006
+dopicp f69at007
+dopicp f69at008
+dopicp f69at009
+dopicp f69at010
+dopicp blue01
+
+***BANK FielderBottomBank
+dopicp f68ab001
+dopicp f68ab002
+dopicp f68ab003
+dopicp f68ab004
+dopicp f68ab005
+dopicp f68ab006
+dopicp f68ab007
+dopicp f68ab008
+dopicp f68ab009
+dopicp f68ab010
+dopicp f68ab011
+dopicp f68ab012
+dopicp f69ab001
+dopicp f69ab002
+dopicp f69ab003
+dopicp f69ab004
+dopicp f69ab005
+dopicp f69ab006
+dopicp f69ab007
+dopicp f69ab008
+dopicp f69ab009
+dopicp f69ab010
+
+***BANK CatcherTopBank
+dopicp catcher
+
+***BANK CatcherBottomBank
+
+***BANK NumbersBank
+
+***BANK RunnerTopBank
+dopicp r06ft001
+dopicp r06ft002
+dopicp r06ft003
+dopicp r06ft004
+dopicp r06ft005
+dopicp r06ft006
+dopicp r06ft007
+dopicp r06ft008
+dopicp r06ft009
+dopicp r03bt001
+dopicp r03bt002
+dopicp r03bt003
+dopicp r03bt004
+dopicp r03bt005
+dopicp r03bt006
+dopicp r03bt007
+dopicp r03dt001
+dopicp r03dt002
+dopicp r03dt003
+dopicp r03dt004
+dopicp r03dt005
+dopicp r03dt006
+dopicp r03dt007
+dopicp r03dt008
+dopicp r03dt009
+dopicp r03dt010
+dopicp r03dt011
+dopicp r03dt012
+     
+***BANK RunnerBottomBank
+
+dopicp r06fb001
+dopicp r06fb002
+dopicp r06fb003
+dopicp r06fb004
+dopicp r06fb005
+dopicp r06fb006
+dopicp r06fb007
+dopicp r06fb008
+dopicp r06fb009
+dopicp r03bb001
+dopicp r03bb002
+dopicp r03bb003
+dopicp r03bb004
+dopicp r03bb005
+dopicp r03bb006
+dopicp r03bb007
+dopicp r03db001
+dopicp r03db002
+dopicp r03db003
+dopicp r03db004
+dopicp r03db005
+dopicp r03db006
+dopicp r03db007
+dopicp r03db008
+dopicp r03db009
+dopicp r03db010
+dopicp r03db011
+dopicp r03db012
+     	    
+***bank Background
+dopic field01  field
+dopic view02  field
+dopic view6  field
+dopic back01  field
+dopic test1  field
+
+***bank Misc
+dopicbal ball0001 misc
+dopicbal ball0002 misc
+dopicbal ball0003 misc
+dopicbal ball0004 misc
+dopicbal ball0005 misc
+dopicbal ball0006 misc
+dopicbal ball0007 misc
+dopicbal ball0008 misc
+dopicbal ball0009 misc
+dopicbal ball0010 misc
+dopicbal ball0011 misc
+dopicbal ball0012 misc
+dopicbal ball0013 misc
+dopicbal ball0014 misc
+dopicbal ball0015 misc
+dopicbal ball0016 misc   
+dopicbal ball0017 misc
+dopicbal ball0018 misc
+dopicbal ball0019 misc
+dopicbal ball0020 misc
+dopicbal ball0021 misc
+dopicbal ball0022 misc
+dopicbal ball0023 misc
+dopicbal ball0024 misc
+dopicbal ball0025 misc
+dopicbal ball0026 misc
+dopicbal ball0027 misc
+dopicbal ball0028 misc
+dopicbal ball0029 misc
+dopicbal ball0030 misc
+dopicbal ball0031 misc
+dopicbal ball0032 misc
+dopicbal ball0033 misc
+dopicbal ball0034 misc
+dopicbal ball0035 misc
+dopicbal ball0036 misc
+dopicbal ball0037 misc
+dopicbal ball0038 misc
+dopicbal ball0039 misc
+dopicbal ball0040 misc
+dopicbal ball0041 misc
+dopicbal ball0042 misc
+dopicbal ball0043 misc
+dopicbal ball0044 misc
+dopicbal ball0045 misc
+dopicbal ball0046 misc
+dopicbal ball0047 misc
+dopicbal ball0048 misc
+dopicbal ball0049 misc
+dopicbal ball0050 misc
+dopicbal ball0051 misc
+dopicbal ball0052 misc
+dopicbal ball0053 misc
+dopicbal ball0054 misc
+dopicbal ball0055 misc
+dopicbal ball0056 misc
+dopicbal ball0057 misc
+dopicbal ball0058 misc
+dopicbal ball0059 misc
+dopicbal ball0060 misc
+dopicbal ball0061 misc
+dopicbal ball0062 misc
+dopicbal ball0063 misc
+dopicbal ball0064 misc
+dopicbal ball0065 misc
+dopicbal ball0066 misc
+dopicbal ball0067 misc
+dopicbal ball0068 misc
+dopicbal ball0069 misc
+dopicbal ball0070 misc
+dopicbal ball0071 misc
+dopicbal ball0072 misc
+dopicbal ball0073 misc
+dopicbal ball0074 misc
+dopicbal ball0075 misc
+dopicbal ball0076 misc
+dopicbal ball0077 misc
+dopicbal ball0078 misc
+dopicbal ball0079 misc
+dopicbal ball0080 misc
+dopicbal ball0081 misc
+dopicbal ball0082 misc
+dopicbal ball0083 misc
+dopicbal ball0084 misc
+
+dopic zone1a misc
+dopic zone3a misc
+dopic winclip1 misc
+dopic winclip3 misc
+dopic meter2a misc
+dopic first misc
+dopic third misc
+dopic winx misc
+dopicard rad2a misc
+dopic nums0001 misc
+dopic nums0002 misc
+dopic nums0003 misc
+dopic nums0004 misc
+dopic nums0005 misc
+dopic nums0006 misc
+dopic nums0007 misc
+dopic nums0008 misc
+dopic nums0009 misc
+dopic nums0010 misc
+dopic nums0011 misc
+dopic nums0012 misc
+dopic nums0013 misc
+dopic nums0014 misc
+dopic nums0015 misc
+dopic nums0016 misc
+dopic nums0017 misc
+dopic nums0018 misc
+dopic nums0019 misc
+dopic nums0020 misc
+dopic nums0021 misc
+dopic nums0022 misc
+dopic nums0023 misc
+dopic nums0024 misc
+dopic nums0025 misc
+dopic nums0026 misc
+dopic nums0027 misc
+dopic nums0028 misc
+dopic nums0029 misc
+dopic nums0030 misc
+dopic nums0031 misc
+dopic nums0032 misc
+dopic nums0033 misc
+dopic nums0034 misc
+dopic nums0035 misc
+dopic nums0036 misc
+dopic nums0037 misc
+dopic nums0038 misc
+dopic nums0039 misc
+dopic nums0040 misc
+dopic nums0041 misc
+dopic nums0042 misc
+dopic nums0043 misc
+dopic nums0044 misc
+dopic nums0045 misc
+dopic nums0046 misc
+dopic nums0047 misc
+dopic nums0048 misc
+dopic nums0049 misc
+dopic nums0050 misc
+dopic nums0051 misc
+dopic nums0052 misc
+dopic nums0053 misc
+dopic nums0054 misc
+dopic nums0055 misc
+dopic nums0056 misc
+dopic nums0057 misc
+dopic nums0058 misc
+dopic nums0059 misc
+dopic nums0060 misc
+dopic nums0061 misc
+dopic nums0062 misc
+dopic nums0063 misc
+dopic nums0064 misc
+dopic nums0065 misc
+dopic nums0066 misc
+dopic nums0067 misc
+dopic nums0068 misc
+dopic nums0069 misc
+dopic nums0070 misc
+dopic nums0071 misc
+dopic nums0072 misc
+dopic nums0073 misc
+dopic nums0074 misc
+dopic nums0075 misc
+dopic nums0076 misc
+dopic nums0077 misc
+dopic nums0078 misc
+dopic nums0079 misc
+dopic nums0080 misc
+dopic nums0081 misc
+dopic nums0082 misc
+dopic nums0083 misc
+dopic nums0084 misc
+dopic nums0085 misc
+dopic nums0086 misc
+dopic nums0087 misc
+dopic nums0088 misc
+dopic nums0089 misc
+dopic nums0090 misc
+dopic nums0091 misc
+dopic nums0092 misc
+dopic nums0093 misc
+dopic nums0094 misc
+dopic nums0095 misc
+dopic nums0096 misc
+dopic nums0097 misc
+dopic nums0098 misc
+dopic nums0099 misc
+dopic nums0100 misc
+
+***bank Title
+dopic back    attract
+dopic banner  attract
+dopic bats    attract
+dopic dirt    attract
+dopic green   attract
+dopic title   attract
+
+***bank Field
+nofrs fld0000
+nofrs fld0001
+nofrs fld0002
+nofrs fld0003
+nofrs fld0004
+nofrs fld0005
+nofrs fld0006
+nofrs fld0007
+nofrs fld0008
+nofrs fld0009
+nofrs fld0010
+nofrs fld0011
+nofrs fld0012
+nofrs fld0013
+nofrs fld0014
+nofrs fld0015
+nofrs fld0016
+nofrs fld0017
+nofrs fld0018
+nofrs fld0019
+nofrs fld0020
+nofrs fld0021
+nofrs fld0022
+nofrs fld0023
+nofrs fld0024
+nofrs fld0025
+nofrs fld0026
+nofrs fld0027
+nofrs fld0028
+nofrs fld0029
+nofrs fld0030
+nofrs fld0031
+nofrs fld0032
+nofrs fld0033
+nofrs fld0034
+nofrs fld0035
+nofrs fld0036
+nofrs fld0037
+nofrs fld0038
+nofrs fld0039
+nofrs fld0040
+nofrs fld0041
+nofrs fld0042
+nofrs fld0043
+nofrs fld0044
+nofrs fld0045
+nofrs fld0046
+nofrs fld0047
+nofrs fld0048
+nofrs fld0049
+nofrs fld0050
+nofrs fld0051
+nofrs fld0052
+nofrs fld0053
+nofrs fld0054
+nofrs fld0055
+nofrs fld0056
+nofrs fld0057
+nofrs fld0058
+nofrs fld0059
+nofrs fld0060
+nofrs fld0061
+nofrs fld0062
+nofrs fld0063
+nofrs fld0064
+nofrs fld0065
+nofrs fld0066
+nofrs fld0067
+nofrs fld0068
+nofrs fld0069
+nofrs fld0070
+nofrs fld0071
+nofrs fld0072
+nofrs fld0073
+nofrs fld0074
+nofrs fld0075
+nofrs fld0076
+nofrs fld0077
+nofrs fld0078
+nofrs fld0079
+nofrs fld0080
+nofrs fld0081
+nofrs fld0082
+nofrs fld0083
+nofrs fld0084
+nofrs fld0085
+nofrs fld0086
+nofrs fld0087
+nofrs fld0088
+nofrs fld0089
+nofrs fld0090
+nofrs fld0091
+nofrs fld0092
+nofrs fld0093
+nofrs fld0094
+nofrs fld0095
+nofrs fld0096
+nofrs fld0097
+nofrs fld0098
+nofrs fld0099
+nofrs fld0100
+nofrs fld0101
+nofrs fld0102
+nofrs fld0103
+nofrs fld0104
+nofrs fld0105
+nofrs fld0106
+nofrs fld0107
+nofrs fld0108
+nofrs fld0109
+nofrs fld0110
+nofrs fld0111
+nofrs fld0112
+nofrs fld0113
+nofrs fld0114
+nofrs fld0115
+nofrs fld0116
+nofrs fld0117
+nofrs fld0118
+nofrs fld0119
+nofrs fld0120
+nofrs fld0121
+nofrs fld0122
+nofrs fld0123
+nofrs fld0124
+nofrs fld0125
+nofrs fld0126
+nofrs fld0127
+nofrs fld0128
+nofrs fld0129
+nofrs fld0130
+nofrs fld0131
+nofrs fld0132
+nofrs fld0133
+nofrs fld0134
+nofrs fld0135
+nofrs fld0136
+nofrs fld0137
+nofrs fld0138
+nofrs fld0139
+nofrs fld0140
+nofrs fld0141
+nofrs fld0142
+nofrs fld0143
+nofrs fld0144
+nofrs fld0145
+nofrs fld0146
+nofrs fld0147
+nofrs fld0148
+nofrs fld0149
+nofrs fld0150
+nofrs fld0151
+nofrs fld0152
+nofrs fld0153
+nofrs fld0154
+nofrs fld0155
+nofrs fld0156
+nofrs fld0157
+nofrs fld0158
+nofrs fld0159
+nofrs fld0160
+nofrs fld0161
+nofrs fld0162
+nofrs fld0163
+nofrs fld0164
+nofrs fld0165
+nofrs fld0166
+nofrs fld0167
+nofrs fld0168
+nofrs fld0169
+nofrs fld0170
+nofrs fld0171
+nofrs fld0172
+nofrs fld0173
+nofrs fld0174
+nofrs fld0175
+nofrs fld0176
+nofrs fld0177
+nofrs fld0178
+nofrs fld0179
+nofrs fld0180
+nofrs fld0181
+nofrs fld0182
+nofrs fld0183
+nofrs fld0184
+nofrs fld0185
+nofrs fld0186
+nofrs fld0187
+nofrs fld0188
+nofrs fld0189
+nofrs fld0190
+nofrs fld0191
+nofrs fld0192
+nofrs fld0193
+nofrs fld0194
+nofrs fld0195
+nofrs fld0196
+nofrs fld0197
+nofrs fld0198
+nofrs fld0199
+nofrs fld0200
+nofrs fld0201
+nofrs fld0202
+nofrs fld0203
+nofrs fld0204
+nofrs fld0205
+nofrs fld0206
+nofrs fld0207
+nofrs fld0208
+nofrs fld0209
+nofrs fld0210
+nofrs fld0211
+nofrs fld0212
+nofrs fld0213
+nofrs fld0214
+nofrs fld0215
+nofrs fld0216
+nofrs fld0217
+nofrs fld0218
+nofrs fld0219
+nofrs fld0220
+nofrs fld0221
+nofrs fld0222
+nofrs fld0223
+nofrs fld0224
+nofrs fld0225
+nofrs fld0226
+nofrs fld0227
+nofrs fld0228
+nofrs fld0229
+nofrs fld0230
+nofrs fld0231
+nofrs fld0232
+nofrs fld0233
+nofrs fld0234
+nofrs fld0235
+nofrs fld0236
+nofrs fld0237
+nofrs fld0238
+nofrs fld0239
+nofrs fld0240
+nofrs fld0241
+nofrs fld0242
+nofrs fld0243
+nofrs fld0244
+nofrs fld0245
+nofrs fld0246
+nofrs fld0247
+nofrs fld0248
+nofrs fld0249
+nofrs fld0250
+nofrs fld0251
+nofrs fld0252
+nofrs fld0253
+nofrs fld0254
+nofrs fld0255
+nofrs fld0256
+nofrs fld0257
+nofrs fld0258
+nofrs fld0259
+nofrs fld0260
+nofrs fld0261
+nofrs fld0262
+nofrs fld0263
+nofrs fld0264
+nofrs fld0265
+nofrs fld0266
+nofrs fld0267
+nofrs fld0268
+nofrs fld0269
+nofrs fld0270
+nofrs fld0271
+nofrs fld0272
+nofrs fld0273
+nofrs fld0274
+nofrs fld0275
+nofrs fld0276
+nofrs fld0277
+nofrs fld0278
+nofrs fld0279
+nofrs fld0280
+nofrs fld0281
+nofrs fld0282
+nofrs fld0283
+nofrs fld0284
+nofrs fld0285
+nofrs fld0286
+nofrs fld0287
+nofrs fld0288
+nofrs fld0289
+nofrs fld0290
+nofrs fld0291
+nofrs fld0292
+nofrs fld0293
+nofrs fld0294
+nofrs fld0295
+nofrs fld0296
+nofrs fld0297
+nofrs fld0298
+nofrs fld0299
+nofrs fld0300
+nofrs fld0301
+nofrs fld0302
+nofrs fld0303
+nofrs fld0304
+nofrs fld0305
+nofrs fld0306
+nofrs fld0307
+nofrs fld0308
+nofrs fld0309
+nofrs fld0310
+nofrs fld0311
+nofrs fld0312
+nofrs fld0313
+nofrs fld0314
+nofrs fld0315
+nofrs fld0316
+nofrs fld0317
+nofrs fld0318
+nofrs fld0319
+nofrs fld0320
+nofrs fld0321
+nofrs fld0322
+nofrs fld0323
+nofrs fld0324
+nofrs fld0325
+nofrs fld0326
+nofrs fld0327
+nofrs fld0328
+nofrs fld0329
+nofrs fld0330
+nofrs fld0331
+nofrs fld0332
+nofrs fld0333
+nofrs fld0334
+nofrs fld0335
+nofrs fld0336
+nofrs fld0337
+nofrs fld0338
+nofrs fld0339
+nofrs fld0340
+nofrs fld0341
+nofrs fld0342
+nofrs fld0343
+nofrs fld0344
+nofrs fld0345
+nofrs fld0346
+nofrs fld0347
+nofrs fld0348
+nofrs fld0349
+nofrs fld0350
+nofrs fld0351
+nofrs fld0352
+nofrs fld0353
+nofrs fld0354
+nofrs fld0355
+nofrs fld0356
+nofrs fld0357
+nofrs fld0358
+nofrs fld0359
+nofrs fld0360
+nofrs fld0361
+nofrs fld0362
+nofrs fld0363
+nofrs fld0364
+nofrs fld0365
+nofrs fld0366
+nofrs fld0367
+nofrs fld0368
+nofrs fld0369
+nofrs fld0370
+nofrs fld0371
+nofrs fld0372
+nofrs fld0373
+nofrs fld0374
+nofrs fld0375
+nofrs fld0376
+nofrs fld0377
+nofrs fld0378
+nofrs fld0379
+nofrs fld0380
+nofrs fld0381
+nofrs fld0382
+nofrs fld0383
+nofrs fld0384
+nofrs fld0385
+nofrs fld0386
+nofrs fld0387
+nofrs fld0388
+nofrs fld0389
+nofrs fld0390
+nofrs fld0391
+nofrs fld0392
+nofrs fld0393
+nofrs fld0394
+nofrs fld0395
+nofrs fld0396
+nofrs fld0397
+nofrs fld0398
+nofrs fld0399
+nofrs fld0400
+nofrs fld0401
+nofrs fld0402
+nofrs fld0403
+nofrs fld0404
+nofrs fld0405
+nofrs fld0406
+nofrs fld0407
+nofrs fld0408
+nofrs fld0409
+nofrs fld0410
+nofrs fld0411
+nofrs fld0412
+nofrs fld0413
+nofrs fld0414
+nofrs fld0415
+nofrs fld0416
+nofrs fld0417
+nofrs fld0418
+nofrs fld0419
+nofrs fld0420
+nofrs fld0421
+nofrs fld0422
+nofrs fld0423
+nofrs fld0424
+nofrs fld0425
+nofrs fld0426
+nofrs fld0427
+nofrs fld0428
+nofrs fld0429
+nofrs fld0430
+nofrs fld0431
+nofrs fld0432
+nofrs fld0433
+nofrs fld0434
+nofrs fld0435
+nofrs fld0436
+nofrs fld0437
+nofrs fld0438
+nofrs fld0439
+nofrs fld0440
+nofrs fld0441
+nofrs fld0442
+nofrs fld0443
+nofrs fld0444
+nofrs fld0445
+nofrs fld0446
+nofrs fld0447
+nofrs fld0448
+nofrs fld0449
+nofrs fld0450
+nofrs fld0451
+nofrs fld0452
+nofrs fld0453
+nofrs fld0454
+nofrs fld0455
+nofrs fld0456
+nofrs fld0457
+nofrs fld0458
+nofrs fld0459
+nofrs fld0460
+nofrs fld0461
+nofrs fld0462
+nofrs fld0463
+nofrs fld0464
+nofrs fld0465
+nofrs fld0466
+nofrs fld0467
+nofrs fld0468
+nofrs fld0469
+nofrs fld0470
+nofrs fld0471
+nofrs fld0472
+nofrs fld0473
+nofrs fld0474
+nofrs fld0475
+nofrs fld0476
+nofrs fld0477
+nofrs fld0478
+nofrs fld0479
+nofrs fld0480
+nofrs fld0481
+nofrs fld0482
+nofrs fld0483
+nofrs fld0484
+nofrs fld0485
+nofrs fld0486
+nofrs fld0487
+nofrs fld0488
+nofrs fld0489
+nofrs fld0490
+nofrs fld0491
+nofrs fld0492
+nofrs fld0493
+nofrs fld0494
+nofrs fld0495
+nofrs fld0496
+nofrs fld0497
+nofrs fld0498
+nofrs fld0499
+nofrs fld0500
+nofrs fld0501
+nofrs fld0502
+nofrs fld0503
+nofrs fld0504
+nofrs fld0505
+nofrs fld0506
+nofrs fld0507
+nofrs fld0508
+nofrs fld0509
+nofrs fld0510
+nofrs fld0511
+nofrs fld0512
+nofrs fld0513
+nofrs fld0514
+nofrs fld0515
+nofrs fld0516
+nofrs fld0517
+nofrs fld0518
+nofrs fld0519
+nofrs fld0520
+nofrs fld0521
+nofrs fld0522
+nofrs fld0523
+nofrs fld0524
+nofrs fld0525
+nofrs fld0526
+nofrs fld0527
+nofrs fld0528
+nofrs fld0529
+nofrs fld0530
+nofrs fld0531
+nofrs fld0532
+nofrs fld0533
+nofrs fld0534
+nofrs fld0535
+nofrs fld0536
+nofrs fld0537
+nofrs fld0538
+nofrs fld0539
+nofrs fld0540
+nofrs fld0541
+nofrs fld0542
+nofrs fld0543
+nofrs fld0544
+nofrs fld0545
+nofrs fld0546
+nofrs fld0547
+nofrs fld0548
+nofrs fld0549
+nofrs fld0550
+nofrs fld0551
+nofrs fld0552
+nofrs fld0553
+nofrs fld0554
+nofrs fld0555
+nofrs fld0556
+nofrs fld0557
+nofrs fld0558
+nofrs fld0559
+nofrs fld0560
+nofrs fld0561
+nofrs fld0562
+nofrs fld0563
+nofrs fld0564
+nofrs fld0565
+nofrs fld0566
+nofrs fld0567
+nofrs fld0568
+nofrs fld0569
+nofrs fld0570
+nofrs fld0571
+nofrs fld0572
+nofrs fld0573
+nofrs fld0574
+nofrs fld0575
+nofrs fld0576
+nofrs fld0577
+nofrs fld0578
+nofrs fld0579
+nofrs fld0580
+nofrs fld0581
+nofrs fld0582
+nofrs fld0583
+nofrs fld0584
+nofrs fld0585
+nofrs fld0586
+nofrs fld0587
+nofrs fld0588
+nofrs fld0589
+nofrs fld0590
+nofrs fld0591
+nofrs fld0592
+nofrs fld0593
+nofrs fld0594
+nofrs fld0595
+nofrs fld0596
+nofrs fld0597
+nofrs fld0598
+nofrs fld0599
+nofrs fld0600
+nofrs fld0601
+nofrs fld0602
+nofrs fld0603
+nofrs fld0604
+nofrs fld0605
+nofrs fld0606
+nofrs fld0607
+nofrs fld0608
+nofrs fld0609
+nofrs fld0610
+nofrs fld0611
+nofrs fld0612
+nofrs fld0613
+nofrs fld0614
+nofrs fld0615
+nofrs fld0616
+nofrs fld0617
+nofrs fld0618
+nofrs fld0619
+nofrs fld0620
+nofrs fld0621
+nofrs fld0622
+nofrs fld0623
+nofrs fld0624
+nofrs fld0625
+nofrs fld0626
+nofrs fld0627
+nofrs fld0628
+nofrs fld0629
+nofrs fld0630
+nofrs fld0631
+nofrs fld0632
+nofrs fld0633
+nofrs fld0634
+nofrs fld0635
+nofrs fld0636
+nofrs fld0637
+nofrs fld0638
+nofrs fld0639
+nofrs fld0640
+nofrs fld0641
+nofrs fld0642
+nofrs fld0643
+nofrs fld0644
+nofrs fld0645
+nofrs fld0646
+nofrs fld0647
+nofrs fld0648
+nofrs fld0649
+nofrs fld0650
+nofrs fld0651
+nofrs fld0652
+nofrs fld0653
+nofrs fld0654
+nofrs fld0655
+nofrs fld0656
+nofrs fld0657
+nofrs fld0658
+nofrs fld0659
+nofrs fld0660
+nofrs fld0661
+nofrs fld0662
+nofrs fld0663
+nofrs fld0664
+nofrs fld0665
+nofrs fld0666
+nofrs fld0667
+nofrs fld0668
+nofrs fld0669
+nofrs fld0670
+nofrs fld0671
+nofrs fld0672
+nofrs fld0673
+nofrs fld0674
+nofrs fld0675
+nofrs fld0676
+nofrs fld0677
+nofrs fld0678
+nofrs fld0679
+nofrs fld0680
+nofrs fld0681
+nofrs fld0682
+nofrs fld0683
+nofrs fld0684
+nofrs fld0685
+nofrs fld0686
+nofrs fld0687
+nofrs fld0688
+nofrs fld0689
+nofrs fld0690
+nofrs fld0691
+nofrs fld0692
+nofrs fld0693
+nofrs fld0694
+nofrs fld0695
+nofrs fld0696
+nofrs fld0697
+nofrs fld0698
+nofrs fld0699
+nofrs fld0700
+nofrs fld0701
+nofrs fld0702
+nofrs fld0703
+nofrs fld0704
+nofrs fld0705
+nofrs fld0706
+nofrs fld0707
+nofrs fld0708
+nofrs fld0709
+nofrs fld0710
+nofrs fld0711
+nofrs fld0712
+nofrs fld0713
+nofrs fld0714
+nofrs fld0715
+nofrs fld0716
+nofrs fld0717
+nofrs fld0718
+nofrs fld0719
+nofrs fld0720
+nofrs fld0721
+nofrs fld0722
+nofrs fld0723
+nofrs fld0724
+nofrs fld0725
+nofrs fld0726
+nofrs fld0727
+nofrs fld0728
+nofrs fld0729
+nofrs fld0730
+nofrs fld0731
+nofrs fld0732
+nofrs fld0733
+nofrs fld0734
+nofrs fld0735
+nofrs fld0736
+nofrs fld0737
+nofrs fld0738
+nofrs fld0739
+nofrs fld0740
+nofrs fld0741
+nofrs fld0742
+nofrs fld0743
+nofrs fld0744
+nofrs fld0745
+nofrs fld0746
+nofrs fld0747
+nofrs fld0748
+nofrs fld0749
+nofrs fld0750
+nofrs fld0751
+nofrs fld0752
+nofrs fld0753
+nofrs fld0754
+nofrs fld0755
+nofrs fld0756
+nofrs fld0757
+nofrs fld0758
+nofrs fld0759
+nofrs fld0760
+nofrs fld0761
+nofrs fld0762
+nofrs fld0763
+nofrs fld0764
+nofrs fld0765
+nofrs fld0766
+nofrs fld0767
+nofrs fld0768
+nofrs fld0769
+nofrs fld0770
+nofrs fld0771
+nofrs fld0772
+nofrs fld0773
+nofrs fld0774
+nofrs fld0775
+nofrs fld0776
+nofrs fld0777
+nofrs fld0778
+nofrs fld0779
+nofrs fld0780
+nofrs fld0781
+nofrs fld0782
+nofrs fld0783
+nofrs fld0784
+nofrs fld0785
+nofrs fld0786
+nofrs fld0787
+nofrs fld0788
+nofrs fld0789
+nofrs fld0790
+nofrs fld0791
+nofrs fld0792
+nofrs fld0793
+nofrs fld0794
+nofrs fld0795
+nofrs fld0796
+nofrs fld0797
+nofrs fld0798
+nofrs fld0799
+nofrs fld0800
+nofrs fld0801
+nofrs fld0802
+nofrs fld0803
+nofrs fld0804
+nofrs fld0805
+nofrs fld0806
+nofrs fld0807
+nofrs fld0808
+nofrs fld0809
+nofrs fld0810
+nofrs fld0811
+nofrs fld0812
+nofrs fld0813
+nofrs fld0814
+nofrs fld0815
+nofrs fld0816
+nofrs fld0817
+nofrs fld0818
+nofrs fld0819
+nofrs fld0820
+nofrs fld0821
+nofrs fld0822
+nofrs fld0823
+nofrs fld0824
+nofrs fld0825
+nofrs fld0826
+nofrs fld0827
+nofrs fld0828
+nofrs fld0829
+nofrs fld0830
+nofrs fld0831
+nofrs fld0832
+nofrs fld0833
+nofrs fld0834
+nofrs fld0835
+nofrs fld0836
+nofrs fld0837
+nofrs fld0838
+nofrs fld0839
+nofrs fld0840
+nofrs fld0841
+nofrs fld0842
+nofrs fld0843
+nofrs fld0844
+nofrs fld0845
+nofrs fld0846
+nofrs fld0847
+nofrs fld0848
+nofrs fld0849
+nofrs fld0850
+nofrs fld0851
+nofrs fld0852
+nofrs fld0853
+nofrs fld0854
+nofrs fld0855
+nofrs fld0856
+nofrs fld0857
+nofrs fld0858
+nofrs fld0859
+nofrs fld0860
+nofrs fld0861
+nofrs fld0862
+nofrs fld0863
+nofrs fld0864
+nofrs fld0865
+nofrs fld0866
+nofrs fld0867
+nofrs fld0868
+nofrs fld0869
+nofrs fld0870
+nofrs fld0871
+nofrs fld0872
+nofrs fld0873
+nofrs fld0874
+nofrs fld0875
+nofrs fld0876
+nofrs fld0877
+nofrs fld0878
+nofrs fld0879
+nofrs fld0880
+nofrs fld0881
+nofrs fld0882
+nofrs fld0883
+nofrs fld0884
+nofrs fld0885
+nofrs fld0886
+nofrs fld0887
+nofrs fld0888
+nofrs fld0889
+nofrs fld0890
+nofrs fld0891
+nofrs fld0892
+nofrs fld0893
+nofrs fld0894
+nofrs fld0895
+nofrs fld0896
+nofrs fld0897
+nofrs fld0898
+nofrs fld0899
+nofrs fld0900
+nofrs fld0901
+nofrs fld0902
+nofrs fld0903
+nofrs fld0904
+nofrs fld0905
+nofrs fld0906
+nofrs fld0907
+nofrs fld0908
+nofrs fld0909
+nofrs fld0910
+nofrs fld0911
+nofrs fld0912
+nofrs fld0913
+nofrs fld0914
+nofrs fld0915
+nofrs fld0916
+nofrs fld0917
+nofrs fld0918
+nofrs fld0919
+nofrs fld0920
+nofrs fld0921
+nofrs fld0922
+nofrs fld0923
+nofrs fld0924
+nofrs fld0925
+nofrs fld0926
+nofrs fld0927
+nofrs fld0928
+nofrs fld0929
+nofrs fld0930
+nofrs fld0931
+nofrs fld0932
+nofrs fld0933
+nofrs fld0934
+nofrs fld0935
+nofrs fld0936
+nofrs fld0937
+nofrs fld0938
+nofrs fld0939
+nofrs fld0940
+nofrs fld0941
+nofrs fld0942
+nofrs fld0943
+nofrs fld0944
+nofrs fld0945
+nofrs fld0946
+nofrs fld0947
+nofrs fld0948
+nofrs fld0949
+nofrs fld0950
+nofrs fld0951
+nofrs fld0952
+nofrs fld0953
+nofrs fld0954
+nofrs fld0955
+nofrs fld0956
+nofrs fld0957
+nofrs fld0958
+nofrs fld0959
+nofrs fld0960
+nofrs fld0961
+nofrs fld0962
+nofrs fld0963
+nofrs fld0964
+nofrs fld0965
+nofrs fld0966
+nofrs fld0967
+nofrs fld0968
+nofrs fld0969
+nofrs fld0970
+nofrs fld0971
+nofrs fld0972
+nofrs fld0973
+nofrs fld0974
+nofrs fld0975
+nofrs fld0976
+nofrs fld0977
+nofrs fld0978
+nofrs fld0979
+nofrs fld0980
+nofrs fld0981
+nofrs fld0982
+nofrs fld0983
+nofrs fld0984
+nofrs fld0985
+nofrs fld0986
+nofrs fld0987
+nofrs fld0988
+nofrs fld0989
+nofrs fld0990
+nofrs fld0991
+nofrs fld0992
+nofrs fld0993
+nofrs fld0994
+nofrs fld0995
+nofrs fld0996
+nofrs fld0997
+nofrs fld0998
+nofrs fld0999
+nofrs fld1000
+nofrs fld1001
+nofrs fld1002
+nofrs fld1003
+nofrs fld1004
+nofrs fld1005
+nofrs fld1006
+nofrs fld1007
+nofrs fld1008
+nofrs fld1009
+nofrs fld1010
+nofrs fld1011
+nofrs fld1012
+nofrs fld1013
+nofrs fld1014
+nofrs fld1015
+nofrs fld1016
+nofrs fld1017
+nofrs fld1018
+nofrs fld1019
+nofrs fld1020
+nofrs fld1021
+nofrs fld1022
+nofrs fld1023
+nofrs fld1024
+nofrs fld1025
+nofrs fld1026
+nofrs fld1027
+nofrs fld1028
+nofrs fld1029
+nofrs fld1030
+nofrs fld1031
+nofrs fld1032
+nofrs fld1033
+nofrs fld1034
+nofrs fld1035
+nofrs fld1036
+nofrs fld1037
+nofrs fld1038
+nofrs fld1039
+nofrs fld1040
+nofrs fld1041
+nofrs fld1042
+nofrs fld1043
+nofrs fld1044
+nofrs fld1045
+nofrs fld1046
+nofrs fld1047
+nofrs fld1048
+nofrs fld1049
+nofrs fld1050
+nofrs fld1051
+nofrs fld1052
+nofrs fld1053
+nofrs fld1054
+nofrs fld1055
+nofrs fld1056
+nofrs fld1057
+nofrs fld1058
+nofrs fld1059
+nofrs fld1060
+nofrs fld1061
+nofrs fld1062
+nofrs fld1063
+nofrs fld1064
+nofrs fld1065
+nofrs fld1066
+nofrs fld1067
+nofrs fld1068
+nofrs fld1069
+nofrs fld1070
+nofrs fld1071
+nofrs fld1072
+nofrs fld1073
+nofrs fld1074
+nofrs fld1075
+nofrs fld1076
+nofrs fld1077
+nofrs fld1078
+nofrs fld1079
+nofrs fld1080
+nofrs fld1081
+
+***end
+done
+
+
+

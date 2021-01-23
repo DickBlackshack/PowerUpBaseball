@@ -1,0 +1,13 @@
+!filetest e:\pairs\images\%1.img %2\%1.lbm
+
+open e:\baseball\images\%1.img
+loadpcx %2%1
+workspace 11 8
+mode binary
+compress off
+!frame
+swap 0 255
+output size,1
+compress rl
+output workspace
+close

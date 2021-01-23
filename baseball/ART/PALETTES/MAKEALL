@@ -1,0 +1,35 @@
+makepalp r:\baseball\art\pieces\cubtop   cubshirt cubshirt
+makepalp r:\baseball\art\pieces\cubpantp cubspant cubspant
+
+makepalp r:\baseball\art\pieces\cubshrtp cubsptch cubsptch
+
+makepalp r:\baseball\art\pieces\cubnum   cubsnum cubsnum
+
+makepalp r:\baseball\art\palettes\redshirt redshirt redshirt
+makepalp r:\baseball\art\palettes\redpants redspant redspant
+makepalp r:\baseball\art\pieces\rednum redsnum redsnum
+
+makepal r:\baseball\art\pieces\soxshirt soxshirt soxshirt
+makepal r:\baseball\art\pieces\soxpant soxspant soxspant
+makepal r:\baseball\art\pieces\soxnum soxsnum soxsnum
+
+makepalp r:\baseball\art\field\view02 field field
+makepalp r:\baseball\art\field\back01 stadium stadium
+
+makepalp r:\baseball\art\field\field04a bigfield bigfield
+
+makepalp r:\baseball\art\attract\back   title1 title1
+makepalp r:\baseball\art\attract\banner title2 title2
+makepalp r:\baseball\art\attract\bats   title3 title3
+makepalp r:\baseball\art\attract\dirt   title4 title4
+makepalp r:\baseball\art\attract\green  title5 title5
+makepalp r:\baseball\art\attract\title  title6 title6
+
+makepalp r:\baseball\art\misc\ball0001 ball ball
+makepalp r:\baseball\art\misc\zone1    zone zone
+
+makepalp r:\baseball\art\misc\meter    meter meter
+
+
+done
+

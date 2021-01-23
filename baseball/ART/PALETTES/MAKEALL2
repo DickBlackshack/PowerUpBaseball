@@ -1,0 +1,164 @@
+
+makepal q:\sf3\art\select\life0001 meterclr
+makepal q:\sf3\art\select\selct selectclr
+makepal q:\sf3\art\select\grey3 squareclr
+makepal q:\sf3\art\select\sqblue sblueclr
+makepal q:\sf3\art\select\sqred sredclr
+makepal q:\sf3\art\select\sqvio svioclr
+makepal q:\sf3\art\select\bgnm0001 verbarclr
+
+makepal q:\sf3\art\select\sky01 skyclr
+makepal q:\sf3\art\select\sky08 sky8clr
+makepal q:\sf3\art\select\sky07 sky7clr
+makepal q:\sf3\art\select\sky12 sky12clr
+makepal q:\sf3\art\select\sky03 sky3clr
+makepal q:\sf3\art\select\sky05 sky5clr
+makepal q:\sf3\art\select\sky11 sky11clr
+makepal q:\sf3\art\select\sky02 sky2clr
+makepal q:\sf3\art\select\sky15 sky15clr
+makepal q:\sf3\art\select\sky09 sky9clr
+makepal q:\sf3\art\select\sky06 sky6clr
+makepal q:\sf3\art\select\sky21 sky21clr
+makepal q:\sf3\art\select\sky16 sky16clr
+makepal q:\sf3\art\select\sky20 sky20clr
+makepal q:\sf3\art\select\sky22 sky22clr
+makepal q:\sf3\art\select\sky23 sky23clr
+makepal q:\sf3\art\timer\x0-90001 numbfont
+makepal q:\sf3\art\combos\coun0001 comboclr
+
+makepal q:\sf3\art\backroun\logo2 logoclr
+makepal q:\sf3\art\attract\flex0001 vanclr
+makepal q:\sf3\art\backroun\street2 logo2clr
+
+makepal q:\sf3\art\attract\stills\atrctbkg attract1clr
+
+makepal q:\sf3\art\attract\ryun0001 aryuclr
+makepal q:\sf3\art\attract\vega0001 avegaclr
+makepal q:\sf3\art\attract\chun0001 achunclr
+makepal q:\sf3\art\attract\jcbg0001 aguilclr
+makepal q:\sf3\art\attract\camk0001 acamclr
+makepal q:\sf3\art\attract\flsh0001 aguile2clr
+makepal q:\sf3\art\attract\bolt0001 abisclr
+makepal q:\sf3\art\attract\kns0001 akenclr
+
+makepal q:\sf3\art\wintext\akm00001 wintxtclr
+makepal q:\sf3\art\combos\fite0001 messtxtclr
+makepal q:\sf3\art\font2\fnt20001 bfontclr
+makepal q:\sf3\art\font2\fnt2pal2 bfont2clr
+
+makepal q:\sf3\art\select\cammy\cams0001 camsclr
+makepal q:\sf3\art\select\vega\vsel0001 vegasclr
+makepal q:\sf3\art\select\guile\gsel0001 guilsclr
+makepal q:\sf3\art\select\ryu\ryus0001 ryusclr
+makepal q:\sf3\art\select\zangeif\zsel0001 zansclr
+makepal q:\sf3\art\select\sagat\sag0001 sagsclr
+makepal q:\sf3\art\select\chunli\osel0001 chunsclr
+makepal q:\sf3\art\select\balrog\bal0001 balsclr
+makepal q:\sf3\art\select\bison\biss0001 bissclr
+makepal q:\sf3\art\select\honda\hsel0001 honsclr
+makepal q:\sf3\art\select\akuma\asel0001 akumsclr
+makepal q:\sf3\art\select\\ken\chap0001 kensclr
+makepal q:\sf3\art\select\\sawada\ssel0001 sawsclr
+makepal q:\sf3\art\select\\trooper\tsel0001 trosclr
+
+makepal q:\sf3\art\chars\sagat\sagpal1 sagatclr
+makepal q:\sf3\art\chars\sagat\sagpal2 sagat2clr
+makepal q:\sf3\art\chars\ryu\rstndb01 ryuclr
+makepal q:\sf3\art\chars\ryu\altryu ryu2clr
+makepal q:\sf3\art\chars\vega\vstndd01 vegaclr
+makepal q:\sf3\art\chars\vega\vpal2 vega2clr
+makepal q:\sf3\art\chars\honda\hpal01 hondaclr
+makepal q:\sf3\art\chars\honda\hpal02 honda2clr
+makepal q:\sf3\art\chars\zangief\zpal01 zangclr
+makepal q:\sf3\art\chars\zangief\zpal02 zang2clr
+makepal q:\sf3\art\chars\bison\mstndb01 bisonclr
+makepal q:\sf3\art\chars\bison\bispal2 bison2clr
+makepal q:\sf3\art\chars\cammy\lstndd01 cammyclr
+makepal q:\sf3\art\chars\cammy\altcam cammy2clr
+makepal q:\sf3\art\chars\balrog\bstndd01 balrogclr
+makepal q:\sf3\art\chars\balrog\balpal2 balrog2clr
+makepal q:\sf3\art\chars\guile\gpal01 guileclr
+makepal q:\sf3\art\chars\guile\gpal02 guile2clr
+makepal q:\sf3\art\chars\akuma\apal1 akumaclr
+makepal q:\sf3\art\chars\akuma\apal2 akuma2clr
+makepal q:\sf3\art\chars\ken\kenred kenclr
+makepal q:\sf3\art\chars\ken\kstndd01 ken2clr
+makepal q:\sf3\art\chars\chunli\opal3 chunclr
+makepal q:\sf3\art\chars\chunli\opal2 chun2clr
+makepal q:\sf3\art\chars\trooper\palred1 trooperclr
+makepal q:\sf3\art\chars\trooper\palred2 trooper2clr
+makepal q:\sf3\art\chars\trooper\palyel1 trpfireclr
+makepal q:\sf3\art\chars\trooper\palyel2 trpfire2clr
+makepal q:\sf3\art\chars\trooper\palblu1 trpblueclr
+makepal q:\sf3\art\chars\trooper\palblu2 trpblue2clr
+makepal q:\sf3\art\chars\sawada\sawpal sawadaclr
+
+makepal q:\sf3\art\proj\ballpal2 fireball2clr
+makepal q:\sf3\art\proj\ballpal1 fireballclr
+makepal q:\sf3\art\fx\fx flashclr
+makepal q:\sf3\art\chars\vega\claw\clawx03 clawsclr
+
+
+makepal q:\sf3\art\backroun\newlair\sw0g biswalsclr
+makepal q:\sf3\art\backroun\newlair\midf bisflclr
+makepal q:\sf3\art\backroun\newlair\lit1 bislitclr
+makepal q:\sf3\art\backroun\newlair\hall1090 bistopclr
+makepal q:\sf3\art\backroun\newlair\fpal3 bisfirclr
+makepal q:\sf3\art\backroun\newlair\tva0001 ltvclr
+
+makepal q:\sf3\art\backroun\komande\catfloor komflrclr
+makepal q:\sf3\art\backroun\komande\tvwall3 komtvwclr
+makepal q:\sf3\art\backroun\komande\farwalld komwalclr
+makepal q:\sf3\art\backroun\komande\chain kchainclr
+makepal q:\sf3\art\backroun\komande\b01 komtv1
+makepal q:\sf3\art\backroun\komande\b39 komtv5
+makepal q:\sf3\art\backroun\komande\bc0001 komtv2
+makepal q:\sf3\art\backroun\komande\bd0001 komtv3
+makepal q:\sf3\art\backroun\komande\be0001 komtv4
+makepal q:\sf3\art\backroun\komande\footbg\sec50001 komtv6
+makepal q:\sf3\art\backroun\komande\footbg\tot0001 komtv7
+makepal q:\sf3\art\backroun\komande\footbg\zom0001 komtv9
+makepal q:\sf3\art\backroun\komande\footbg\wskl0001 komtv8
+
+makepal q:\sf3\art\backroun\warehous\hand0001 ringclr
+makepal q:\sf3\art\backroun\warehous\house2 houseclr
+makepal q:\sf3\art\backroun\warehous\skyr wskyclr
+makepal q:\sf3\art\backroun\warehous\walll wbackclr
+makepal q:\sf3\art\backroun\warehous\ed0001 wcrowdclr
+makepal q:\sf3\art\backroun\warehous\redpal wcrowd2clr
+
+makepal q:\sf3\art\backroun\anheadqt\ancrates anfloorclr
+makepal q:\sf3\art\backroun\anheadqt\mounts anmntclr
+makepal q:\sf3\art\backroun\anheadqt\ansky anskyclr
+makepal q:\sf3\art\backroun\anheadqt\an01 anheadclr
+
+makepal q:\sf3\art\backroun\lab\nflr01 labfclr
+makepal q:\sf3\art\backroun\lab\labplat labf2clr
+makepal q:\sf3\art\backroun\lab\bkgpal01 labbclr
+makepal q:\sf3\art\backroun\lab\pod0001 podclr
+makepal q:\sf3\art\backroun\lab\eelgreen eelclr
+makepal q:\sf3\art\backroun\lab\bnk20001 bnkaclr
+makepal q:\sf3\art\backroun\lab\eeld0001 eel2clr
+makepal q:\sf3\art\backroun\lab\vidpal2 labtvclr
+makepal q:\sf3\art\backroun\lab\boom0001 labtv2clr
+makepal q:\sf3\art\backroun\lab\shak0001 labtv3clr
+
+makepal q:\sf3\art\backroun\alttemp\sky1 temskyclr
+makepal q:\sf3\art\backroun\alttemp\fplane1 temflclr
+makepal q:\sf3\art\backroun\alttemp\far1 temtemclr
+makepal q:\sf3\art\backroun\alttemp\mid1 temjungclr
+makepal q:\sf3\art\backroun\alttemp\water1 temwatclr
+
+makepal q:\sf3\art\backroun\dungeon\dungpal4 dgfireclr
+makepal q:\sf3\art\backroun\dungeon\dungbkg dungclr
+makepal q:\sf3\art\backroun\dungeon\fightpal dcfloorclr
+makepal q:\sf3\art\backroun\dungeon\tinyh01 dungch1clr
+makepal q:\sf3\art\backroun\dungeon\tinc001 dungch2clr
+
+makepal q:\sf3\art\meter\sound1 swdiagclr
+makepal q:\sf3\art\attract\names\anames anameclr
+
+done
+
+
+

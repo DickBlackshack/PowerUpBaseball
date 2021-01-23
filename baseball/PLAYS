@@ -1,0 +1,782 @@
+
+
+
+;W    equ  0
+;B    equ  2
+;H    equ  1
+;
+;L    equ  0
+;R    equ  1
+;S    equ  2
+
+
+
+;PLAY	MACRO
+;	dc.b \1,\2,\3,\4,\5,\6,\7,\8,\9,\A,\B,\C,\D,\E,\F,\G,\H,\I
+;	dc.w \J ;card
+;	dc.w \K ;pal
+;	ENDM
+
+
+
+	         ;E # # W H  AV PW SP RG GL AR H H O B T  Name           T Card     Pal
+
+	PLAY	B,0,0,5,5,140,52,22,00,00,25,2,0,9,L,L,"SMITH        ",0,card0101,P_BRAV ;	1 - DH            
+
+
+
+B7000 ;  (Bases empty ball hit to left field)
+
+	dw	Cover,first 
+	dw	Cover,second
+	dw	Seek,-506,2048 
+	dw	Cover,third
+	dw	Seekball
+	dw	Backup,left 
+	dw	Seek,976,1966 
+	dw	Cover,home
+	dw	Seek,136,1225
+
+
+Starting coordinates for all fielders prior to pitch:
+
+1b       757 , 1098   3-First
+2b       480 , 1543   4-Second   
+ss      -480 , 1543   5-Short
+3b      -757 , 1098   6-Third
+lf      -1873, 2971   7-Left
+cf          0, 3926   8-Center
+rf       1873, 2971   9-Right
+c           0,  -30   1-Catcher 
+p           0,  685   2-Pitcher
+
+
+
+Outfield Plays:
+
+B7000   (Bases empty ball hit to left field)
+
+1b      Cover first 
+2b      Cover second
+ss      Seek -506,2048 
+3b      Cover third
+lf      Seek ball
+cf      Back-up left 
+rf      Seek 976,1966 
+c       Cover home
+p       Seek 136,1225
+
+
+
+B8000   (Bases empty ball hit to center field)
+
+1b      Cover first 
+2b      Cover second
+ss      Seek 0,2493 
+3b      Seek -374,912
+lf      Back-up center fielder
+cf      Seek ball
+rf      Back-up center fielder 
+c       Cover home
+p       Seek 0,1274
+
+
+
+B9000   (Bases empty ball hit to right field)
+
+1b      Cover first 
+2b      Seek 597,1851
+ss      Cover second 
+3b      Cover third
+lf      Seek -1461,1933
+cf      Back-up right fielder
+rf      Seek ball 
+c       Cover home
+p       Seek -292,912
+
+
+
+B7100   (Runner on first ball hit to left field)
+
+1b      Cover first 
+2b      Cover second
+ss      Seek -1230,1653  
+3b      Cover third
+lf      Seek ball
+cf      Back-up left fielder
+rf      Seek 976,1966 
+c       Cover home
+p       Seek -440,600 
+
+
+
+B8100   (Runner on first ball hit to center field)
+
+1b      Cover first 
+2b      Cover second
+ss      Seek -588,1916 
+3b      Cover third
+lf      Back-up center fielder
+cf      Seek ball
+rf      Back-up center fielder 
+c       Cover home
+p       Seek -819,484
+
+
+
+B9100   (Runner on first ball hit to right field)
+
+1b      Cover first 
+2b      Cover second
+ss      Seek -160,1060 
+3b      Cover third
+lf      Seek -1626,1488
+cf      Back-up right fielder
+rf      Seek ball 
+c       Cover home
+p       Seek -819,484
+
+
+
+B7010   (Runner on second ball hit to left field)
+
+1b      Seek-275,533 
+2b      Cover first
+ss      Seek -539,2081  
+3b      Cover third
+lf      Seek ball
+cf      Back-up left fielder
+rf      Seek 976,1966 
+c       Cover home
+p       Seek -317,-421 
+
+
+B8010   (Runner on second ball hit to center field)
+
+1b      Seek 37,879 
+2b      Cover first
+ss      Seek -539,2081 
+3b      Cover third
+lf      Back-up center fielder
+cf      Seek ball
+rf      Back-up center fielder 
+c       Cover home
+p       Seek 0,-372
+
+
+B9010   (Runner on second ball hit to right field)
+
+1b      Seek 300,600 
+2b      Cover first
+ss      Cover second 
+3b      Cover third
+lf      Seek -885,2065
+cf      Back-up right fielder
+rf      Seek ball 
+c       Cover home
+p       Seek -160,300
+
+
+B7100   (Runner on third ball hit to left field)
+
+1b      Seek-275,533 
+2b      Cover first
+ss      Seek -539,2081  
+3b      Cover third
+lf      Seek ball
+cf      Back-up left fielder
+rf      Seek 976,1966 
+c       Cover home
+p       Seek -317,-421 
+
+
+
+B8100   (Runner on third ball hit to center field)
+
+1b      Seek-275,533 
+2b      Cover first
+ss      Seek -539,2081  
+3b      Cover third
+lf      Seek ball
+cf      Back-up left fielder
+rf      Seek 976,1966 
+c       Cover home
+p       Seek -317,-421 
+
+
+
+B9100   (Runner on third ball hit to right field)
+
+1b      Seek 300,600 
+2b      Cover first
+ss      Cover second 
+3b      Cover third
+lf      Seek -885,2065
+cf      Back-up right fielder
+rf      Seek ball 
+c       Cover home
+p       Seek -160,300
+
+
+
+B7110   (Runners on first and second ball hit to left field)
+
+1b      Seek -368,765 
+2b      Cover second
+ss      Seek -588,1916  
+3b      Cover third
+lf      Seek ball
+cf      Back-up left fielder
+rf      Seek 976,1966 
+c       Cover home
+p       Seek 0,-372 
+
+
+
+B8110   (Runners on first and second ball hit to center field)
+
+1b      Seek 0,1023 
+2b      Cover second
+ss      Seek -723,1992 
+3b      Cover third
+lf      Back-up center fielder
+cf      Seek ball
+rf      Back-up center fielder 
+c       Cover home
+p       Seek 0,-372
+
+
+
+B9110   (Runners on first and second ball hit to right field)
+
+1b      Seek 300,600 
+2b      Cover second
+ss      Seek -142,1168 
+3b      Cover third
+lf      Seek -1626,1438
+cf      Back-up right fielder
+rf      Seek ball 
+c       Cover home
+p       Seek 0,-372
+
+
+
+B7101   (Runners on first and third ball hit to left field)
+
+1b      Cover first 
+2b      Cover second
+ss      Seek -1230,1653 
+3b      Cover third
+lf      Seek ball
+cf      Back-up left fielder
+rf      Seek 390,2000 
+c       Cover home
+p       Seek -440,600 
+
+
+
+B8101   (Runners on first and third ball hit to center field)
+
+1b      Cover first 
+2b      Cover second
+ss      Seek -588,1916 
+3b      Cover third
+lf      Back-up center fielder
+cf      Seek ball
+rf      Back-up center fielder 
+c       Cover home
+p       Seek -819,484
+
+
+
+B9101   (Runners on first and third ball hit to right field)
+
+1b      Cover first 
+2b      Cover second
+ss      Seek -160,1060 
+3b      Cover third
+lf      Seek -1626,1438
+cf      Back-up right fielder
+rf      Seek ball 
+c       Cover home
+p       Seek -819,484
+
+
+
+B7011   (Runners on second and third ball hit to left field)
+
+1b      Seek -368,765 
+2b      Cover first
+ss      Cover second 
+3b      Cover third
+lf      Seek ball
+cf      Back-up left fielder
+rf      Seek 976,1966 
+c       Cover home
+p       Seek 0,-372 
+
+
+
+B8011   (Runners on second and third ball hit to center field)
+
+1b      Seek -485,894 
+2b      Cover first
+ss      Cover second 
+3b      Cover third
+lf      Seek -1321,1605
+cf      Seek ball
+rf      Back-up center fielder 
+c       Cover home
+p       Seek 0,-372
+
+
+
+B9011   (Runners on second and third ball hit to right field)
+
+1b      Seek 300,600 
+2b      Cover first
+ss      Cover second 
+3b      Cover third
+lf      Seek -1321,1605
+cf      Back-up right fielder
+rf      Seek ball 
+c       Cover home
+p       Seek 0,-372
+
+
+
+B7111   (Bases loaded ball hit to left field)
+
+1b      Seek -368,765 
+2b      Cover second
+ss      Seek -588,1916  
+3b      Cover third
+lf      Seek ball
+cf      Back-up left fielder
+rf      Seek 976,1966 
+c       Cover home
+p       Seek 0,-372 
+
+
+
+B8111   (Bases loaded ball hit to center field)
+
+1b      Seek 0,1023 
+2b      Cover second
+ss      Seek -723,1992 
+3b      Cover third
+lf      Back-up center fielder
+cf      Seek ball
+rf      Back-up center fielder 
+c       Cover home
+p       Seek 0,-372
+
+
+
+B9111   (Bases loaded ball hit to right field)
+
+1b      Seek 300,600 
+2b      Cover second
+ss      Seek -142,1168 
+3b      Cover third
+lf      Seek -1626,1438
+cf      Back-up right fielder
+rf      Seek ball 
+c       Cover home
+p       Seek 0,-372
+
+
+
+
+***INFIELD PLAYS****
+
+
+B6000   (Bases empty ball hit to third base)
+
+1b      Cover first
+2b      Cover second
+ss      Back-up third baseman
+3b      Seek ball
+lf      Seek -1402,1766
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B5000   (Bases empty ball hit to shortstop)
+
+1b      Cover first
+2b      Cover second
+ss      Seek ball
+3b      Back-up shortstop
+lf      Seek -820,2154
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B4000   (Bases empty ball hit to second base)
+
+1b      Cover first
+2b      Seek ball
+ss      Cover second
+3b      Cover third 
+lf      Seek -820,2154
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B3000   (Bases empty ball hit to first base)
+
+1b      Seek ball
+2b      Back-up first baseman
+ss      Cover second
+3b      Cover third 
+lf      Seek -820,2154
+cf      Seek 0,1800
+rf      Seek 1359,1700
+c       Cover home
+p       Cover first
+
+
+B2000   (Bases empty bunt)
+
+1b      Seek ball
+2b      Cover first
+ss      Cover second
+3b      Seek ball 
+lf      Seek -820,2154
+cf      Seek 0,1800
+rf      Seek 1359,1700
+c       Seek ball
+p       Seek ball
+
+
+B6100   (Runner on first ball hit to third base)
+
+1b      Cover first
+2b      Cover second
+ss      Back-up third baseman
+3b      Seek ball
+lf      Seek -1402,1766
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B5100   (Runner on first ball hit to shortstop)
+
+1b      Cover first
+2b      Cover second
+ss      Seek ball
+3b      Back-up shortstop
+lf      Seek -820,2154
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B4100   (Runner on first ball hit to second base)
+
+1b      Cover first
+2b      Seek ball
+ss      Cover second
+3b      Cover third 
+lf      Seek -627,2267
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B3100   (Runner on first ball hit to first base)
+
+1b      Seek ball
+2b      Back-up first baseman
+ss      Cover second
+3b      Cover third 
+lf      Seek -820,2154
+cf      Seek 0,1800
+rf      Seek 1359,1700
+c       Cover home
+p       Cover first
+
+
+B2100   (Runner on first bunt)
+
+1b      Seek ball
+2b      Cover first
+ss      Cover second
+3b      Seek ball 
+lf      Seek -627,2267
+cf      Seek 0,1800
+rf      Seek 1359,1700
+c       Seek ball
+p       Seek ball
+
+
+B6110   (Runners on first and second ball hit to third base)
+
+1b      Cover first
+2b      Cover second
+ss      Back-up third baseman
+3b      Seek ball
+lf      Seek -1402,1766
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B5110   (Runners on first and second ball hit to shortstop)
+
+1b      Cover first
+2b      Cover second
+ss      Seek ball
+3b      Cover third
+lf      Seek -1402,1766
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B4110   (Runners on first and second ball hit to second base)
+
+1b      Cover first
+2b      Seek ball
+ss      Cover second
+3b      Cover third 
+lf      Seek -627,2267
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B3110   (Runners on first and second ball hit to first base)
+
+1b      Seek ball
+2b      Back-up first baseman
+ss      Cover second
+3b      Cover third 
+lf      Seek -820,2154
+cf      Seek 0,1800
+rf      Seek 1359,1700
+c       Cover home
+p       Cover first
+
+
+B2110   (Runners on first and second bunt)
+
+1b      Cover first
+2b      Cover second
+ss      Cover third
+3b      Seek ball 
+lf      Seek -627,2267
+cf      Seek 0,1800
+rf      Seek 1359,1700
+c       Seek ball
+p       Seek ball
+
+
+B6101   (Runners on first and third ball hit to third base)
+
+1b      Cover first
+2b      Cover second
+ss      Back-up third baseman
+3b      Seek ball
+lf      Seek -1402,1766
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B5101   (Runners on first and third ball hit to shortstop)
+
+1b      Cover first
+2b      Cover second
+ss      Seek ball
+3b      Back-up shortstop
+lf      Seek -1402,1766
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B4101   (Runners on first and third ball hit to second base)
+
+1b      Cover first
+2b      Seek ball
+ss      Cover second
+3b      Cover third 
+lf      Seek -627,2267
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B3101   (Runners on first and third ball hit to first base)
+
+1b      Seek ball
+2b      Back-up first baseman
+ss      Cover second
+3b      Cover third 
+lf      Seek -820,2154
+cf      Seek 0,1800
+rf      Seek 1359,1700
+c       Cover home
+p       Cover first
+
+
+B2101   (Runners on first and third bunt)
+
+1b      Cover first
+2b      Cover second
+ss      Cover third
+3b      Seek ball 
+lf      Seek -627,2267
+cf      Seek 0,1800
+rf      Seek 1359,1700
+c       Seek ball
+p       Seek ball
+
+
+B6011   (Runners on second and third ball hit to third base)
+
+1b      Cover first
+2b      Cover second
+ss      Cover third
+3b      Seek ball
+lf      Seek -1402,1766
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B5011  (Runners on second and third ball hit to shortstop)
+
+1b      Cover first
+2b      Cover second
+ss      Seek ball
+3b      Cover third
+lf      Seek -1402,1766
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B4011   (Runners on second and third ball hit to second base)
+
+1b      Cover first
+2b      Seek ball
+ss      Cover second
+3b      Cover third 
+lf      Seek -627,2267
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B3011  (Runners on second and third ball hit to first base)
+
+1b      Seek ball
+2b      Back-up first baseman
+ss      Cover second
+3b      Cover third 
+lf      Seek -820,2154
+cf      Seek 0,1800
+rf      Seek 1359,1700
+c       Cover home
+p       Cover first
+
+
+B2011  (Runners on second and third bunt)
+
+1b      Cover first
+2b      Cover second
+ss      Cover third
+3b      Seek ball 
+lf      Seek -627,2267
+cf      Seek 0,1800
+rf      Seek 1359,1700
+c       Seek ball
+p       Seek ball
+
+
+B6111   (Bases loaded ball hit to third base)
+
+1b      Cover first
+2b      Cover second
+ss      Cover third
+3b      Seek ball
+lf      Seek -1402,1766
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B5111  (Bases loaded ball hit to shortstop)
+
+1b      Cover first
+2b      Cover second
+ss      Seek ball
+3b      Cover third
+lf      Seek -1402,1766
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B4111   (Bases loaded ball hit to second base)
+
+1b      Cover first
+2b      Seek ball
+ss      Cover second
+3b      Cover third 
+lf      Seek -627,2267
+cf      Seek 0,1800
+rf      Seek 859,2041
+c       Cover home
+p       Seek ball
+
+
+B3111  (Bases loaded ball hit to first base)
+
+1b      Seek ball
+2b      Back-up first baseman
+ss      Cover second
+3b      Cover third 
+lf      Seek -820,2154
+cf      Seek 0,1800
+rf      Seek 1359,1700
+c       Cover home
+p       Cover first
+
+
+B2111  (Bases loaded bunt)
+
+1b      Cover first
+2b      Cover second
+ss      Cover third
+3b      Seek ball 
+lf      Seek -627,2267
+cf      Seek 0,1800
+rf      Seek 1359,1700
+c       Seek ball
+p       Seek ball
+

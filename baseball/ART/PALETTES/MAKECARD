@@ -1,0 +1,5 @@
+makepalp q:\baseball\art\cards\card0001  CardPal CardPal
+
+makepalp q:\baseball\art\cards\border  BordPal BordPal
+makepalp dimpict  DimPPal DimPPal
+

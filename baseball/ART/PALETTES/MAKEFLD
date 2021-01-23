@@ -1,0 +1,3 @@
+makepalp q:\baseball\art\field\test2  TestFPal TestFPal
+makepalp q:\baseball\art\field\seat01 Stands Stands
+makepalp q:\baseball\art\misc\meter05 basemeter basemeter

@@ -1,0 +1,14 @@
+!filetest r:\baseball\art\images\%1.img r:\baseball\art\%2\%1.pcx
+open r:\baseball\art\images\%1.img
+loadpcx r:\baseball\art\%2\%1
+mode binary
+compress off
+change 255 0
+!frame
+swap 0 255
+output size,1
+compress rl
+output workspace
+close
+
+

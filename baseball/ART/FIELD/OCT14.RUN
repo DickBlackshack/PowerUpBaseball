@@ -1,0 +1,64 @@
+mode binary
+compress off
+
+loadpcx oct1401
+open r:\baseball\art\images\oct1401.img
+output size,0
+output workspace
+close
+
+loadpcx oct1402
+open r:\baseball\art\images\oct1402.img
+output size,0
+output workspace
+close
+
+loadpcx oct1403
+open r:\baseball\art\images\oct1403.img
+output size,0
+output workspace
+close
+
+loadpcx oct1404
+open r:\baseball\art\images\oct1404.img
+output size,0
+output workspace
+close
+
+loadpcx oct1405
+open r:\baseball\art\images\oct1405.img
+output size,0
+output workspace
+close
+
+loadpcx oct1406
+open r:\baseball\art\images\oct1406.img
+output size,0
+output workspace
+close
+
+loadpcx oct1407
+open r:\baseball\art\images\oct1407.img
+output size,0
+output workspace
+close
+
+loadpcx oct1408
+open r:\baseball\art\images\oct1408.img
+output size,0
+output workspace
+close
+
+loadpcx oct1409
+open r:\baseball\art\images\oct1409.img
+output size,0
+output workspace
+close
+
+loadpcx oct1410
+open r:\baseball\art\images\oct1410.img
+output size,0
+output workspace
+close
+
+done

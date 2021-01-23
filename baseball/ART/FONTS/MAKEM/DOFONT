@@ -1,0 +1,639 @@
+transparent 255
+
+loadpcx r:\baseball\art\fonts\diag0000
+swap 0 255
+extract   0  0  11 8 fontm000
+workspace 11 8
+clear 255
+open fontm000.img
+load fontm000
+image
+
+loadpcx r:\baseball\art\fonts\diag0001
+swap 0 255
+extract   0  0  11 8 fontm001
+workspace 11 8
+clear 255
+open fontm001.img
+load fontm001
+image
+
+loadpcx r:\baseball\art\fonts\diag0002
+swap 0 255
+extract   0  0  11 8 fontm002
+workspace 11 8
+clear 255
+open fontm002.img
+load fontm002
+image
+
+loadpcx r:\baseball\art\fonts\diag0003
+swap 0 255
+extract   0  0  11 8 fontm003
+workspace 11 8
+clear 255
+open fontm003.img
+load fontm003
+image
+
+loadpcx r:\baseball\art\fonts\diag0004
+swap 0 255
+extract   0  0  11 8 fontm004
+workspace 11 8
+clear 255
+open fontm004.img
+load fontm004
+image
+
+loadpcx r:\baseball\art\fonts\diag0005
+swap 0 255
+extract   0  0  11 8 fontm005
+workspace 11 8
+clear 255
+open fontm005.img
+load fontm005
+image
+
+loadpcx r:\baseball\art\fonts\diag0006
+swap 0 255
+extract   0  0  11 8 fontm006
+workspace 11 8
+clear 255
+open fontm006.img
+load fontm006
+image
+
+loadpcx r:\baseball\art\fonts\diag0007
+swap 0 255
+extract   0  0  11 8 fontm007
+workspace 11 8
+clear 255
+open fontm007.img
+load fontm007
+image
+
+loadpcx r:\baseball\art\fonts\diag0008
+swap 0 255
+extract   0  0  11 8 fontm008
+workspace 11 8
+clear 255
+open fontm008.img
+load fontm008
+image
+
+loadpcx r:\baseball\art\fonts\diag0009
+swap 0 255
+extract   0  0  11 8 fontm009
+workspace 11 8
+clear 255
+open fontm009.img
+load fontm009
+image
+
+loadpcx r:\baseball\art\fonts\diag0010
+swap 0 255
+extract   0  0  11 8 fontm010
+workspace 11 8
+clear 255
+open fontm010.img
+load fontm010
+image
+
+loadpcx r:\baseball\art\fonts\diag0011
+swap 0 255
+extract   0  0  11 8 fontm011
+workspace 11 8
+clear 255
+open fontm011.img
+load fontm011
+image
+
+loadpcx r:\baseball\art\fonts\diag0012
+swap 0 255
+extract   0  0  11 8 fontm012
+workspace 11 8
+clear 255
+open fontm012.img
+load fontm012
+image
+
+loadpcx r:\baseball\art\fonts\diag0013
+swap 0 255
+extract   0  0  11 8 fontm013
+workspace 11 8
+clear 255
+open fontm013.img
+load fontm013
+image
+
+loadpcx r:\baseball\art\fonts\diag0014
+swap 0 255
+extract   0  0  11 8 fontm014
+workspace 11 8
+clear 255
+open fontm014.img
+load fontm014
+image
+
+loadpcx r:\baseball\art\fonts\diag0015
+swap 0 255
+extract   0  0  11 8 fontm015
+workspace 11 8
+clear 255
+open fontm015.img
+load fontm015
+image
+
+loadpcx r:\baseball\art\fonts\diag0016
+swap 0 255
+extract   0  0  11 8 fontm016
+workspace 11 8
+clear 255
+open fontm016.img
+load fontm016
+image
+
+loadpcx r:\baseball\art\fonts\diag0017
+swap 0 255
+extract   0  0  11 8 fontm017
+workspace 11 8
+clear 255
+open fontm017.img
+load fontm017
+image
+
+loadpcx r:\baseball\art\fonts\diag0018
+swap 0 255
+extract   0  0  11 8 fontm018
+workspace 11 8
+clear 255
+open fontm018.img
+load fontm018
+image
+
+loadpcx r:\baseball\art\fonts\diag0019
+swap 0 255
+extract   0  0  11 8 fontm019
+workspace 11 8
+clear 255
+open fontm019.img
+load fontm019
+image
+
+loadpcx r:\baseball\art\fonts\diag0020
+swap 0 255
+extract   0  0  11 8 fontm020
+workspace 11 8
+clear 255
+open fontm020.img
+load fontm020
+image
+
+loadpcx r:\baseball\art\fonts\diag0021
+swap 0 255
+extract   0  0  11 8 fontm021
+workspace 11 8
+clear 255
+open fontm021.img
+load fontm021
+image
+
+loadpcx r:\baseball\art\fonts\diag0022
+swap 0 255
+extract   0  0  11 8 fontm022
+workspace 11 8
+clear 255
+open fontm022.img
+load fontm022
+image
+
+loadpcx r:\baseball\art\fonts\diag0023
+swap 0 255
+extract   0  0  11 8 fontm023
+workspace 11 8
+clear 255
+open fontm023.img
+load fontm023
+image
+
+loadpcx r:\baseball\art\fonts\diag0024
+swap 0 255
+extract   0  0  11 8 fontm024
+workspace 11 8
+clear 255
+open fontm024.img
+load fontm024
+image
+
+loadpcx r:\baseball\art\fonts\diag0025
+swap 0 255
+extract   0  0  11 8 fontm025
+workspace 11 8
+clear 255
+open fontm025.img
+load fontm025
+image
+
+loadpcx r:\baseball\art\fonts\diag0026
+swap 0 255
+extract   0  0  11 8 fontm026
+workspace 11 8
+clear 255
+open fontm026.img
+load fontm026
+image
+
+loadpcx r:\baseball\art\fonts\diag0027
+swap 0 255
+extract   0  0  11 8 fontm027
+workspace 11 8
+clear 255
+open fontm027.img
+load fontm027
+image
+
+loadpcx r:\baseball\art\fonts\diag0028
+swap 0 255
+extract   0  0  11 8 fontm028
+workspace 11 8
+clear 255
+open fontm028.img
+load fontm028
+image
+
+loadpcx r:\baseball\art\fonts\diag0029
+swap 0 255
+extract   0  0  11 8 fontm029
+workspace 11 8
+clear 255
+open fontm029.img
+load fontm029
+image
+
+loadpcx r:\baseball\art\fonts\diag0030
+swap 0 255
+extract   0  0  11 8 fontm030
+workspace 11 8
+clear 255
+open fontm030.img
+load fontm030
+image
+
+loadpcx r:\baseball\art\fonts\diag0031 
+swap 0 255
+extract   0  0  11 8 fontm031
+workspace 11 8
+clear 255
+open fontm031.img
+load fontm031
+image
+
+loadpcx r:\baseball\art\fonts\diag0032
+swap 0 255
+extract   0  0  11 8 fontm032
+workspace 11 8
+clear 255
+open fontm032.img
+load fontm032
+image
+
+loadpcx r:\baseball\art\fonts\diag0033
+swap 0 255
+extract   0  0  11 8 fontm033
+workspace 11 8
+clear 255
+open fontm033.img
+load fontm033
+image
+
+loadpcx r:\baseball\art\fonts\diag0034
+swap 0 255
+extract   0  0  11 8 fontm034
+workspace 11 8
+clear 255
+open fontm034.img
+load fontm034
+image
+
+loadpcx r:\baseball\art\fonts\diag0035
+swap 0 255
+extract   0  0  11 8 fontm035
+workspace 11 8
+clear 255
+open fontm035.img
+load fontm035
+image
+
+loadpcx r:\baseball\art\fonts\diag0036
+swap 0 255
+extract   0  0  11 8 fontm036
+workspace 11 8
+clear 255
+open fontm036.img
+load fontm036
+image
+
+loadpcx r:\baseball\art\fonts\diag0037
+swap 0 255
+extract   0  0  11 8 fontm037
+workspace 11 8
+clear 255
+open fontm037.img
+load fontm037
+image
+
+loadpcx r:\baseball\art\fonts\diag0038
+swap 0 255
+extract   0  0  11 8 fontm038
+workspace 11 8
+clear 255
+open fontm038.img
+load fontm038
+image
+
+loadpcx r:\baseball\art\fonts\diag0039
+swap 0 255
+extract   0  0  11 8 fontm039
+workspace 11 8
+clear 255
+open fontm039.img
+load fontm039
+image
+
+loadpcx r:\baseball\art\fonts\diag0040
+swap 0 255
+extract   0  0  11 8 fontm040
+workspace 11 8
+clear 255
+open fontm040.img
+load fontm040
+image
+
+loadpcx r:\baseball\art\fonts\diag0041
+swap 0 255
+extract   0  0  11 8 fontm041
+workspace 11 8
+clear 255
+open fontm041.img
+load fontm041
+image
+
+loadpcx r:\baseball\art\fonts\diag0042
+swap 0 255
+extract   0  0  11 8 fontm042
+workspace 11 8
+clear 255
+open fontm042.img
+load fontm042
+image
+
+loadpcx r:\baseball\art\fonts\diag0043
+swap 0 255
+extract   0  0  11 8 fontm043
+workspace 11 8
+clear 255
+open fontm043.img
+load fontm043
+image
+
+loadpcx r:\baseball\art\fonts\diag0044
+swap 0 255
+extract   0  0  11 8 fontm044
+workspace 11 8
+clear 255
+open fontm044.img
+load fontm044
+image
+
+loadpcx r:\baseball\art\fonts\diag0045  
+swap 0 255
+extract   0  0  11 8 fontm045
+workspace 11 8
+clear 255
+open fontm045.img
+load fontm045
+image
+
+loadpcx r:\baseball\art\fonts\diag0046
+swap 0 255
+extract   0  0  11 8 fontm046
+workspace 11 8
+clear 255
+open fontm046.img
+load fontm046
+image
+
+loadpcx r:\baseball\art\fonts\diag0047
+swap 0 255
+extract   0  0  11 8 fontm047
+workspace 11 8
+clear 255
+open fontm047.img
+load fontm047
+image
+
+loadpcx r:\baseball\art\fonts\diag0048
+swap 0 255
+extract   0  0  11 8 fontm048
+workspace 11 8
+clear 255
+open fontm048.img
+load fontm048
+image
+
+loadpcx r:\baseball\art\fonts\diag0049
+swap 0 255
+extract   0  0  11 8 fontm049
+workspace 11 8
+clear 255
+open fontm049.img
+load fontm049
+image
+
+loadpcx r:\baseball\art\fonts\diag0050
+swap 0 255
+extract   0  0  11 8 fontm050
+workspace 11 8
+clear 255
+open fontm050.img
+load fontm050
+image
+
+loadpcx r:\baseball\art\fonts\diag0051
+swap 0 255
+extract   0  0  11 8 fontm051
+workspace 11 8
+clear 255
+open fontm051.img
+load fontm051
+image
+
+loadpcx r:\baseball\art\fonts\diag0052
+swap 0 255
+extract   0  0  11 8 fontm052
+workspace 11 8
+clear 255
+open fontm052.img
+load fontm052
+image
+
+loadpcx r:\baseball\art\fonts\diag0053 
+swap 0 255
+extract   0  0  11 8 fontm053
+workspace 11 8
+clear 255
+open fontm053.img
+load fontm053
+image
+
+loadpcx r:\baseball\art\fonts\diag0054
+swap 0 255
+extract   0  0  11 8 fontm054
+workspace 11 8
+clear 255
+open fontm054.img
+load fontm054
+image
+
+loadpcx r:\baseball\art\fonts\diag0055
+swap 0 255
+extract   0  0  11 8 fontm055
+workspace 11 8
+clear 255
+open fontm055.img
+load fontm055
+image
+
+loadpcx r:\baseball\art\fonts\diag0056
+swap 0 255
+extract   0  0  11 8 fontm056
+workspace 11 8
+clear 255
+open fontm056.img
+load fontm056
+image
+
+loadpcx r:\baseball\art\fonts\diag0057
+swap 0 255
+extract   0  0  11 8 fontm057
+workspace 11 8
+clear 255
+open fontm057.img
+load fontm057
+image
+
+loadpcx r:\baseball\art\fonts\diag0058
+swap 0 255
+extract   0  0  11 8 fontm058
+workspace 11 8
+clear 255
+open fontm058.img
+load fontm058
+image
+
+loadpcx r:\baseball\art\fonts\diag0059
+swap 0 255
+extract   0  0  11 8 fontm059
+workspace 11 8
+clear 255
+open fontm059.img
+load fontm059
+image
+
+loadpcx r:\baseball\art\fonts\diag0060
+swap 0 255
+extract   0  0  11 8 fontm060
+workspace 11 8
+clear 255
+open fontm060.img
+load fontm060
+image
+
+loadpcx r:\baseball\art\fonts\diag0061
+swap 0 255
+extract   0  0  11 8 fontm061
+workspace 11 8
+clear 255
+open fontm061.img
+load fontm061
+image
+
+loadpcx r:\baseball\art\fonts\diag0062
+swap 0 255
+extract   0  0  11 8 fontm062
+workspace 11 8
+clear 255
+open fontm062.img
+load fontm062
+image
+
+loadpcx r:\baseball\art\fonts\diag0063
+swap 0 255
+extract   0  0  11 8 fontm063
+workspace 11 8
+clear 255
+open fontm063.img
+load fontm063
+image
+
+loadpcx r:\baseball\art\fonts\diag0064
+swap 0 255
+extract   0  0  11 8 fontm064
+workspace 11 8
+clear 255
+open fontm064.img
+load fontm064
+image
+
+loadpcx r:\baseball\art\fonts\diag0065
+swap 0 255
+extract   0  0  11 8 fontm065
+workspace 11 8
+clear 255
+open fontm065.img
+load fontm065
+image
+
+loadpcx r:\baseball\art\fonts\diag0066
+swap 0 255
+extract   0  0  11 8 fontm066
+workspace 11 8
+clear 255
+open fontm066.img
+load fontm066 
+image
+
+loadpcx r:\baseball\art\fonts\diag0067
+swap 0 255
+extract   0  0  11 8 fontm067
+workspace 11 8
+clear 255
+open fontm067.img
+load fontm067
+image
+
+loadpcx r:\baseball\art\fonts\diag0068
+swap 0 255
+extract   0  0  11 8 fontm068
+workspace 11 8
+clear 255
+open fontm068.img
+load fontm068
+image
+
+loadpcx r:\baseball\art\fonts\diag0069
+swap 0 255
+extract   0  0  11 8 fontm069
+workspace 11 8
+clear 255
+open fontm069.img
+load fontm069 
+image
+
+
+sys "copy *.img r:\baseball\art\images"
+!sys "del c:\bs\art\images\font*.img"
+!
+sys "del *.frs"
+
+done

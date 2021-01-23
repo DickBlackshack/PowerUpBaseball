@@ -1,0 +1,173 @@
+;   02/21/96
+; 3 byte sound codes, second and third bytes Don't Care unless otherwise specified
+
+
+;---------------menu/system codes---------------------------------
+;-----------------------------------------------------------------
+killall          equ    00;
+testing          equ    01;
+CoinIn           equ   240;
+Credit           equ   241;
+NoCreditStartButton  equ 242;
+StartButton          equ 243;
+SOUNDSON			 equ 253
+SOUNDSOFF			 equ 254
+CoinCount			 equ 249
+SetVolume			 equ 251 ;2nd byte is volume, 0 is soft, ff is loud
+AdjustableMenuMove   equ 208
+AdjustableMenuSelect equ 209
+TestSndSRom0    equ 210
+TestSndSRom1    equ 211
+TestSndSRom2    equ 212
+TestSndRom0     equ 213
+TestMusic1      equ 214
+TestTicket      equ 215
+TestAll         equ 216
+PowerUp         equ 217
+
+SelectMenuStart    equ 204
+SelectTeamButton   equ 205
+OperatorMenuMove   equ 206			
+OperatorMenuSelect equ 207
+
+;------------------------Player Sound Effects ---------------
+;------------------------------------------------------------
+BatHitBall     equ    02;          2nd byte is power of hit: 0 = soft, 4 = hard
+CatchBall      equ    03;catcher   2nd byte is velocity of ball: 0 = soft, 2=hard 
+SwingBat       equ    04;
+BallHitsDirt   equ    05;
+PitchBalls     equ    06;pitcher's arm swing 
+FielderCatchBall equ    08;
+
+ScratchFootInDirt  equ    30; 
+BatTapsPlate       equ    31; 
+PitcherSpits       equ    32;
+GrabCrotch         equ    33;
+PlayerRuns	       equ    34;each call is one footfall
+PlayerSlides       equ    35;
+PlayerHitsDirt     equ    36;
+PlayerGrunts       equ    37;
+
+BreakBat         equ 38
+BatHitsDirt      equ 36
+BatSmacksPlate   equ 44
+
+;-----------------------Ump Sound Codes----------------------
+;------------------------------------------------------------
+UmpCallsPlayBall     equ    07;
+UmpCallsStrike       equ    09;
+UmpCallsStk3YerOut   equ    10;
+UmpCallsOut          equ    11;
+UmpCallsSafe         equ    12;
+
+
+;----------------------Crowd/Organ Codes----------------------------
+;-------------------------------------------------------------
+BatterUpOrgan  equ 73; calls random organ charges,chants
+
+Crowd         equ 20; ambient crowd
+Crowd1        equ 17; large cheer
+Crowd2        equ 26; larger cheer
+Crowd3        equ 28; largest cheer
+CrowdAwe1     equ 27; Awwwe
+CrowdAwe2     equ 29; bigger awwe 
+CrowdBoo1     equ 51; boo
+CrowdBoo2     equ 52; bigger boo
+AmbCrowdKill  equ 21; kills all crowd sounds
+
+;various organ charges
+Charge1        equ 22 
+Charge2        equ 23
+Charge3        equ 24
+Charge4        equ 25	
+Charge5        equ 40
+Charge6        equ 41
+Charge7Bad     equ 42 ;The old Gray Mule
+Charge8Funeral equ 43 ;The Funeral march
+
+Chant1       equ 50; crowd chant 1
+Chant2       equ 53; crowd chant 2
+
+CrowdGreat  equ Crowd2
+CrowdCheer  equ Crowd1
+;-------------------------PowerUp Effects-----------------------------
+;--------------------------------------------------------------------
+BatterSpins       		equ 71
+FireBall          		equ 72
+
+ 
+;---------------------------Announcer-------------------------------
+;-------------------------------------------------------------------
+
+SetHomeTeam      equ 97 ;second byte is team name
+SetAwayTeam      equ 98 ;second byte is team name
+SetCurrentPlayer equ 99 ;2nd and 3rd byte concatenated are roster number
+Intro            equ 100   
+SayBatterName    equ 101;(must SetCurrentPlayer first)
+BatterLeadsOff	 equ 102;(must SetCurrentPlayer first)
+CoolComments     equ 109; "mercy"
+PowerUp2         equ 203;"Midway Major League powerup Baseball"
+
+HeresThePitch 		equ 103
+FastBallStrike      equ 105
+Strike              equ 104
+CurveBallStrikeOut  equ 106
+StrikeOut			equ 107
+TopOfTheInning		equ 114; 2nd byte is inning number
+BottomOfTheInning	equ 115; 2nd byte is inning number
+GrounderToPosition	equ 116; 2nd byte is position number (0-9)
+
+
+;-----------------------new----------------
+TicketDispenser		equ 74;tickets slide out in buy in screen	
+JerseyOpen			equ 75;jersey/grass screen slides open or closed in select menus	
+
+LineDriveToPosition	equ 117;2nd byte is position number ball is hit to
+FlyBall				equ 118;
+PotentialHomeRun	equ 119;ball is hit to the wall and might go over
+
+HomeRun				equ 120;call as soon as ball goes over wall
+DeepToPosition		equ 121;2nd byte is position number
+CatchesBall			equ 122; 
+StopsGrounder		equ 123;call SetCurrentPlayer before calling this
+MissesBall			equ 124;player almost fields ball
+BaseRunnerOut		equ 125;
+ThirdOut			equ 126;
+ThrowToBase			equ 127;2nd byte is base position number
+
+
+
+
+;-------------------------------------------------------
+;--------------------Team name Table--------------------------
+;-------------------------------------------------------
+
+Braves		equ 00;   Altanta
+Orioles		equ 01;   Baltimore
+RedSox		equ 02;   Boston
+Angels		equ 03;	  California
+Cubs		equ 04;   Chicago
+WhiteSox	equ 05;   Chicago
+Reds		equ 06;   Cincinnati
+Indians	    equ 07;   Cleveland
+Rockies	    equ 08;   Colorado
+Tigers		equ 09;   Detroit
+Marlins		equ 10;   Florida
+Astros		equ 11;   Houston
+Royals		equ 12;   Kansas City
+Dodgers		equ 13;   Los Angeles
+Brewers		equ 14;   Milwaukee
+Twins		equ 15;   Minnesota
+Expos		equ 16;   Montreal
+Mets		equ 17;   New York
+Yankees	    equ 18;   New York
+Athletics 	equ 19;   Oakland
+Phillies	equ 20;   Philadelphia
+Pirates		equ 21;   Pittsburgh
+SndCards		equ 22;   Saint Louis
+Padres		equ 23;   San Diego
+Giants		equ 24;   San Francisco
+Mariners	equ 25;   Seattle
+Rangers		equ 26;   Texas
+BlueJays    equ 27;   Toronto
+

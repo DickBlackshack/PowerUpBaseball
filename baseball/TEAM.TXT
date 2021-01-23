@@ -1,0 +1,29 @@
+angles		anglpal
+astros		astlpal
+athletics	athlpal
+bluejays	blulpal
+braves		bralpal
+brewers		brelpal
+cardnials	carlpal
+reds		cinlpal
+cubs		cublpal
+dodgers		dodlpal
+expos		explpal
+marlins		flolpal
+giants		gialpal
+indians		indlpal
+mariners	marlpal
+mets		metlpal
+orioles		orilpal
+padres		padlpal
+phillies	philpal
+pirates		pirlpal
+rangers		ranlpal
+red sox		redlpal
+rockies		roclpal
+royals		roylpal
+tigers		tiglpal
+twins		twilpal
+white sox	whilpal
+yankies		yanlpal
+

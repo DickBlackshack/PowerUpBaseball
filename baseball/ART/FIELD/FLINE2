@@ -1,0 +1,8 @@
+open r:\baseball\art\images\fld%1.img
+load f%1
+mode binary
+compress off
+output size,0
+output workspace
+close
+

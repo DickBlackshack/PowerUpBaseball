@@ -1,0 +1,241 @@
+;   02/21/96
+; 2 byte sound codes,
+
+
+;---------------menu/system codes---------------------------------
+;-----------------------------------------------------------------
+killall          		equ 00;
+CoinIn           		equ 240;
+Credit           		equ 241;
+StartButton          	equ 243;
+SOUNDSON			 	equ 253
+SOUNDSOFF			 	equ 254
+CoinCount			 	equ 249
+SetVolume			 	equ 251 ;2nd byte is volume, 0 is soft, ff is loud
+S_PowerUp         		equ 217
+
+AdjustableMenuMove   	equ 208
+AdjustableMenuSelect 	equ 209
+SelectMenuStart    		equ 204
+SelectTeamButton   		equ 205
+OperatorMenuMove   		equ 206			
+OperatorMenuSelect 		equ 207
+
+TicketDispenser			equ 74;tickets slide out in buy in screen	
+JerseyOpen				equ 75;jersey/grass screen slides open or closed in select menus	
+
+TestSndSRom0    		equ 210
+TestSndSRom1    		equ 211
+TestSndSRom2    		equ 212
+TestSndSRom3			equ 213
+TestAll         		equ 216
+SetLanguageRating		equ 218
+
+
+;------------------------Player Sound Effects -------------------------
+;----------------------------------------------------------------------
+BatHitBall     			equ 02;2nd byte is power of hit: 0 = soft, 4 = hard
+CatchBall      			equ 03;catcher   2nd byte is velocity of ball: 0 = soft, 2=hard 
+SwingBat       			equ 04;
+BallHitsDirt   			equ 05;     
+BallHitsWall			equ 07;
+PitchBalls     			equ 06;pitcher's arm swing 
+FielderCatchBall 		equ 08;
+
+ScratchFootInDirt  		equ 30; 
+BatTapsPlate       		equ 31; 
+PlayerHitsDirt     		equ 36;
+PlayerGrunts       		equ 37;
+BatSmacksPlate   		equ 48
+PlayerRuns	       		equ 34;each call is one footfall
+PlayerSlides        	equ 35;
+FielderHitsWall 		equ 80	
+FielderHitsGrass		equ 81	
+
+;-----------------------Ump Sound Codes (not used)----------------------
+;-----------------------------------------------------------------------
+
+UmpCallsOut          equ    BaseRunnerOut;
+UmpCallsSafe         equ    BaseRunnerSafe;
+
+;----------------------Music Codes---------------------------------------
+;------------------------------------------------------------------------
+
+HalfInningMusic		equ 61
+NationalAnthem		equ 62
+HomerunMusic		equ 63
+BuyInMusic			equ 65
+
+;----------------------Crowd/Organ Codes----------------------------------
+;-------------------------------------------------------------------------
+BatterUpOrgan  equ 73; calls random organ charges,chants
+
+Crowd         equ 20; ambient crowd
+Crowd1        equ 17; large cheer
+Crowd2        equ 26; larger cheer
+Crowd3        equ 28; largest cheer
+CrowdAwe1     equ 27; Awwwe
+CrowdAwe2     equ 29; bigger awwe 
+CrowdBoo1     equ 51; boo
+CrowdBoo2     equ 52; bigger boo
+
+;various organ charges
+Charge1        equ 22 
+Charge2        equ 23
+Charge3        equ 24
+Charge4        equ 25	
+Charge5        equ 40
+Charge6        equ 41
+Charge7Bad     equ 42 ;The old Gray Mule
+Charge8Funeral equ 43 ;The Funeral march
+
+Chant1       equ 50; crowd chant 1
+Chant2       equ 53; crowd chant 2
+
+CrowdGreat  equ Crowd2
+CrowdCheer  equ Crowd1
+;-------------------------PowerUp Effects-----------------------------
+;--------------------------------------------------------------------
+BatterSpins       		equ 71
+FireBall          		equ 72
+
+LightSaberOn  			equ 76
+LightSaberOff       	equ 77
+KarateHit           	equ 78
+KaratePunch         	equ 79
+
+S_BeanBall   			equ 85	
+S_CaveManHit			equ 88
+S_VintagePitch			equ 89
+
+BareHandedCatch     	equ 160
+FireWork   			equ 110	
+S_NotEnoughPower	equ 82	
+VintageBallBounce	equ 83	
+
+CatchPowerThrow		equ 157
+S_KnucklePitch        equ 158
+
+;---------------------------Announcer-------------------------------
+;-------------------------------------------------------------------
+
+StartGame			equ 94;  PlayBall
+TodaysGame			equ 90
+SayAwayTeam			equ 91 ;2nd byte sets away team
+Verses				equ 92
+SayHomeTeam			equ 93 ;2nd byte sets home team
+SetHomeTeam      	equ 97 ;second byte is team name
+SetAwayTeam      	equ 98 ;second byte is team name
+SetCurrentPlayer 	equ 99 ;2nd and 3rd byte concatenated are roster number
+Intro            	equ 100   
+SayBatterName    	equ 101;(must SetCurrentPlayer first)
+
+HeresThePitch 		equ 103
+FastBallStrike      equ 105
+CurveBallStrike     equ 145
+CurveBallStrikeOut  equ 107
+Strike              equ 104
+StrikeOut			equ 108
+
+TopOfTheInning		equ 117; 2nd byte is inning number
+BottomOfTheInning	equ 118; 2nd byte is inning number
+
+FirstOut 			equ 113
+SecondOut           equ 112
+S_ThirdOut			equ 129;
+S_DoublePlay		equ 115
+S_ThrowToBase		equ 130;2nd byte is base position number
+
+HeRoundsFirst       equ 136
+HesHeadedForHome	equ 137
+HeScores			equ 138
+TheTeamWinIt		equ 141
+
+SayPlayerName		equ 142
+
+LineDrive			equ 120;
+S_FlyBall			equ 121;
+Chopper				equ 139
+JamSandwich         equ 144
+BaseHit				equ 132
+Gapper				equ 133
+Bunt				equ 127;
+Dribbler            equ 110
+EasyCatch			equ 111
+HardDownLine		equ 147
+InfieldPopUp		equ 109
+PotentialHomeRun	equ 122;ball is hit to the wall and might go over
+S_HomeRun			equ 123;call as soon as ball goes over wall
+OffTheWall			equ 150
+
+CatchesBallNormal	equ 125; 
+CatchesBallExciting	equ 135;
+StopsGrounder		equ 126;call SetCurrentPlayer before calling this
+FirstPitch			equ 95
+
+GrandSlam           equ 143  
+InsideParkHomerun	equ 161
+ThreeUpThreeDown	equ 114
+
+;power up comments
+CatchesPitch		equ 152
+PowerPitch			equ 156
+BeanBallSpeech		equ 69
+
+;playoff comments
+LeadSeries    		equ 153
+WinWorldSeries		equ 154
+StartWorldSeries	equ 155
+
+;-----------------------------------------------------------------------------------------
+;---new calls-------------------------------------------------------------------------------
+
+BaseRunnerOut		equ 128;
+BaseRunnerSafe		equ 116
+RunnerThrownOut		equ 131
+BatHitsDirt      	equ 39
+
+
+
+FastBallSizzle      equ 159 
+WallSpark			equ 70
+TestMusic1			equ 214
+SlugFest			equ 162
+SinkerStrike     	equ 106
+PopsUp				equ 119
+
+;--------------------Team name Table--------------------------
+;-------------------------------------------------------
+
+Braves		equ 00;   Altanta
+Orioles		equ 01;   Baltimore
+RedSox		equ 02;   Boston
+Angels		equ 03;	  California
+Cubs		equ 04;   Chicago
+WhiteSox	equ 05;   Chicago
+Reds		equ 06;   Cincinnati
+Indians	    equ 07;   Cleveland
+Rockies	    equ 08;   Colorado
+Tigers		equ 09;   Detroit
+Marlins		equ 10;   Florida
+Astros		equ 11;   Houston
+Royals		equ 12;   Kansas City
+Dodgers		equ 13;   Los Angeles
+Brewers		equ 14;   Milwaukee
+Twins		equ 15;   Minnesota
+Expos		equ 16;   Montreal
+Mets		equ 17;   New York
+Yankees	    equ 18;   New York
+Athletics 	equ 19;   Oakland
+Phillies	equ 20;   Philadelphia
+Pirates		equ 21;   Pittsburgh
+SndCards	equ 22;   Saint Louis
+Padres		equ 23;   San Diego
+Giants		equ 24;   San Francisco
+Mariners	equ 25;   Seattle
+Rangers		equ 26;   Texas
+BlueJays    equ 27;   Toronto
+DraftTeam1	equ 28;   first draft team purchased
+AmericanAllStars  equ 29;  
+NationalAllStars  equ 29;  
+DevelopmentTeam	equ 31

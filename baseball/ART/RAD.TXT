@@ -1,0 +1,19 @@
+grom00_0  CheckSum  = 910BBAF    
+grom00_1  CheckSum  = 9124A1D
+grom00_2  CheckSum  = 9121570
+grom00_3  CheckSum  = 90F227E
+
+grom01_0  CheckSum  = 730D9E6
+grom01_1  CheckSum  = 72F7403
+grom01_2  CheckSum  = 7312416
+grom01_3  CheckSum  = 72DC73C
+
+grom02_0  CheckSum  = 65F107F
+grom02_1  CheckSum  = 65E2D9C
+grom02_2  CheckSum  = 65CE2AB
+grom02_3  CheckSum  = 65FD5D5
+
+grom03_0  CheckSum  = EBA98B
+grom03_1  CheckSum  = EBB9D0
+grom03_2  CheckSum  = EB9E32
+grom03_3  CheckSum  = EBD341

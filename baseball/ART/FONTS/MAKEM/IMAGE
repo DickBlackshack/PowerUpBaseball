@@ -1,0 +1,9 @@
+transparent 255
+mode binary
+compress off
+!frame
+output size,1
+compress rl
+output workspace
+close
+
