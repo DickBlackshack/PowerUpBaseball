@@ -8,6 +8,8 @@ In disassembling the pre-built program ROM, the first meaningful difference I no
 ## Building
 The source code here is full of hard-coded absolute paths. Wanting to change as little as possible, I just replicated the drive setup with [DosBox](http://www.dosbox.com). You'll need to download DosBox 0.74, then launch DosBox with -conf dosbox.cfg on the commandline and the working directory set to the repository root where dosbox.cfg is located. Inside DosBox, switch to R: and run build.bat. If the build process succeeds, the program ROM file will be located at baseball/SOURCE/BB.BIM.
 
+See docs/PCBGuide.txt for information on getting the game up and running with a compatible PCB.
+
 ## Art
 The bits and pieces of source art that were on the recovered backup are included here in baseball/ART. The tools needed to build graphics ROM are present and the process is intact, but much of the source art itself is missing or older than the data that was used to produce the graphics ROM in the pre-built set.
 

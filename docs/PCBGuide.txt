@@ -1,0 +1,17 @@
+You can get Power Up Baseball running on original hardware by converting a compatible Incredible Technologies PCB.  Donor games include versions of Golden Tee Classic, 98, 2K, Shuffle Shot, and World Class Bowling. It's specifically the single board version with "P/N 1083 Rev 2" silkscreened  near the graphics ROMs.  
+
+You will need:
+16x 27c080/27c801 - GROM0_0-GROM 2_3, SROM0-SROM3
+4x 27c040 - GROM3_0-GROM3_3
+4x 27c020 - PROM0-PROM3
+1x 27c010 - U88
+
+Burn all 25 EPROMs from files in pubball.zip, matching up file size to chip type, and replace ROMs on the PCB according to each labeled section (GROMs, PROMs, SROMs, & U88)
+
+Additionally, you will need to desolder and solder configuration straps according to the different ROM sizes.  IT used the same board for many games, and machine placed 0Ohm SMD resistors to configure different ROM sizes for the three main sections (Program, Graphics, Sound).
+
+For graphic ROMs, ensure these pads are shorted (R90, R53, R37, R45, R48, R50) and these pads are open (R91, R52, R42, R44, R51, R49)
+For program ROMs, ensure these pads are shorted (R57, R59) and these pads are open (R58, R518, R56, R519)
+For sound ROMs, ensure these pads are shorted (R480, R482, R484, R486) and these pads are open (R481, R483, R485, R487)
+
+With all the ROMs and solder straps set, you are ready to play ball!
